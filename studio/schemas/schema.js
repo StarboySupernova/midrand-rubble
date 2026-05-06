@@ -1,0 +1,39 @@
+/* eslint-disable */
+import createSchema from "part:@sanity/base/schema-creator";
+import schemaTypes from "all:part:@sanity/base/schema-type";
+/* eslint-enable */
+
+// import document schemas/
+import blog from "./documents/blog";
+import category from "./documents/category";
+import author from "./documents/author";
+import service from "./documents/service";
+import publication from "./documents/publication";
+import spotlight from "./documents/spotlight";
+import objective from "./documents/objective";
+import value from "./documents/value";
+
+// import object
+import richText from "./objects/richText";
+import normalText from "./objects/normalText";
+import customImage from "./objects/customImage";
+
+export default createSchema({
+  name: "default",
+  types: schemaTypes.concat([
+    // document schemas
+    blog,
+    category,
+    author,
+    service,
+    publication,
+    spotlight,
+    objective,
+    value,
+
+    // object schemas
+    normalText,
+    richText,
+    customImage,
+  ]),
+});

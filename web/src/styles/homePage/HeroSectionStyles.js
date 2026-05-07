@@ -101,38 +101,92 @@ export const HeroSectionStyles = styled.div`
       width: 100%;
     }
 
-    /* THE DROPDOWN LIST (The part you hated) */
-    select option {
-      background-color: #121212; /* Matches your reference image's dark menu */
-      color: white;
-      padding: 10px;
-    }
+    /* CUSTOM SELECT STYLING - MATCHING REFERENCE */
+  .custom-select-container {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1.4rem;
+  }
 
-    /* THE CUSTOM ARROW (Sleek minimalist look) */
-    .custom-arrow {
-      position: absolute;
-      top: 18px;
-      right: 15px;
-      width: 10px;
-      height: 10px;
-      border-right: 2px solid var(--primary);
-      border-bottom: 2px solid var(--primary);
-      transform: rotate(45deg);
-      pointer-events: none;
-      transition: 0.3s ease;
-    }
+  .select-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 15px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--white);
+    transition: 0.3s;
+  }
 
-    .select-wrapper:focus-within .custom-arrow {
-      transform: rotate(-135deg); /* Flips when you click */
-      top: 22px;
-    }
+  .select-trigger.active, .select-trigger:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+  }
 
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--primary);
-      background: rgba(0, 0, 0, 0.6) !important;
-      box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
-      outline: none;
-    }
+  .arrow {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+    color: var(--primary);
+  }
+
+  .arrow.open {
+    transform: rotate(180deg);
+  }
+
+  /* THE FLOATING MENU */
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: rgba(15, 15, 18, 0.95); /* Deep dark background */
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--primary); /* That specific yellow glow border */
+    border-radius: 12px;
+    z-index: 100;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    animation: fadeUp 0.3s ease-out forwards;
+  }
+
+  .dropdown-item {
+    padding: 12px 20px;
+    color: var(--white-1);
+    transition: 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .dropdown-item:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown-item:hover {
+    background: var(--primary);
+    color: var(--black);
+    font-weight: 600;
+  }
+
+  /* OTHER INPUTS */
+  input, textarea {
+    width: 100%;
+    padding: 14px 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    color: var(--white);
+    font-size: 1.4rem;
+    outline: none;
+  }
+
+  input:focus, textarea:focus {
+    border-color: var(--primary);
+    background: rgba(0, 0, 0, 0.6);
+  }
 
     .submit-btn {
       width: 100%;

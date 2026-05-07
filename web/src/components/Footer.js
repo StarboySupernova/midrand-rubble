@@ -12,7 +12,7 @@ function Footer() {
       <div className="container">
         <Logo />
         <ParagraphText className="footer__text">
-          "Moorosi Holdings and Logistics (Pty) Ltd is a 100% black-owned, Level 1 B-BBEE company based in Gauteng. We specialize in heavy machinery transport, civil engineering, and comprehensive soft and hard facility management services tailored to the public and private sectors."
+          Midrand Rubble Removal & Site Clearing is your trusted local partner for fast, efficient, and affordable debris management.
         </ParagraphText>
         <ul className="footer__menuList">
           {menu.map((item) => (
@@ -31,11 +31,12 @@ function Footer() {
           ))}
         </ul>
         <ParagraphText className="copyright">
-          Centurion, Gauteng
+          <strong>Location:</strong> 355 Nancy Ndamase Street, Klipfontein View, Lethabong, Midrand, 1685<br/>
+          <strong>Operating Hours:</strong> Monday to Sunday (6 AM to 6 PM)<br/>
+          <strong>Contacts:</strong> Sbusiso: 081 078 6434 | Tshiamo: 083 651 2596
         </ParagraphText>
         <ParagraphText className="copyright">
-          © Moorosi Holdings and Logistics (Pty) Ltd | Reg: 2026/040477/07 |{' '}
-          {new Date().getFullYear()} | All rights reserved
+          © Midrand Rubble Removal & Site Clearing | {new Date().getFullYear()} | All rights reserved
         </ParagraphText>
       </div>
     </FooterStyles>

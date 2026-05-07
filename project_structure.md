@@ -99,10 +99,10 @@
 │   │   ├── 📁 contexts
 │   │   │   └── 🟨 searchModalContext.js
 │   │   ├── 🖼️ images
-│   │   │   ├── 📄 demt.ico.jpg
+│   │   │   ├── 📄 midrandrubblelogo
 │   │   │   ├── 📄 demtMalnutrition.jpg
-│   │   │   ├── 📄 moorosi-logo.jpg
-│   │   │   └── 📄 mwenje.jpg
+│   │   │   ├── 📄 midrandrubble
+│   │   │   └── 📄 midrandrubble.jpg
 │   │   ├── 📑 pages
 │   │   │   ├── 🟨 404.js
 │   │   │   └── 🟨 index.js
@@ -158,7 +158,7 @@
 │   │       └── 🟨 getSanityImageData.js
 │   ├── 📁 static
 │   │   ├── 📄 demt.ico
-│   │   └── 📄 moorosi-logo.jpg
+│   │   └── 📄 midrandrubble
 │   ├── 🟨 .eslintrc.js
 │   ├── 📄 .gitignore
 │   ├── 🟨 gatsby-browser.js
@@ -892,7 +892,7 @@ function printTree(dir, prefix = "", stream) {
 ```
 ## `README.md`
 ```
-![Moorosi Holdings](./mwenje.png)
+![Moorosi Holdings](./midrandrubble.png)
 
 # Official web platform showcasing Tier-1 logistics, plant hire, and integrated facility management solutions. By Christian Simbarashe Dombodzvuku
 
@@ -3866,7 +3866,7 @@ function Logo() {
     <LogoStyles to="/">
       <StaticImage 
         /* Ensure extension is .jpg as seen in your folder */
-        src="../images/moorosi-logo.jpg" 
+        src="../images/midrandrubble" 
         alt="Moorosi Holdings Logo"
         placeholder="blurred"
         /* These two props together force the distortion */
@@ -5266,7 +5266,7 @@ const GlobalStyles = createGlobalStyle`
     transform: translate(-50%, -50%);
     width: 80vw;  /* Giant scale */
     height: 80vw;
-    background-image: url("/moorosi-logo.jpg"); 
+    background-image: url("/midrandrubble"); 
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;

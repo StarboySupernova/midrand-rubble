@@ -8,15 +8,15 @@ const GlobalStyles = createGlobalStyle`
   }
 
   :root {
-    /* Moorosi Copper & Orange Theme */
-    --primary: #F37021; 
-    --secondary: #D45D1A; 
-    --darkBlue: #0A0A0A; /* Deep Charcoal/Black */
-    --darkPurple: #050505; 
-    --black-1: #080808; 
-    --black-2: rgba(25, 25, 25, 0.65); /* Glassmorphism Base */
-    --white-1: #E2E8F0;
-    --gray: #9BA4B5;
+    /* Construction Theme: High-Vis Yellow & Slate */
+    --primary: #FFCC00; /* Caterpillar Yellow */
+    --secondary: #E6A800; 
+    --darkBlue: #111111; 
+    --darkPurple: #1C1C1E; 
+    --black-1: #0A0A0B; 
+    --black-2: rgba(28, 28, 30, 0.85); 
+    --white-1: #F5F5F7;
+    --gray: #8E8E93;
     --grey: var(--gray);
     --white: #ffffff;
     --black: #000000;
@@ -32,8 +32,7 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
     width: 100%;
     font-family: 'Inter', sans-serif;
-    /* Deep dark background with a very subtle warm orange radial glow at the top */
-    background: radial-gradient(circle at top right, #1A0D05 0%, var(--black-1) 50%, var(--black) 100%);
+    background: var(--black-1); /* Solid dark, no gradients needed for this theme */
     color: var(--white);
     overflow-x: hidden;
   }
@@ -47,7 +46,7 @@ const GlobalStyles = createGlobalStyle`
     transform: translate(-50%, -50%);
     width: 80vw;  /* Giant scale */
     height: 80vw;
-    background-image: url("/moorosi-logo.jpg"); 
+    background-image: url("/midrandrubble.jpeg"); 
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;

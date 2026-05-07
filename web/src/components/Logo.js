@@ -7,7 +7,7 @@ function Logo() {
     <LogoStyles to="/">
       <StaticImage 
         /* Ensure extension is .jpg as seen in your folder */
-        src="../images/moorosi-logo.jpg" 
+        src="../images/midrandrubblelogo-logo.jpg" 
         alt="Moorosi Holdings Logo"
         placeholder="blurred"
         /* These two props together force the distortion */

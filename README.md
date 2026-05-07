@@ -1,4 +1,4 @@
-![Moorosi Holdings](./mwenje.png)
+![Moorosi Holdings](./midrandrubble.jpeg)
 
 # Official web platform showcasing Tier-1 logistics, plant hire, and integrated facility management solutions. By Christian Simbarashe Dombodzvuku
 

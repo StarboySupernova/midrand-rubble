@@ -11,35 +11,40 @@ import { IoIosMailUnread } from 'react-icons/io';
 
 export const socialLinks = [
   {
-    name: 'telephone',
-    url: 'tel:+27739775953',
+    name: "call-sbusiso",
+    url: "tel:+27810786434",
     icon: <FaPhoneSquareAlt />,
   },
   {
-    name: 'mail',
-    url: 'mailto:moorosiholdings@gmail.com',
-    icon: <IoIosMailUnread />,
+    name: "call-tshiamo",
+    url: "tel:+27836512596",
+    icon: <FaPhoneSquareAlt />,
   },
   {
-    name: 'whatsapp',
-    url: `https://wa.me/27739775953?text=${encodeURIComponent(
-      "Hello Moorosi Holdings, I am interested in your logistics and facility management capabilities. Please contact me."
+    name: "whatsapp",
+    url: `https://wa.me/27786112695?text=${encodeURIComponent(
+      "Hi Midrand Rubble Removal, I am interested in your services and I would like a quick quote",
     )}`,
     icon: <FaWhatsappSquare />,
   },
   {
-    name: 'facebook',
-    url: 'https://www.facebook.com/moorosiholdings',
+    name: "mail",
+    url: "mailto:midrandrubbleremoval1@gmail.com",
+    icon: <IoIosMailUnread />,
+  },
+  {
+    name: "facebook",
+    url: "https://www.facebook.com/midrandrubble",
     icon: <FaFacebook />,
   },
   {
-    name: 'twitter',
-    url: 'https://twitter.com/moorosiholdings_za',
+    name: "twitter",
+    url: "https://twitter.com/midrandrubble",
     icon: <FaTwitter />,
   },
   {
-    name: 'linkedin',
-    url: 'https://www.linkedin.com/company/moorosiholdings',
+    name: "linkedin",
+    url: "https://www.linkedin.com/company/midrandrubble",
     icon: <FaLinkedin />,
   },
 ];

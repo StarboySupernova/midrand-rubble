@@ -4,8 +4,8 @@ const sanityConfig = require("./sanity-config.js");
 module.exports = {
   siteMetadata: {
     title: `Midrand Rubble Removal & Site Clearing`,
-    siteUrl: `https://midrandrubble.co.za`, // Update later when you have the domain
-    description: `Professional site clearing, rubble removal, and industrial waste management in Midrand.`,
+    siteUrl: `https://midrandrubble.netlify.app`, // Update when custom domain is linked
+    description: `Fast, affordable, same-day rubble removal, site clearing, and construction debris transport in Midrand, Centurion, Sandton, and Fourways.`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

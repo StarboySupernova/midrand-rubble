@@ -46,9 +46,9 @@ function TopCategories() {
 
   return (
     <TopCategoriesStyles>
-      <SectionTitle className="centre__text">Industrial Capabilities</SectionTitle>
+      <SectionTitle className="centre__text">Industrial Capabilities/Our Core Services</SectionTitle>
       <ParagraphText className="centre__text">
-        Mining Support, Civil Engineering, Heavy Plant Logistics, and Complete Hard/Soft Facilities Management.
+        From household garden waste to major construction site clearing, we have the NP300 fleet and manpower to handle it all.
       </ParagraphText>
       <SectionTitle className="centre__text">Vision</SectionTitle>
       <ParagraphText className="hero__text centre__text">

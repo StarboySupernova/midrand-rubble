@@ -16,15 +16,27 @@ function HeroSection() {
               Fast & Affordable Rubble Removal in Midrand
             </h1>
             <ParagraphText className="hero__text">
-              We Load. We Clear. You Relax. Serving Midrand, Centurion, Sandton, and Fourways with reliable site clearing and construction debris transport.
+              We Load. We Clear. You Relax. Serving Midrand, Centurion, Sandton,
+              and Fourways with reliable site clearing and construction debris
+              transport.
             </ParagraphText>
-            
+
             <div className="hero__action-buttons">
-              <Button tag="a" href="https://wa.me/27786112695" target="_blank" className="btn-whatsapp">
-                <FaWhatsapp style={{ marginRight: '8px' }} /> WhatsApp Us
+              <Button
+                tag="a"
+                href="https://wa.me/27786112695"
+                target="_blank"
+                className="btn-whatsapp"
+              >
+                <FaWhatsapp style={{ marginRight: "8px" }} /> WhatsApp Us
               </Button>
-              <Button tag="a" href="tel:+27810786434" variant="outline" className="btn-call">
-                <FaPhoneAlt style={{ marginRight: '8px' }} /> Call Sbusiso
+              <Button
+                tag="a"
+                href="tel:+27810786434"
+                variant="outline"
+                className="btn-call"
+              >
+                <FaPhoneAlt style={{ marginRight: "8px" }} /> Call Sbusiso
               </Button>
             </div>
           </div>
@@ -33,20 +45,50 @@ function HeroSection() {
             {/* NETLIFY QUICK QUOTE FORM */}
             <div className="quote-form-container">
               <h3>Get a Quick Quote</h3>
-              <form name="quick-quote" method="POST" data-netlify="true" action="/">
+              <form
+                name="quick-quote"
+                method="POST"
+                data-netlify="true"
+                action="/"
+              >
                 <input type="hidden" name="form-name" value="quick-quote" />
-                <input type="text" name="name" placeholder="Your Name" required />
-                <input type="tel" name="phone" placeholder="Phone / WhatsApp" required />
-                <select name="service" required>
-                  <option value="" disabled selected>Select Service...</option>
-                  <option value="Rubble Removal">Rubble Removal</option>
-                  <option value="Site Clearing">Site Clearing</option>
-                  <option value="Garden Waste">Garden Waste Removal</option>
-                  <option value="Construction Debris">Construction Debris</option>
-                  <option value="NP300 Transport">Small & Medium Transport</option>
-                </select>
-                <textarea name="message" placeholder="Briefly describe what needs clearing..." rows="3"></textarea>
-                <button type="submit" className="submit-btn">Send Request</button>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  required
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone / WhatsApp"
+                  required
+                />
+                <div className="select-wrapper">
+                  <select name="service" required>
+                    <option value="" disabled selected>
+                      Select Service...
+                    </option>
+                    <option value="Rubble Removal">Rubble Removal</option>
+                    <option value="Site Clearing">Site Clearing</option>
+                    <option value="Garden Waste">Garden Waste Removal</option>
+                    <option value="Construction Debris">
+                      Construction Debris
+                    </option>
+                    <option value="NP300 Transport">
+                      Small & Medium Transport
+                    </option>
+                  </select>
+                  <span className="custom-arrow"></span>
+                </div>
+                <textarea
+                  name="message"
+                  placeholder="Briefly describe what needs clearing..."
+                  rows="3"
+                ></textarea>
+                <button type="submit" className="submit-btn">
+                  Send Request
+                </button>
               </form>
             </div>
           </div>

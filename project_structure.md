@@ -158,6 +158,7 @@
 │   │   └── 🛠️ utils
 │   │       └── 🟨 getSanityImageData.js
 │   ├── 📁 static
+│   │   ├── 📄 bg-waves.svg
 │   │   ├── 📄 demt.ico
 │   │   └── 📄 moorosi-logo.jpg
 │   ├── 🟨 .eslintrc.js
@@ -893,13 +894,13 @@ function printTree(dir, prefix = "", stream) {
 ```
 ## `README.md`
 ```
-![Moorosi Holdings](./midrandrubble.jpeg)
+![Midrand Rubble Removal & Site Clearing](./midrandrubble.jpeg)
 
 # Official web platform showcasing Tier-1 logistics, plant hire, and integrated facility management solutions. By Christian Simbarashe Dombodzvuku
 
 A complete full-stack web-app created with `JAMstack`. ([Gatsby.js](https://www.gatsbyjs.org/) & [Sanity.io](https://sanity.io)).
 
-# Moorosi Holdings and Logistics (Pty) Ltd
+# Midrand Rubble Removal & Site Clearing (Pty) Ltd
 Official B2B Platform for Level 1 B-BBEE Heavy Logistics and Facility Management.
 
 ## Corporate Identity
@@ -956,7 +957,7 @@ import { MdStar } from "react-icons/md";
 
 function SidebarList() {
   return S.list()
-    .title("Moorosi Holdings")
+    .title("Midrand Rubble Removal & Site Clearing")
     .items([
       S.listItem()
         .title("Spotlight")
@@ -2922,7 +2923,7 @@ export const wrapPageElement = ({ element, props }) => (
   "name": "moorosi-holdings-corporate-portal",
   "version": "1.0.0",
   "private": true,
-  "description": "Official Corporate Platform for Moorosi Holdings & Logistics (Pty) Ltd",
+  "description": "Official Corporate Platform for Midrand Rubble Removal & Site Clearing (Pty) Ltd",
   "author": "Christian Simbarashe",
   "keywords": [
     "gatsby"
@@ -3701,7 +3702,7 @@ function FeaturedBlogs() {
         Latest Projects, News & Updates
       </SectionTitle>
       <ParagraphText className="featuredBlogs__text">
-        Stay informed with the latest insights into Moorosi Holdings' fleet deployments, heavy-lift projects, promotions and corporate milestones.
+        Stay informed with the latest insights into Midrand Rubble Removal & Site Clearing' fleet deployments, heavy-lift projects, promotions and corporate milestones.
       </ParagraphText>
       <BlogGrid blogs={spotlightBlogs} />
     </FeaturedBlogsStyles>
@@ -3831,13 +3832,14 @@ function TopCategories() {
         From household garden waste to major construction site clearing, we have the NP300 fleet and manpower to handle it all.
       </ParagraphText>
       <SectionTitle className="centre__text">Vision</SectionTitle>
-      <ParagraphText className="hero__text centre__text">
-        To be the premier partner in infrastructure development, heavy logistics, and facility management across South Africa, driving operational excellence.
-      </ParagraphText>
-      <SectionTitle className="centre__text">Mission</SectionTitle>
-      <ParagraphText className="hero__text centre__text">
-        To deliver safe, reliable, and high-quality services in construction, transport, and facility maintenance, tailored to the dynamic needs of the public and private sectors. To provide unshakeable operational continuity for our clients through precision heavy-lift logistics, certified civil engineering, and proactive facility management.
-      </ParagraphText>
+        <ParagraphText className="hero__text centre__text">
+          To redefine site clearing and waste management in Gauteng by setting the absolute standard for speed, reliability, and environmental responsibility.
+        </ParagraphText>
+        
+        <SectionTitle className="centre__text">Mission</SectionTitle>
+        <ParagraphText className="hero__text centre__text">
+          To instantly remove the burden of construction debris and rubble from our clients' shoulders. We deploy rapid-response fleets and heavy-duty manpower to transform chaotic sites into clean, project-ready blank slates—same day, every day.
+        </ParagraphText>
       <SectionTitle className="centre__text">Our Values</SectionTitle>
       <ValueGrid DiginotiveValues={DiginotiveValues} />
       <SectionTitle className="centre__text">Our Objectives</SectionTitle>
@@ -3886,13 +3888,12 @@ function Logo() {
   return (
     <LogoStyles to="/">
       <StaticImage 
-        /* Ensure extension is .jpg as seen in your folder */
         src="../images/midrandrubblelogo.jpeg" 
-        alt="Moorosi Holdings Logo"
+        alt="Midrand Rubble Logo"
         placeholder="blurred"
-        /* These two props together force the distortion */
-        objectFit="fill" 
-        imgStyle={{ objectFit: 'fill' }}
+        width={60}
+        height={60}
+        className="logo-img"
       />
     </LogoStyles>
   );
@@ -4051,7 +4052,7 @@ function SearchField({ value, setValue, onFocus }) {
     <SearchFieldStyles>
       <input
         type="text"
-        placeholder="Search Moorosi Holdings"
+        placeholder="Search Midrand Rubble Removal & Site Clearing"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         onFocus={onFocus && onFocus}
@@ -4493,8 +4494,8 @@ export {
 import { graphql, useStaticQuery } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import React from 'react';
+import favicon from '../images/midrandrubble.ico.jpeg'; // Imports icon
 
-// query copied from graphql for this site
 const SEO = ({ title, description }) => {
   const { site } = useStaticQuery(graphql`
     {
@@ -4508,21 +4509,20 @@ const SEO = ({ title, description }) => {
   `);
 
   const seo = {
-    title: title
-      ? `${title} - ${site.siteMetadata.title}`
-      : site.siteMetadata.title,
+    title: title ? `${title} - ${site.siteMetadata.title}` : site.siteMetadata.title,
     description: description || site.siteMetadata.description,
   };
 
   return (
     <Helmet title={seo.title}>
       <meta name="description" content={seo.description} />
+      {/* THIS LINE ADDS THE LOGO TO THE BROWSER TAB */}
+      <link rel="icon" href={favicon} />
     </Helmet>
   );
 };
 
 export default SEO;
-
 ```
 ## `web\src\components\typography\ParagraphText.js`
 ```
@@ -4703,7 +4703,7 @@ import SEO from "../components/seo";
 
 const IndexPage = () => (
   <>
-    <SEO title="Moorosi Holdings" />
+    <SEO title="Midrand Rubble Removal & Site Clearing" />
     <HeroSection />
     <div className="container">
       <FeaturedBlogs />
@@ -5093,12 +5093,15 @@ export const ValueGridStyles = styled.div`
 import styled from 'styled-components';
 
 export const CategoryItemStyles = styled.div`
-  background: var(--black-2);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  /* PREMIUM FROSTED GLASS CARDS */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   padding: 3rem 2rem;
   border-radius: 16px;
-  border: 1px solid rgba(243, 112, 33, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 204, 0, 0.2); /* Edge highlight */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   
   /* Entrance Animation & Continuous Subtle Glow */
@@ -5277,7 +5280,16 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
     width: 100%;
     font-family: 'Inter', sans-serif;
-    background: var(--black-1); /* Solid dark, no gradients needed for this theme */
+    
+    /* Deep dark base with vibrant ambient glowing orbs */
+    background-color: var(--black-1);
+    /* We add a subtle dark overlay over the waves so your white text stays 100% readable */
+    background-image: linear-gradient(rgba(10, 10, 11, 0.4), rgba(10, 10, 11, 0.8)), url('/bg-waves.svg');
+    background-size: cover;
+    background-position: top center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    
     color: var(--white);
     overflow-x: hidden;
   }
@@ -5534,7 +5546,6 @@ export const HeroSectionStyles = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: var(--black-1);
 
   .hero__wrapper {
     width: 100%;
@@ -5592,45 +5603,62 @@ export const HeroSectionStyles = styled.div`
   }
 
   /* QUOTE FORM STYLING */
+ /* HIGH-END GLASSMORPHISM QUOTE FORM */
   .quote-form-container {
-    background: var(--darkPurple);
+    background: rgba(20, 20, 22, 0.4); /* Semi-transparent dark */
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     padding: 40px;
-    border-radius: 12px;
-    border-top: 5px solid var(--primary);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 204, 0, 0.3); /* Subtle top highlight */
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
 
     h3 {
       font-size: 2.2rem;
       margin-bottom: 20px;
       color: var(--white);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 12px 15px;
+      padding: 14px 15px;
       margin-bottom: 15px;
-      border: 1px solid #333;
-      border-radius: 6px;
-      background: var(--black-1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.3); /* Dark glass inputs */
       color: var(--white);
       font-size: 1.4rem;
       font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+      
+      &:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+        outline: none;
+        background: rgba(0, 0, 0, 0.5);
+      }
     }
 
     .submit-btn {
       width: 100%;
       background: var(--primary);
       color: var(--black);
-      padding: 15px;
+      padding: 16px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 1.6rem;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       transition: 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       
       &:hover {
-        background: var(--secondary);
+        background: var(--white);
+        box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
+        transform: translateY(-2px);
       }
     }
   }
@@ -6056,7 +6084,7 @@ function AuthorList({ data, pageContext }) {
       <div className="container">
         <PageHeader
             title="Executive Leadership"
-            description="Led by industry veterans, our team guarantees precision, safety, and scale. As a 100% Black-Owned, Level 1 B-BBEE entity, partnering with Moorosi Holdings grants your business 135% Procurement Recognition."
+            description="Led by industry veterans, our team guarantees precision, safety, and scale. As a 100% Black-Owned, Level 1 B-BBEE entity, partnering with Midrand Rubble Removal & Site Clearing grants your business 135% Procurement Recognition."
         />
         <AuthorGrid authors={authors} />
         {numberOfPages > 1 && (
@@ -6240,7 +6268,7 @@ function Publications({ data, pageContext }) {
     <PageSpace top={80} bottom={100}>
       <SEO title="Publications & Books" />
       <div className="container">
-        <PageHeader title="Company Documents & Compliance" description="Access Moorosi Holdings' company profiles, B-BBEE certificates, CSD registration, and operational capabilities literature." />
+        <PageHeader title="Company Documents & Compliance" description="Access Midrand Rubble Removal & Site Clearing' company profiles, B-BBEE certificates, CSD registration, and operational capabilities literature." />
         <BlogGrid blogs={publications} prefix="publications" />
         {numberOfPages > 1 && (
           <Pagination currentPage={currentPage} numberOfPages={numberOfPages} baseURL="/publications" />
@@ -6285,7 +6313,7 @@ function SingleActivity({ data }) {
     <PageSpace top={80} bottom={100}>
       <SingleCategoryStyles>
         <div className="container">
-          <SEO title={`Moorosi Holdings - ${activity.title}`} /> 
+          <SEO title={`Midrand Rubble Removal & Site Clearing - ${activity.title}`} /> 
           
           <PageHeader title={activity.title} className="pageHeader">
             {/* This displays the Short Description in the header area */}
@@ -6444,7 +6472,7 @@ function SingleBlog({ data }) {
   const blog = data.sanityBlog;
   return (
     <SingleBlogStyles>
-      <SEO title={`Moorosi Holdings-${blog.title}`} />
+      <SEO title={`Midrand Rubble Removal & Site Clearing-${blog.title}`} />
       <PageSpace top={80} bottom={100}>
         <div className="container">
           <div className="blog-header">
@@ -6551,7 +6579,7 @@ function SingleCategory({ data }) {
     <PageSpace top={80} bottom={100}>
       <SingleCategoryStyles>
         <div className="container">
-          <SEO title={`Moorosi Holdings-${category.title}`} />
+          <SEO title={`Midrand Rubble Removal & Site Clearing-${category.title}`} />
           <PageHeader title={category.title} className="pageHeader">
             <MyPortableText value={category._rawDescription} />
             {/* Add the check here */}
@@ -6612,7 +6640,7 @@ function SinglePublication({ data }) {
     <PageSpace top={80} bottom={100}>
       <SingleCategoryStyles>
         <div className="container">
-          <SEO title={`Moorosi Holdings - ${publication.title}`} />
+          <SEO title={`Midrand Rubble Removal & Site Clearing - ${publication.title}`} />
           <PageHeader title={publication.title} className="pageHeader">
             
             {publication.targetAudience && (

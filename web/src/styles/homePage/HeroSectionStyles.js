@@ -81,24 +81,57 @@ export const HeroSectionStyles = styled.div`
       text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
-    input, select, textarea {
+    input, textarea, select {
       width: 100%;
       padding: 14px 15px;
       margin-bottom: 15px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      background: rgba(0, 0, 0, 0.3); /* Dark glass inputs */
+      background: rgba(0, 0, 0, 0.4) !important; /* Dark Glass */
       color: var(--white);
       font-size: 1.4rem;
       font-family: 'Inter', sans-serif;
       transition: all 0.3s ease;
-      
-      &:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
-        outline: none;
-        background: rgba(0, 0, 0, 0.5);
-      }
+      appearance: none; /* Removes the default browser clunkiness */
+      -webkit-appearance: none;
+    }
+
+    .select-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    /* THE DROPDOWN LIST (The part you hated) */
+    select option {
+      background-color: #121212; /* Matches your reference image's dark menu */
+      color: white;
+      padding: 10px;
+    }
+
+    /* THE CUSTOM ARROW (Sleek minimalist look) */
+    .custom-arrow {
+      position: absolute;
+      top: 18px;
+      right: 15px;
+      width: 10px;
+      height: 10px;
+      border-right: 2px solid var(--primary);
+      border-bottom: 2px solid var(--primary);
+      transform: rotate(45deg);
+      pointer-events: none;
+      transition: 0.3s ease;
+    }
+
+    .select-wrapper:focus-within .custom-arrow {
+      transform: rotate(-135deg); /* Flips when you click */
+      top: 22px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--primary);
+      background: rgba(0, 0, 0, 0.6) !important;
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+      outline: none;
     }
 
     .submit-btn {

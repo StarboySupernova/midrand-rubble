@@ -101,6 +101,7 @@
 │   │   ├── 🖼️ images
 │   │   │   ├── 📄 demt.ico.jpg
 │   │   │   ├── 📄 demtMalnutrition.jpg
+│   │   │   ├── 📄 moorosi-logo.jpg
 │   │   │   └── 📄 mwenje.jpg
 │   │   ├── 📑 pages
 │   │   │   ├── 🟨 404.js
@@ -156,7 +157,8 @@
 │   │   └── 🛠️ utils
 │   │       └── 🟨 getSanityImageData.js
 │   ├── 📁 static
-│   │   └── 📄 demt.ico
+│   │   ├── 📄 demt.ico
+│   │   └── 📄 moorosi-logo.jpg
 │   ├── 🟨 .eslintrc.js
 │   ├── 📄 .gitignore
 │   ├── 🟨 gatsby-browser.js
@@ -1426,11 +1428,11 @@ export default SidebarList;
 {
   "root": true,
   "api": {
-    "projectId": "0fw4oxom",
+    "projectId": "cqwoeq0z",
     "dataset": "production"
   },
   "project": {
-    "name": "moorosiholdings"
+    "name": "MidrandRubble"
   },
   "plugins": [
     "@sanity/base",
@@ -2060,9 +2062,9 @@ const sanityConfig = require("./sanity-config.js");
 
 module.exports = {
   siteMetadata: {
-    title: `Moorosi Holdings & Logistics`,
-    siteUrl: `https://moorosiholdings.co.za`,
-    description: `Level 1 B-BBEE integrated logistics, civil engineering, mining support, and facility management services.`,
+    title: `Midrand Rubble Removal & Site Clearing`,
+    siteUrl: `https://midrandrubble.co.za`, // Update later when you have the domain
+    description: `Professional site clearing, rubble removal, and industrial waste management in Midrand.`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -3856,22 +3858,26 @@ export default Layout;
 ## `web\src\components\Logo.js`
 ```
 import React from 'react';
-// import { GrTechnology } from 'react-icons/gr';
 import { StaticImage } from 'gatsby-plugin-image';
 import LogoStyles from '../styles/LogoStyles';
 
 function Logo() {
-  const width = 50;
-  const height = 50;
   return (
     <LogoStyles to="/">
-      <StaticImage src="../images/mwenje.jpg" width={width} height={height} />
+      <StaticImage 
+        /* Ensure extension is .jpg as seen in your folder */
+        src="../images/moorosi-logo.jpg" 
+        alt="Moorosi Holdings Logo"
+        placeholder="blurred"
+        /* These two props together force the distortion */
+        objectFit="fill" 
+        imgStyle={{ objectFit: 'fill' }}
+      />
     </LogoStyles>
   );
 }
 
 export default Logo;
-
 ```
 ## `web\src\components\MyPortableText.js`
 ```
@@ -4771,41 +4777,57 @@ import styled from 'styled-components';
 
 export const BlogItemStyles = styled.div`
   display: inline-block;
-  border-radius: 12px;
+  background: var(--black-2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 1.5rem;
+  border-radius: 16px;
+  border: 1px solid rgba(243, 112, 33, 0.2);
+  transition: transform 0.4s ease;
+  
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, borderGlow 5s infinite alternate;
+
   .img {
     height: 250px;
     margin-bottom: 1.5rem;
     border-radius: 12px;
+    border: 1px solid rgba(243, 112, 33, 0.4);
+    /* Dynamic Image Glow */
+    animation: glowPulse 3s infinite alternate;
+    overflow: hidden;
+    
     [data-main-image] {
-      transition: 0.3s ease-in-out transform;
+      transition: 0.5s ease-in-out transform;
     }
   }
+
   .title {
     margin-bottom: 0.5rem;
+    color: var(--white);
   }
+
   .publishedAt {
     margin-bottom: 0.3rem;
+    color: var(--gray);
   }
+
   &:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(243, 112, 33, 0.3);
+    
     .img [data-main-image] {
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
   }
-  .categoriesText {
-    a {
-      color: var(--gray);
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-  @media only screen and (max-width: 768px) {
-    .title {
-      margin-bottom: 0.5rem;
+
+  .categoriesText a {
+    color: var(--primary);
+    &:hover {
+      text-decoration: underline;
     }
   }
 `;
-
 ```
 ## `web\src\styles\blog\SingleBlogStyles.js`
 ```
@@ -4918,14 +4940,18 @@ export const ButtonStyles = styled(Link)`
   font-weight: 600;
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
+  
+  /* Orange Gradients */
   background: ${({ variant }) =>
     variant === buttonTypes.primary
       ? 'linear-gradient(135deg, var(--secondary), var(--primary))'
       : variant === buttonTypes.secondary
       ? 'var(--white-1)'
       : 'transparent'};
+      
   border: ${({ variant }) =>
     variant === buttonTypes.outline ? '2px solid var(--primary)' : 'none'};
+    
   color: ${({ variant }) =>
     variant === buttonTypes.secondary ? 'var(--black-1)' : 'var(--white)'};
   
@@ -4933,8 +4959,8 @@ export const ButtonStyles = styled(Link)`
     transform: translateY(-2px);
     box-shadow: ${({ variant }) =>
       variant === buttonTypes.outline 
-      ? '0 0 15px rgba(0, 210, 255, 0.4) inset, 0 0 15px rgba(0, 210, 255, 0.4)' 
-      : '0 8px 20px rgba(0, 123, 255, 0.4)'};
+      ? '0 0 15px rgba(243, 112, 33, 0.4) inset, 0 0 15px rgba(243, 112, 33, 0.4)' 
+      : '0 8px 25px rgba(243, 112, 33, 0.6)'}; /* High impact orange shadow */
   }
 
   @media only screen and (max-width: 768px) {
@@ -4965,12 +4991,13 @@ export const CategoryGridStyles = styled.div`
     shape-outside: inset(0%);   /* Ensures text flows around the square */
   }
 
-  /* FORCE DISTORTION/FILL FOR BOTH */
+  /* FORCE DISTORTION/FILL FOR BOTH & ADD GLOW */
   .value-card .bodyImage img,
   .objective-card .bodyImage img {
     object-fit: fill !important; 
     width: 100% !important;
     height: 100% !important;
+    animation: glowPulse 3s infinite alternate; /* Dynamic Glow added here */
   }
 
   /* CLEARFIX to keep cards from breaking */
@@ -5041,29 +5068,40 @@ import styled from 'styled-components';
 
 export const CategoryItemStyles = styled.div`
   background: var(--black-2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   padding: 3rem 2rem;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border-radius: 16px;
+  border: 1px solid rgba(243, 112, 33, 0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  
+  /* Entrance Animation & Continuous Subtle Glow */
+  opacity: 0;
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, borderGlow 4s infinite alternate;
   
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
-    border-color: rgba(0, 210, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(243, 112, 33, 0.4);
+    background: rgba(30, 30, 30, 0.8);
   }
 
   .title {
     margin-bottom: 1.5rem;
+    color: var(--white);
   }
+  
   .text {
     margin-bottom: 2.5rem;
     color: var(--white-1);
   }
+
   .custom-image {
     max-width: 100%;
     max-height: 250px;
     border-radius: 8px;
     margin-bottom: 1.5rem;
+    border: 1px solid rgba(243, 112, 33, 0.3);
+    animation: glowPulse 3s infinite alternate;
   }
 `;
 ```
@@ -5134,7 +5172,8 @@ import styled from 'styled-components';
 export const FooterStyles = styled.footer`
   padding: 5rem 0 2rem 0;
   text-align: center;
-  background: linear-gradient(135deg, #052A00, #081000);
+  background: linear-gradient(135deg, #0A0500, #000000); /* Dark orange/black gradient */
+  border-top: 1px solid rgba(243, 112, 33, 0.2);
   .footer__text {
     margin: 0 auto;
     margin-top: 1rem;
@@ -5154,7 +5193,7 @@ export const FooterStyles = styled.footer`
   .footer__socialList {
     margin-top: 1.5rem;
     li {
-      display: inline-block;
+      display: inline-block; 
       margin: 0 0.5rem;
       a {
         display: inline-block;
@@ -5188,17 +5227,18 @@ const GlobalStyles = createGlobalStyle`
   }
 
   :root {
-    --primary: #00D2FF;
-    --secondary: #007BFF;
-    --darkBlue: #0A1128;
-    --darkPurple: #1A0B2E;
-    --black-1: #040814;
-    --black-2: #0B1325;
+    /* Moorosi Copper & Orange Theme */
+    --primary: #F37021; 
+    --secondary: #D45D1A; 
+    --darkBlue: #0A0A0A; /* Deep Charcoal/Black */
+    --darkPurple: #050505; 
+    --black-1: #080808; 
+    --black-2: rgba(25, 25, 25, 0.65); /* Glassmorphism Base */
     --white-1: #E2E8F0;
-    --gray: #8A98B0;
+    --gray: #9BA4B5;
     --grey: var(--gray);
-    --white: white;
-    --black: black;
+    --white: #ffffff;
+    --black: #000000;
   }
 
   html {
@@ -5211,8 +5251,38 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
     width: 100%;
     font-family: 'Inter', sans-serif;
-    background: var(--black-1);
+    /* Deep dark background with a very subtle warm orange radial glow at the top */
+    background: radial-gradient(circle at top right, #1A0D05 0%, var(--black-1) 50%, var(--black) 100%);
     color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* THE GHOST WATERMARK */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;  /* Giant scale */
+    height: 80vw;
+    background-image: url("/moorosi-logo.jpg"); 
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    
+    opacity: 0.15; 
+    
+    pointer-events: none; /* User can click through it */
+    z-index: -1; /* Sits behind everything */
+    filter: grayscale(100%) brightness(200%); /* Makes it look etched */
+  }
+
+  @media only screen and (max-width: 768px) {
+    body::before {
+      width: 150vw; /* Even larger on mobile so only part of it shows */
+      opacity: 0.04;
+    }
   }
 
   a {
@@ -5226,22 +5296,20 @@ const GlobalStyles = createGlobalStyle`
     width: 90%;
   }
 
-  img,
-  svg {
+  img, svg {
     height: 100%;
     width: 100%;
   }
 
-  li,
-  ul {
+  li, ul {
     list-style: none;
   }
 
-  /* Global Animations */
+  /* Professional Entrance Animations */
   @keyframes fadeUp {
     from {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px);
     }
     to {
       opacity: 1;
@@ -5249,16 +5317,23 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
+  /* Dynamic Orange Glow */
   @keyframes glowPulse {
     0% {
-      box-shadow: 0 0 5px rgba(0, 210, 255, 0.2);
+      box-shadow: 0 0 8px rgba(243, 112, 33, 0.15), inset 0 0 0px rgba(243, 112, 33, 0);
     }
     50% {
-      box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+      box-shadow: 0 0 25px rgba(243, 112, 33, 0.5), inset 0 0 10px rgba(243, 112, 33, 0.2);
     }
     100% {
-      box-shadow: 0 0 5px rgba(0, 210, 255, 0.2);
+      box-shadow: 0 0 8px rgba(243, 112, 33, 0.15), inset 0 0 0px rgba(243, 112, 33, 0);
     }
+  }
+
+  @keyframes borderGlow {
+    0% { border-color: rgba(243, 112, 33, 0.2); }
+    50% { border-color: rgba(243, 112, 33, 0.6); }
+    100% { border-color: rgba(243, 112, 33, 0.2); }
   }
 `;
 
@@ -5435,13 +5510,16 @@ export const HeroSectionStyles = styled.div`
   justify-content: center;
   position: relative;
   overflow: hidden;
+
   .container {
     height: 100%;
     z-index: 2;
   }
+
   .hero__wrapper {
     width: 100%;
     height: 100%;
+    
     &::after {
       content: '';
       position: absolute;
@@ -5449,51 +5527,61 @@ export const HeroSectionStyles = styled.div`
       left: 0;
       width: 60%;
       height: 100%;
-      background: linear-gradient(135deg, #0A1128 0%, rgba(10, 17, 40, 0) 100%); 
+      /* Deep shadow fading out */
+      background: linear-gradient(135deg, rgba(5,5,5,0.95) 0%, rgba(10,5,0,0) 100%); 
       z-index: -1;
     }
+
     .left {
       width: 50%;
       padding: 100px 0 50px 0;
-      animation: fadeUp 1s ease-out forwards;
+      opacity: 0;
+      animation: fadeUp 1s ease-out 0.2s forwards;
+
       .hero__heading {
         max-width: 550px;
         font-size: 4rem;
         font-family: 'Poppins', sans-serif;
-        font-weight: '700';
+        font-weight: 700;
         margin: 0.5rem 0;
         line-height: 1.2;
         background: linear-gradient(to right, #ffffff, var(--primary));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
+
       .hero__text {
         max-width: 450px;
         font-size: 1.6rem;
         margin-top: 1.5rem;
         color: var(--white-1);
       }
+
       .hero__button {
         margin-top: 2.5rem;
       }
     }
+
     .right {
       position: absolute;
-      right: 2%; /* Breathes off the edge */
-      top: 15%; /* Centers it beautifully */
+      right: 2%; 
+      top: 15%; 
       width: 45%;
       height: 70%;
       z-index: 1;
-      animation: fadeUp 1.2s ease-out forwards;
+      opacity: 0;
+      animation: fadeUp 1.2s ease-out 0.4s forwards;
+
       .hero__image {
         width: 100%;
         height: 100%;
-        border-radius: 24px; /* Smooth, trendy corners */
-        box-shadow: 0 20px 50px rgba(0, 210, 255, 0.15); /* Soft neon tech glow */
-        border: 1px solid rgba(0, 210, 255, 0.2); /* Premium glass/tech edge */
+        border-radius: 24px; 
+        border: 2px solid rgba(243, 112, 33, 0.4); 
+        animation: glowPulse 3.5s infinite alternate; /* Dynamic Glow */
       }
     }
   }
+
   @media only screen and (max-width: 768px) {
     .hero__wrapper {
       height: 100%;
@@ -5503,9 +5591,9 @@ export const HeroSectionStyles = styled.div`
       flex-direction: column-reverse;
       padding-top: 100px;
       padding-bottom: 80px;
-      &::after {
-        width: 100%;
-      }
+      
+      &::after { width: 100%; background: rgba(5,5,5,0.8); }
+
       .right {
         position: initial;
         display: flex;
@@ -5513,24 +5601,29 @@ export const HeroSectionStyles = styled.div`
         justify-content: center;
         width: 100%;
         margin-bottom: 3rem;
+        opacity: 0;
+        animation: fadeUp 0.8s ease-out 0.2s forwards;
+        
         .hero__image {
           height: 300px;
-          width: 90%; /* Breathes off the edge on mobile */
+          width: 90%; 
           margin: 0 auto;
           border-radius: 20px;
         }
       }
+
       .left {
         width: 100%;
         margin-top: 1rem;
         padding: 0;
+        opacity: 0;
+        animation: fadeUp 0.8s ease-out 0.4s forwards;
+        
         .hero__heading {
           max-width: 100%;
           font-size: 3.2rem;
         }
-        .hero__text {
-          max-width: 100%;
-        }
+        .hero__text { max-width: 100%; }
       }
     }
   }
@@ -5569,16 +5662,39 @@ import styled from 'styled-components';
 import { Link } from 'gatsby';
 
 export default styled(Link)`
-  display: inline-block;
-  max-width: 200px;
-  svg {
-    font-size: 3rem;
-    path {
-      stroke: white;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 55px; 
+  height: 55px;
+  
+  /* The Squircle Shape */
+  border-radius: 32%; 
+  overflow: hidden;
+  
+  /* Visual Identity */
+  background: #000;
+  border: 1.5px solid rgba(243, 112, 33, 0.4);
+  box-shadow: 0 0 15px rgba(243, 112, 33, 0.2);
+  transition: all 0.3s ease;
+
+  /* Force the Gatsby wrapper to be exactly the parent size */
+  .gatsby-image-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* Force the internal image to distort and fill */
+  img {
+    object-fit: fill !important;
+  }
+
+  &:hover {
+    transform: scale(1.08) rotate(2deg);
+    border-color: var(--primary);
+    box-shadow: 0 0 25px rgba(243, 112, 33, 0.5);
   }
 `;
-
 ```
 ## `web\src\styles\NotFoundPageStyles.js`
 ```

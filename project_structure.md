@@ -3717,23 +3717,31 @@ export default FeaturedBlogs;
 ```
 ## `web\src\components\homePage\HeroSection.js`
 ```
-import React from "react";
-import { StaticImage } from "gatsby-plugin-image";
+import React, { useState } from "react";
 import { HeroSectionStyles } from "../../styles/homePage/HeroSectionStyles";
 import ParagraphText from "../typography/ParagraphText";
 import Button from "../buttons/Button";
-import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
+import { FaWhatsapp, FaPhoneAlt, FaChevronDown } from "react-icons/fa";
 
 function HeroSection() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState("Select Service...");
+
+  const services = [
+    "Rubble Removal",
+    "Site Clearing",
+    "Garden Waste Removal",
+    "Construction Debris",
+    "Small & Medium Transport",
+  ];
+
   return (
     <HeroSectionStyles>
       <div className="container">
         <div className="hero__wrapper">
           <div className="left">
             <div className="badge">✅ SAME-DAY SERVICE AVAILABLE</div>
-            <h1 className="hero__heading">
-              Fast & Affordable Rubble Removal in Midrand
-            </h1>
+            <h1 className="hero__heading">Fast & Affordable Rubble Removal in Midrand</h1>
             <ParagraphText className="hero__text">
               We Load. We Clear. You Relax. Serving Midrand, Centurion, Sandton, and Fourways with reliable site clearing and construction debris transport.
             </ParagraphText>
@@ -3749,21 +3757,40 @@ function HeroSection() {
           </div>
 
           <div className="right">
-            {/* NETLIFY QUICK QUOTE FORM */}
             <div className="quote-form-container">
               <h3>Get a Quick Quote</h3>
               <form name="quick-quote" method="POST" data-netlify="true" action="/">
                 <input type="hidden" name="form-name" value="quick-quote" />
                 <input type="text" name="name" placeholder="Your Name" required />
                 <input type="tel" name="phone" placeholder="Phone / WhatsApp" required />
-                <select name="service" required>
-                  <option value="" disabled selected>Select Service...</option>
-                  <option value="Rubble Removal">Rubble Removal</option>
-                  <option value="Site Clearing">Site Clearing</option>
-                  <option value="Garden Waste">Garden Waste Removal</option>
-                  <option value="Construction Debris">Construction Debris</option>
-                  <option value="NP300 Transport">Small & Medium Transport</option>
-                </select>
+                
+                {/* THE CUSTOM DROPDOWN COMPONENT */}
+                <div className="custom-select-container">
+                  <div className={`select-trigger ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+                    <span>{selectedService}</span>
+                    <FaChevronDown className={`arrow ${isOpen ? 'open' : ''}`} />
+                  </div>
+                  
+                  {isOpen && (
+                    <div className="dropdown-menu">
+                      {services.map((service) => (
+                        <div 
+                          key={service} 
+                          className="dropdown-item" 
+                          onClick={() => {
+                            setSelectedService(service);
+                            setIsOpen(false);
+                          }}
+                        >
+                          {service}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {/* Hidden input to pass data to Netlify Form */}
+                  <input type="hidden" name="service" value={selectedService} />
+                </div>
+
                 <textarea name="message" placeholder="Briefly describe what needs clearing..." rows="3"></textarea>
                 <button type="submit" className="submit-btn">Send Request</button>
               </form>
@@ -3827,30 +3854,84 @@ function TopCategories() {
 
   return (
     <TopCategoriesStyles>
-      <SectionTitle className="centre__text">Industrial Capabilities/Our Core Services</SectionTitle>
-      <ParagraphText className="centre__text">
-        From household garden waste to major construction site clearing, we have the NP300 fleet and manpower to handle it all.
+      {/* SECTION 1: CAPABILITIES */}
+      <SectionTitle className="centre__text">
+        Strategic Industrial Capabilities
+      </SectionTitle>
+      <ParagraphText
+        className="centre__text"
+        style={{ maxWidth: "800px", margin: "0 auto 4rem auto" }}
+      >
+        We provide the logistical muscle that keeps Gauteng’s development
+        moving. From high-capacity NP300 fleet deployments to specialized
+        heavy-duty manpower, our core services are engineered to handle the most
+        demanding site clearing and debris challenges. We don’t just haul waste;
+        we reclaim your operational space, ensuring that your residential or
+        commercial project remains a clean, safe, and efficient environment.
       </ParagraphText>
-      <SectionTitle className="centre__text">Vision</SectionTitle>
-        <ParagraphText className="hero__text centre__text">
-          To redefine site clearing and waste management in Gauteng by setting the absolute standard for speed, reliability, and environmental responsibility.
-        </ParagraphText>
-        
-        <SectionTitle className="centre__text">Mission</SectionTitle>
-        <ParagraphText className="hero__text centre__text">
-          To instantly remove the burden of construction debris and rubble from our clients' shoulders. We deploy rapid-response fleets and heavy-duty manpower to transform chaotic sites into clean, project-ready blank slates—same day, every day.
-        </ParagraphText>
-      <SectionTitle className="centre__text">Our Values</SectionTitle>
-      <ValueGrid DiginotiveValues={DiginotiveValues} />
-      <SectionTitle className="centre__text">Our Objectives</SectionTitle>
-      <ObjectiveGrid objectives={objectives} />
+
       <ActivityGrid activities={activities} />
+
+      {/* SECTION 2: VISION */}
+      <SectionTitle className="centre__text">The Vision</SectionTitle>
+      <ParagraphText
+        className="hero__text centre__text"
+        style={{ maxWidth: "900px", margin: "0 auto 4rem auto" }}
+      >
+        To be the undisputed sovereign of site clearing and logistical waste
+        management in South Africa. We aim to set an uncompromising benchmark
+        where the name "Midrand Rubble Removal" is synonymous with unshakeable
+        reliability, environmental precision, and the total elimination of
+        project-site friction. We see a future where every construction site in
+        Gauteng starts and ends as a pristine blank slate.
+      </ParagraphText>
+
+      {/* SECTION 3: MISSION */}
+      <SectionTitle className="centre__text">
+        The Mission of Certainty
+      </SectionTitle>
+      <ParagraphText
+        className="hero__text centre__text"
+        style={{ maxWidth: "900px", margin: "0 auto 4rem auto" }}
+      >
+        Our mission is the absolute eradication of chaos from your job site. We
+        understand that rubble is more than just debris, for it is a safety hazard
+        and a bottleneck to your progress. We deploy rapid-response tactical
+        units and heavy-duty transport to instantly lift the burden of waste
+        from our clients' shoulders. We are dedicated to providing a seamless
+        transition from a cluttered environment to a project-ready
+        environment—same hour, same day, every day.
+      </ParagraphText>
+
+      {/* SECTION 4: VALUES & OBJECTIVES */}
+      <div style={{ marginTop: "6rem" }}>
+        <SectionTitle className="centre__text">Operational Values</SectionTitle>
+        <ParagraphText
+          className="centre__text"
+          style={{ marginBottom: "2rem" }}
+        >
+          The core principles that govern our rapid-response units.
+        </ParagraphText>
+        <ValueGrid DiginotiveValues={DiginotiveValues} />
+      </div>
+
+      <div style={{ marginTop: "6rem" }}>
+        <SectionTitle className="centre__text">
+          Strategic Objectives
+        </SectionTitle>
+        <ParagraphText
+          className="centre__text"
+          style={{ marginBottom: "2rem" }}
+        >
+          How we measure our dominance in the site clearing industry.
+        </ParagraphText>
+        <ObjectiveGrid objectives={objectives} />
+      </div>
     </TopCategoriesStyles>
   );
 }
 
 export default TopCategories;
-
 
 ```
 ## `web\src\components\Layout.js`
@@ -5621,25 +5702,115 @@ export const HeroSectionStyles = styled.div`
       text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
-    input, select, textarea {
+    input, textarea, select {
       width: 100%;
       padding: 14px 15px;
       margin-bottom: 15px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      background: rgba(0, 0, 0, 0.3); /* Dark glass inputs */
+      background: rgba(0, 0, 0, 0.4) !important; /* Dark Glass */
       color: var(--white);
       font-size: 1.4rem;
       font-family: 'Inter', sans-serif;
       transition: all 0.3s ease;
-      
-      &:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
-        outline: none;
-        background: rgba(0, 0, 0, 0.5);
-      }
+      appearance: none; /* Removes the default browser clunkiness */
+      -webkit-appearance: none;
     }
+
+    .select-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    /* CUSTOM SELECT STYLING - MATCHING REFERENCE */
+  .custom-select-container {
+    position: relative;
+    margin-bottom: 15px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1.4rem;
+  }
+
+  .select-trigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 15px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--white);
+    transition: 0.3s;
+  }
+
+  .select-trigger.active, .select-trigger:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+  }
+
+  .arrow {
+    /* We must use !important to kill the global 100% SVG rule */
+    width: 1.8rem !important; 
+    height: 1.8rem !important;
+    transition: transform 0.3s ease;
+    color: var(--primary);
+    flex-shrink: 0; /* Prevents the arrow from squashing if text is long */
+  }
+
+  .arrow.open {
+    transform: rotate(180deg);
+  }
+
+  /* THE FLOATING MENU */
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    background: rgba(15, 15, 18, 0.95); /* Deep dark background */
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--primary); /* That specific yellow glow border */
+    border-radius: 12px;
+    z-index: 100;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+    animation: fadeUp 0.3s ease-out forwards;
+  }
+
+  .dropdown-item {
+    padding: 12px 20px;
+    color: var(--white-1);
+    transition: 0.2s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .dropdown-item:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown-item:hover {
+    background: var(--primary);
+    color: var(--black);
+    font-weight: 600;
+  }
+
+  /* OTHER INPUTS */
+  input, textarea {
+    width: 100%;
+    padding: 14px 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    color: var(--white);
+    font-size: 1.4rem;
+    outline: none;
+  }
+
+  input:focus, textarea:focus {
+    border-color: var(--primary);
+    background: rgba(0, 0, 0, 0.6);
+  }
 
     .submit-btn {
       width: 100%;

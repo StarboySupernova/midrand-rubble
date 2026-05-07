@@ -128,9 +128,12 @@ export const HeroSectionStyles = styled.div`
   }
 
   .arrow {
-    font-size: 1.2rem;
+    /* We must use !important to kill the global 100% SVG rule */
+    width: 1.8rem !important; 
+    height: 1.8rem !important;
     transition: transform 0.3s ease;
     color: var(--primary);
+    flex-shrink: 0; /* Prevents the arrow from squashing if text is long */
   }
 
   .arrow.open {

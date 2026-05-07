@@ -46,27 +46,81 @@ function TopCategories() {
 
   return (
     <TopCategoriesStyles>
-      <SectionTitle className="centre__text">Industrial Capabilities/Our Core Services</SectionTitle>
-      <ParagraphText className="centre__text">
-        From household garden waste to major construction site clearing, we have the NP300 fleet and manpower to handle it all.
+      {/* SECTION 1: CAPABILITIES */}
+      <SectionTitle className="centre__text">
+        Strategic Industrial Capabilities
+      </SectionTitle>
+      <ParagraphText
+        className="centre__text"
+        style={{ maxWidth: "800px", margin: "0 auto 4rem auto" }}
+      >
+        We provide the logistical muscle that keeps Gauteng’s development
+        moving. From high-capacity NP300 fleet deployments to specialized
+        heavy-duty manpower, our core services are engineered to handle the most
+        demanding site clearing and debris challenges. We don’t just haul waste;
+        we reclaim your operational space, ensuring that your residential or
+        commercial project remains a clean, safe, and efficient environment.
       </ParagraphText>
-      <SectionTitle className="centre__text">Vision</SectionTitle>
-        <ParagraphText className="hero__text centre__text">
-          To redefine site clearing and waste management in Gauteng by setting the absolute standard for speed, reliability, and environmental responsibility.
-        </ParagraphText>
-        
-        <SectionTitle className="centre__text">Mission</SectionTitle>
-        <ParagraphText className="hero__text centre__text">
-          To instantly remove the burden of construction debris and rubble from our clients' shoulders. We deploy rapid-response fleets and heavy-duty manpower to transform chaotic sites into clean, project-ready blank slates—same day, every day.
-        </ParagraphText>
-      <SectionTitle className="centre__text">Our Values</SectionTitle>
-      <ValueGrid DiginotiveValues={DiginotiveValues} />
-      <SectionTitle className="centre__text">Our Objectives</SectionTitle>
-      <ObjectiveGrid objectives={objectives} />
+
       <ActivityGrid activities={activities} />
+
+      {/* SECTION 2: VISION */}
+      <SectionTitle className="centre__text">The Vision</SectionTitle>
+      <ParagraphText
+        className="hero__text centre__text"
+        style={{ maxWidth: "900px", margin: "0 auto 4rem auto" }}
+      >
+        To be the undisputed sovereign of site clearing and logistical waste
+        management in South Africa. We aim to set an uncompromising benchmark
+        where the name "Midrand Rubble Removal" is synonymous with unshakeable
+        reliability, environmental precision, and the total elimination of
+        project-site friction. We see a future where every construction site in
+        Gauteng starts and ends as a pristine blank slate.
+      </ParagraphText>
+
+      {/* SECTION 3: MISSION */}
+      <SectionTitle className="centre__text">
+        The Mission of Certainty
+      </SectionTitle>
+      <ParagraphText
+        className="hero__text centre__text"
+        style={{ maxWidth: "900px", margin: "0 auto 4rem auto" }}
+      >
+        Our mission is the absolute eradication of chaos from your job site. We
+        understand that rubble is more than just debris—it is a safety hazard
+        and a bottleneck to your progress. We deploy rapid-response tactical
+        units and heavy-duty transport to instantly lift the burden of waste
+        from our clients' shoulders. We are dedicated to providing a seamless
+        transition from a cluttered environment to a project-ready
+        environment—same hour, same day, every day.
+      </ParagraphText>
+
+      {/* SECTION 4: VALUES & OBJECTIVES */}
+      <div style={{ marginTop: "6rem" }}>
+        <SectionTitle className="centre__text">Operational Values</SectionTitle>
+        <ParagraphText
+          className="centre__text"
+          style={{ marginBottom: "2rem" }}
+        >
+          The core principles that govern our rapid-response units.
+        </ParagraphText>
+        <ValueGrid DiginotiveValues={DiginotiveValues} />
+      </div>
+
+      <div style={{ marginTop: "6rem" }}>
+        <SectionTitle className="centre__text">
+          Strategic Objectives
+        </SectionTitle>
+        <ParagraphText
+          className="centre__text"
+          style={{ marginBottom: "2rem" }}
+        >
+          How we measure our dominance in the site clearing industry.
+        </ParagraphText>
+        <ObjectiveGrid objectives={objectives} />
+      </div>
     </TopCategoriesStyles>
   );
 }
 
 export default TopCategories;
-

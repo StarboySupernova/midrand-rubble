@@ -1,12 +1,15 @@
 import styled from 'styled-components';
 
 export const CategoryItemStyles = styled.div`
-  background: var(--black-2);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  /* PREMIUM FROSTED GLASS CARDS */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   padding: 3rem 2rem;
   border-radius: 16px;
-  border: 1px solid rgba(243, 112, 33, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 204, 0, 0.2); /* Edge highlight */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   
   /* Entrance Animation & Continuous Subtle Glow */

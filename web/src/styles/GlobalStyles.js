@@ -32,7 +32,14 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
     width: 100%;
     font-family: 'Inter', sans-serif;
-    background: var(--black-1); /* Solid dark, no gradients needed for this theme */
+    
+    /* Deep dark base with vibrant ambient glowing orbs */
+    background-color: #080809;
+    background-image: 
+      radial-gradient(circle at 15% 30%, rgba(255, 204, 0, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 85% 70%, rgba(255, 100, 0, 0.06) 0%, transparent 40%);
+    background-attachment: fixed;
+    
     color: var(--white);
     overflow-x: hidden;
   }

@@ -64,45 +64,62 @@ export const HeroSectionStyles = styled.div`
   }
 
   /* QUOTE FORM STYLING */
+ /* HIGH-END GLASSMORPHISM QUOTE FORM */
   .quote-form-container {
-    background: var(--darkPurple);
+    background: rgba(20, 20, 22, 0.4); /* Semi-transparent dark */
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     padding: 40px;
-    border-radius: 12px;
-    border-top: 5px solid var(--primary);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 204, 0, 0.3); /* Subtle top highlight */
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
 
     h3 {
       font-size: 2.2rem;
       margin-bottom: 20px;
       color: var(--white);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     input, select, textarea {
       width: 100%;
-      padding: 12px 15px;
+      padding: 14px 15px;
       margin-bottom: 15px;
-      border: 1px solid #333;
-      border-radius: 6px;
-      background: var(--black-1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.3); /* Dark glass inputs */
       color: var(--white);
       font-size: 1.4rem;
       font-family: 'Inter', sans-serif;
+      transition: all 0.3s ease;
+      
+      &:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+        outline: none;
+        background: rgba(0, 0, 0, 0.5);
+      }
     }
 
     .submit-btn {
       width: 100%;
       background: var(--primary);
       color: var(--black);
-      padding: 15px;
+      padding: 16px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 1.6rem;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       transition: 0.3s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       
       &:hover {
-        background: var(--secondary);
+        background: var(--white);
+        box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
+        transform: translateY(-2px);
       }
     }
   }

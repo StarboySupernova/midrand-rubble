@@ -6,13 +6,12 @@ function Logo() {
   return (
     <LogoStyles to="/">
       <StaticImage 
-        /* Ensure extension is .jpg as seen in your folder */
-        src="../images/midrandrubblelogo-logo.jpg" 
-        alt="Moorosi Holdings Logo"
+        src="../images/midrandrubblelogo.jpeg" 
+        alt="Midrand Rubble Logo"
         placeholder="blurred"
-        /* These two props together force the distortion */
-        objectFit="fill" 
-        imgStyle={{ objectFit: 'fill' }}
+        width={60}
+        height={60}
+        className="logo-img"
       />
     </LogoStyles>
   );

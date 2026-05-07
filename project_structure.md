@@ -99,10 +99,11 @@
 │   │   ├── 📁 contexts
 │   │   │   └── 🟨 searchModalContext.js
 │   │   ├── 🖼️ images
-│   │   │   ├── 📄 midrandrubblelogo
 │   │   │   ├── 📄 demtMalnutrition.jpg
-│   │   │   ├── 📄 midrandrubble
-│   │   │   └── 📄 midrandrubble.jpg
+│   │   │   ├── 📄 midrandrubble - Copy.jpeg
+│   │   │   ├── 📄 midrandrubble.ico.jpeg
+│   │   │   ├── 📄 midrandrubble.jpeg
+│   │   │   └── 📄 midrandrubblelogo.jpeg
 │   │   ├── 📑 pages
 │   │   │   ├── 🟨 404.js
 │   │   │   └── 🟨 index.js
@@ -158,7 +159,7 @@
 │   │       └── 🟨 getSanityImageData.js
 │   ├── 📁 static
 │   │   ├── 📄 demt.ico
-│   │   └── 📄 midrandrubble
+│   │   └── 📄 moorosi-logo.jpg
 │   ├── 🟨 .eslintrc.js
 │   ├── 📄 .gitignore
 │   ├── 🟨 gatsby-browser.js
@@ -892,7 +893,7 @@ function printTree(dir, prefix = "", stream) {
 ```
 ## `README.md`
 ```
-![Moorosi Holdings](./midrandrubble.png)
+![Moorosi Holdings](./midrandrubble.jpeg)
 
 # Official web platform showcasing Tier-1 logistics, plant hire, and integrated facility management solutions. By Christian Simbarashe Dombodzvuku
 
@@ -2063,8 +2064,8 @@ const sanityConfig = require("./sanity-config.js");
 module.exports = {
   siteMetadata: {
     title: `Midrand Rubble Removal & Site Clearing`,
-    siteUrl: `https://midrandrubble.co.za`, // Update later when you have the domain
-    description: `Professional site clearing, rubble removal, and industrial waste management in Midrand.`,
+    siteUrl: `https://midrandrubble.netlify.app`, // Update when custom domain is linked
+    description: `Fast, affordable, same-day rubble removal, site clearing, and construction debris transport in Midrand, Centurion, Sandton, and Fourways.`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -3481,7 +3482,7 @@ function Footer() {
       <div className="container">
         <Logo />
         <ParagraphText className="footer__text">
-          "Moorosi Holdings and Logistics (Pty) Ltd is a 100% black-owned, Level 1 B-BBEE company based in Gauteng. We specialize in heavy machinery transport, civil engineering, and comprehensive soft and hard facility management services tailored to the public and private sectors."
+          Midrand Rubble Removal & Site Clearing is your trusted local partner for fast, efficient, and affordable debris management.
         </ParagraphText>
         <ul className="footer__menuList">
           {menu.map((item) => (
@@ -3500,11 +3501,12 @@ function Footer() {
           ))}
         </ul>
         <ParagraphText className="copyright">
-          Centurion, Gauteng
+          <strong>Location:</strong> 355 Nancy Ndamase Street, Klipfontein View, Lethabong, Midrand, 1685<br/>
+          <strong>Operating Hours:</strong> Monday to Sunday (6 AM to 6 PM)<br/>
+          <strong>Contacts:</strong> Sbusiso: 081 078 6434 | Tshiamo: 083 651 2596
         </ParagraphText>
         <ParagraphText className="copyright">
-          © Moorosi Holdings and Logistics (Pty) Ltd | Reg: 2026/040477/07 |{' '}
-          {new Date().getFullYear()} | All rights reserved
+          © Midrand Rubble Removal & Site Clearing | {new Date().getFullYear()} | All rights reserved
         </ParagraphText>
       </div>
     </FooterStyles>
@@ -3716,10 +3718,10 @@ export default FeaturedBlogs;
 ```
 import React from "react";
 import { StaticImage } from "gatsby-plugin-image";
-import { Link } from "gatsby";
 import { HeroSectionStyles } from "../../styles/homePage/HeroSectionStyles";
 import ParagraphText from "../typography/ParagraphText";
 import Button from "../buttons/Button";
+import { FaWhatsapp, FaPhoneAlt } from "react-icons/fa";
 
 function HeroSection() {
   return (
@@ -3727,24 +3729,44 @@ function HeroSection() {
       <div className="container">
         <div className="hero__wrapper">
           <div className="left">
+            <div className="badge">✅ SAME-DAY SERVICE AVAILABLE</div>
             <h1 className="hero__heading">
-              Precision Logistics & Integrated Infrastructure Solutions
+              Fast & Affordable Rubble Removal in Midrand
             </h1>
             <ParagraphText className="hero__text">
-              Moorosi Holdings & Logistics is an industry-leading Level 1 B-BBEE partner. We provide the heavy-lifting power and technical precision required to move South Africa’s largest assets and maintain its most critical environments.
+              We Load. We Clear. You Relax. Serving Midrand, Centurion, Sandton, and Fourways with reliable site clearing and construction debris transport.
             </ParagraphText>
-            <Button to="/activities" tag={Link} className="hero__button">
-              Command Your Project
-            </Button>
+            
+            <div className="hero__action-buttons">
+              <Button tag="a" href="https://wa.me/27786112695" target="_blank" className="btn-whatsapp">
+                <FaWhatsapp style={{ marginRight: '8px' }} /> WhatsApp Us
+              </Button>
+              <Button tag="a" href="tel:+27810786434" variant="outline" className="btn-call">
+                <FaPhoneAlt style={{ marginRight: '8px' }} /> Call Sbusiso
+              </Button>
+            </div>
           </div>
+
           <div className="right">
-            <StaticImage
-              className="hero__image"
-              src="../../images/demtMalnutrition.jpg" 
-              alt="Moorosi Holdings Heavy Plant and Logistics fleet"
-              placeholder="blurred"
-              objectPosition="50% 30%"
-            />
+            {/* NETLIFY QUICK QUOTE FORM */}
+            <div className="quote-form-container">
+              <h3>Get a Quick Quote</h3>
+              <form name="quick-quote" method="POST" data-netlify="true" action="/">
+                <input type="hidden" name="form-name" value="quick-quote" />
+                <input type="text" name="name" placeholder="Your Name" required />
+                <input type="tel" name="phone" placeholder="Phone / WhatsApp" required />
+                <select name="service" required>
+                  <option value="" disabled selected>Select Service...</option>
+                  <option value="Rubble Removal">Rubble Removal</option>
+                  <option value="Site Clearing">Site Clearing</option>
+                  <option value="Garden Waste">Garden Waste Removal</option>
+                  <option value="Construction Debris">Construction Debris</option>
+                  <option value="NP300 Transport">Small & Medium Transport</option>
+                </select>
+                <textarea name="message" placeholder="Briefly describe what needs clearing..." rows="3"></textarea>
+                <button type="submit" className="submit-btn">Send Request</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -3753,7 +3775,6 @@ function HeroSection() {
 }
 
 export default HeroSection;
-
 ```
 ## `web\src\components\homePage\TopCategories.js`
 ```
@@ -3805,9 +3826,9 @@ function TopCategories() {
 
   return (
     <TopCategoriesStyles>
-      <SectionTitle className="centre__text">Industrial Capabilities</SectionTitle>
+      <SectionTitle className="centre__text">Industrial Capabilities/Our Core Services</SectionTitle>
       <ParagraphText className="centre__text">
-        Mining Support, Civil Engineering, Heavy Plant Logistics, and Complete Hard/Soft Facilities Management.
+        From household garden waste to major construction site clearing, we have the NP300 fleet and manpower to handle it all.
       </ParagraphText>
       <SectionTitle className="centre__text">Vision</SectionTitle>
       <ParagraphText className="hero__text centre__text">
@@ -3866,7 +3887,7 @@ function Logo() {
     <LogoStyles to="/">
       <StaticImage 
         /* Ensure extension is .jpg as seen in your folder */
-        src="../images/midrandrubble" 
+        src="../images/midrandrubblelogo.jpeg" 
         alt="Moorosi Holdings Logo"
         placeholder="blurred"
         /* These two props together force the distortion */
@@ -4570,35 +4591,40 @@ import { IoIosMailUnread } from 'react-icons/io';
 
 export const socialLinks = [
   {
-    name: 'telephone',
-    url: 'tel:+27739775953',
+    name: "call-sbusiso",
+    url: "tel:+27810786434",
     icon: <FaPhoneSquareAlt />,
   },
   {
-    name: 'mail',
-    url: 'mailto:moorosiholdings@gmail.com',
-    icon: <IoIosMailUnread />,
+    name: "call-tshiamo",
+    url: "tel:+27836512596",
+    icon: <FaPhoneSquareAlt />,
   },
   {
-    name: 'whatsapp',
-    url: `https://wa.me/27739775953?text=${encodeURIComponent(
-      "Hello Moorosi Holdings, I am interested in your logistics and facility management capabilities. Please contact me."
+    name: "whatsapp",
+    url: `https://wa.me/27786112695?text=${encodeURIComponent(
+      "Hi Midrand Rubble Removal, I am interested in your services and I would like a quick quote",
     )}`,
     icon: <FaWhatsappSquare />,
   },
   {
-    name: 'facebook',
-    url: 'https://www.facebook.com/moorosiholdings',
+    name: "mail",
+    url: "mailto:midrandrubbleremoval1@gmail.com",
+    icon: <IoIosMailUnread />,
+  },
+  {
+    name: "facebook",
+    url: "https://www.facebook.com/midrandrubble",
     icon: <FaFacebook />,
   },
   {
-    name: 'twitter',
-    url: 'https://twitter.com/moorosiholdings_za',
+    name: "twitter",
+    url: "https://twitter.com/midrandrubble",
     icon: <FaTwitter />,
   },
   {
-    name: 'linkedin',
-    url: 'https://www.linkedin.com/company/moorosiholdings',
+    name: "linkedin",
+    url: "https://www.linkedin.com/company/midrandrubble",
     icon: <FaLinkedin />,
   },
 ];
@@ -5227,15 +5253,15 @@ const GlobalStyles = createGlobalStyle`
   }
 
   :root {
-    /* Moorosi Copper & Orange Theme */
-    --primary: #F37021; 
-    --secondary: #D45D1A; 
-    --darkBlue: #0A0A0A; /* Deep Charcoal/Black */
-    --darkPurple: #050505; 
-    --black-1: #080808; 
-    --black-2: rgba(25, 25, 25, 0.65); /* Glassmorphism Base */
-    --white-1: #E2E8F0;
-    --gray: #9BA4B5;
+    /* Construction Theme: High-Vis Yellow & Slate */
+    --primary: #FFCC00; /* Caterpillar Yellow */
+    --secondary: #E6A800; 
+    --darkBlue: #111111; 
+    --darkPurple: #1C1C1E; 
+    --black-1: #0A0A0B; 
+    --black-2: rgba(28, 28, 30, 0.85); 
+    --white-1: #F5F5F7;
+    --gray: #8E8E93;
     --grey: var(--gray);
     --white: #ffffff;
     --black: #000000;
@@ -5251,8 +5277,7 @@ const GlobalStyles = createGlobalStyle`
     line-height: 1.5;
     width: 100%;
     font-family: 'Inter', sans-serif;
-    /* Deep dark background with a very subtle warm orange radial glow at the top */
-    background: radial-gradient(circle at top right, #1A0D05 0%, var(--black-1) 50%, var(--black) 100%);
+    background: var(--black-1); /* Solid dark, no gradients needed for this theme */
     color: var(--white);
     overflow-x: hidden;
   }
@@ -5266,7 +5291,7 @@ const GlobalStyles = createGlobalStyle`
     transform: translate(-50%, -50%);
     width: 80vw;  /* Giant scale */
     height: 80vw;
-    background-image: url("/midrandrubble"); 
+    background-image: url("/midrandrubble.jpeg"); 
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -5504,128 +5529,118 @@ export const FeaturedBlogsStyles = styled.div`
 import styled from 'styled-components';
 
 export const HeroSectionStyles = styled.div`
-  min-height: 85vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
-
-  .container {
-    height: 100%;
-    z-index: 2;
-  }
+  background-color: var(--black-1);
 
   .hero__wrapper {
     width: 100%;
-    height: 100%;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 60%;
-      height: 100%;
-      /* Deep shadow fading out */
-      background: linear-gradient(135deg, rgba(5,5,5,0.95) 0%, rgba(10,5,0,0) 100%); 
-      z-index: -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+    padding: 120px 0 60px 0;
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--primary);
+    color: var(--black);
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  .hero__heading {
+    font-size: 4.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    color: var(--white);
+  }
+
+  .hero__text {
+    font-size: 1.6rem;
+    color: var(--white-1);
+    margin-bottom: 30px;
+  }
+
+  .hero__action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .btn-whatsapp {
+    background: #25D366 !important; /* Official WhatsApp Green */
+    color: white !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-call {
+    display: flex;
+    align-items: center;
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+  }
+
+  /* QUOTE FORM STYLING */
+  .quote-form-container {
+    background: var(--darkPurple);
+    padding: 40px;
+    border-radius: 12px;
+    border-top: 5px solid var(--primary);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+
+    h3 {
+      font-size: 2.2rem;
+      margin-bottom: 20px;
+      color: var(--white);
     }
 
-    .left {
-      width: 50%;
-      padding: 100px 0 50px 0;
-      opacity: 0;
-      animation: fadeUp 1s ease-out 0.2s forwards;
-
-      .hero__heading {
-        max-width: 550px;
-        font-size: 4rem;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 700;
-        margin: 0.5rem 0;
-        line-height: 1.2;
-        background: linear-gradient(to right, #ffffff, var(--primary));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .hero__text {
-        max-width: 450px;
-        font-size: 1.6rem;
-        margin-top: 1.5rem;
-        color: var(--white-1);
-      }
-
-      .hero__button {
-        margin-top: 2.5rem;
-      }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      border: 1px solid #333;
+      border-radius: 6px;
+      background: var(--black-1);
+      color: var(--white);
+      font-size: 1.4rem;
+      font-family: 'Inter', sans-serif;
     }
 
-    .right {
-      position: absolute;
-      right: 2%; 
-      top: 15%; 
-      width: 45%;
-      height: 70%;
-      z-index: 1;
-      opacity: 0;
-      animation: fadeUp 1.2s ease-out 0.4s forwards;
-
-      .hero__image {
-        width: 100%;
-        height: 100%;
-        border-radius: 24px; 
-        border: 2px solid rgba(243, 112, 33, 0.4); 
-        animation: glowPulse 3.5s infinite alternate; /* Dynamic Glow */
+    .submit-btn {
+      width: 100%;
+      background: var(--primary);
+      color: var(--black);
+      padding: 15px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.6rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      
+      &:hover {
+        background: var(--secondary);
       }
     }
   }
 
   @media only screen and (max-width: 768px) {
     .hero__wrapper {
-      height: 100%;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      flex-direction: column-reverse;
+      grid-template-columns: 1fr;
       padding-top: 100px;
-      padding-bottom: 80px;
-      
-      &::after { width: 100%; background: rgba(5,5,5,0.8); }
-
-      .right {
-        position: initial;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        margin-bottom: 3rem;
-        opacity: 0;
-        animation: fadeUp 0.8s ease-out 0.2s forwards;
-        
-        .hero__image {
-          height: 300px;
-          width: 90%; 
-          margin: 0 auto;
-          border-radius: 20px;
-        }
-      }
-
-      .left {
-        width: 100%;
-        margin-top: 1rem;
-        padding: 0;
-        opacity: 0;
-        animation: fadeUp 0.8s ease-out 0.4s forwards;
-        
-        .hero__heading {
-          max-width: 100%;
-          font-size: 3.2rem;
-        }
-        .hero__text { max-width: 100%; }
-      }
     }
+    .hero__heading { font-size: 3.5rem; }
   }
 `;
 ```

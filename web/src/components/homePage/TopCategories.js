@@ -51,13 +51,14 @@ function TopCategories() {
         From household garden waste to major construction site clearing, we have the NP300 fleet and manpower to handle it all.
       </ParagraphText>
       <SectionTitle className="centre__text">Vision</SectionTitle>
-      <ParagraphText className="hero__text centre__text">
-        To be the premier partner in infrastructure development, heavy logistics, and facility management across South Africa, driving operational excellence.
-      </ParagraphText>
-      <SectionTitle className="centre__text">Mission</SectionTitle>
-      <ParagraphText className="hero__text centre__text">
-        To deliver safe, reliable, and high-quality services in construction, transport, and facility maintenance, tailored to the dynamic needs of the public and private sectors. To provide unshakeable operational continuity for our clients through precision heavy-lift logistics, certified civil engineering, and proactive facility management.
-      </ParagraphText>
+        <ParagraphText className="hero__text centre__text">
+          To redefine site clearing and waste management in Gauteng by setting the absolute standard for speed, reliability, and environmental responsibility.
+        </ParagraphText>
+        
+        <SectionTitle className="centre__text">Mission</SectionTitle>
+        <ParagraphText className="hero__text centre__text">
+          To instantly remove the burden of construction debris and rubble from our clients' shoulders. We deploy rapid-response fleets and heavy-duty manpower to transform chaotic sites into clean, project-ready blank slates—same day, every day.
+        </ParagraphText>
       <SectionTitle className="centre__text">Our Values</SectionTitle>
       <ValueGrid DiginotiveValues={DiginotiveValues} />
       <SectionTitle className="centre__text">Our Objectives</SectionTitle>

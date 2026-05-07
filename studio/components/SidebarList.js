@@ -3,7 +3,7 @@ import { MdStar } from "react-icons/md";
 
 function SidebarList() {
   return S.list()
-    .title("Moorosi Holdings")
+    .title("Midrand Rubble Removal & Site Clearing")
     .items([
       S.listItem()
         .title("Spotlight")

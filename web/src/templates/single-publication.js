@@ -35,7 +35,7 @@ function SinglePublication({ data }) {
     <PageSpace top={80} bottom={100}>
       <SingleCategoryStyles>
         <div className="container">
-          <SEO title={`Moorosi Holdings - ${publication.title}`} />
+          <SEO title={`Midrand Rubble Removal & Site Clearing - ${publication.title}`} />
           <PageHeader title={publication.title} className="pageHeader">
             
             {publication.targetAudience && (

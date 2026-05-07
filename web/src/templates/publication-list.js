@@ -32,7 +32,7 @@ function Publications({ data, pageContext }) {
     <PageSpace top={80} bottom={100}>
       <SEO title="Publications & Books" />
       <div className="container">
-        <PageHeader title="Company Documents & Compliance" description="Access Moorosi Holdings' company profiles, B-BBEE certificates, CSD registration, and operational capabilities literature." />
+        <PageHeader title="Company Documents & Compliance" description="Access Midrand Rubble Removal & Site Clearing' company profiles, B-BBEE certificates, CSD registration, and operational capabilities literature." />
         <BlogGrid blogs={publications} prefix="publications" />
         {numberOfPages > 1 && (
           <Pagination currentPage={currentPage} numberOfPages={numberOfPages} baseURL="/publications" />

@@ -30,7 +30,7 @@ function SingleActivity({ data }) {
     <PageSpace top={80} bottom={100}>
       <SingleCategoryStyles>
         <div className="container">
-          <SEO title={`Moorosi Holdings - ${activity.title}`} /> 
+          <SEO title={`Midrand Rubble Removal & Site Clearing - ${activity.title}`} /> 
           
           <PageHeader title={activity.title} className="pageHeader">
             {/* This displays the Short Description in the header area */}

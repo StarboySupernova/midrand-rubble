@@ -69,7 +69,7 @@ function FeaturedBlogs() {
         Latest Projects, News & Updates
       </SectionTitle>
       <ParagraphText className="featuredBlogs__text">
-        Stay informed with the latest insights into Moorosi Holdings' fleet deployments, heavy-lift projects, promotions and corporate milestones.
+        Stay informed with the latest insights into Midrand Rubble Removal & Site Clearing' fleet deployments, heavy-lift projects, promotions and corporate milestones.
       </ParagraphText>
       <BlogGrid blogs={spotlightBlogs} />
     </FeaturedBlogsStyles>

@@ -36,7 +36,7 @@ function AuthorList({ data, pageContext }) {
       <div className="container">
         <PageHeader
             title="Executive Leadership"
-            description="Led by industry veterans, our team guarantees precision, safety, and scale. As a 100% Black-Owned, Level 1 B-BBEE entity, partnering with Moorosi Holdings grants your business 135% Procurement Recognition."
+            description="Led by industry veterans, our team guarantees precision, safety, and scale. As a 100% Black-Owned, Level 1 B-BBEE entity, partnering with Midrand Rubble Removal & Site Clearing grants your business 135% Procurement Recognition."
         />
         <AuthorGrid authors={authors} />
         {numberOfPages > 1 && (

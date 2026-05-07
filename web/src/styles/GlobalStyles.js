@@ -36,7 +36,7 @@ const GlobalStyles = createGlobalStyle`
     /* Deep dark base with vibrant ambient glowing orbs */
     background-color: var(--black-1);
     /* We add a subtle dark overlay over the waves so your white text stays 100% readable */
-    background-image: linear-gradient(rgba(10, 10, 11, 0.4), rgba(10, 10, 11, 0.8)), url('/bg-waves.jpg');
+    background-image: linear-gradient(rgba(10, 10, 11, 0.4), rgba(10, 10, 11, 0.8)), url('/bg-waves.svg');
     background-size: cover;
     background-position: top center;
     background-attachment: fixed;

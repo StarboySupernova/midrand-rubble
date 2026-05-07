@@ -1,10 +1,10 @@
-![Moorosi Holdings](./midrandrubble.jpeg)
+![Midrand Rubble Removal & Site Clearing](./midrandrubble.jpeg)
 
 # Official web platform showcasing Tier-1 logistics, plant hire, and integrated facility management solutions. By Christian Simbarashe Dombodzvuku
 
 A complete full-stack web-app created with `JAMstack`. ([Gatsby.js](https://www.gatsbyjs.org/) & [Sanity.io](https://sanity.io)).
 
-# Moorosi Holdings and Logistics (Pty) Ltd
+# Midrand Rubble Removal & Site Clearing (Pty) Ltd
 Official B2B Platform for Level 1 B-BBEE Heavy Logistics and Facility Management.
 
 ## Corporate Identity

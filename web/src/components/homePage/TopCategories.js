@@ -79,26 +79,29 @@ function TopCategories() {
 
   return (
     <TopCategoriesStyles>
-      
       {/* THE DYNAMIC STACKED CARDS */}
       <div className="card-stack-wrapper">
         <div className="card-stack-container">
           {stackedCards.map((card, index) => {
             const isTop = index === stackedCards.length - 1;
-            // Calculate how far down the stack the card is (0 = top)
             const offset = stackedCards.length - 1 - index;
-            
+
             return (
               <div
                 key={card.id}
-                className={`stacked-card ${card.theme}`}
+                className={`stacked-card ${card.theme} card-depth-${offset}`}
                 onClick={() => handleCardClick(card.id)}
                 style={{
                   zIndex: index,
-                  // The mathematical magic for the 3D stack effect
-                  transform: `translate(${offset * 15}px, ${offset * 20}px) scale(${1 - offset * 0.05})`,
-                  opacity: isTop ? 1 : 1 - (offset * 0.2),
-                  cursor: isTop ? 'default' : 'pointer'
+                  /* 
+           DESKTOP: Horizontal Spread (offset * 60px)
+           MOBILE: Vertical Spread (handled in CSS via Media Queries)
+           We use a CSS variable for the offset so we can change 
+           the fan direction easily in the stylesheet.
+        */
+                  "--card-offset": offset,
+                  opacity: isTop ? 1 : 0.9,
+                  cursor: isTop ? "default" : "pointer",
                 }}
               >
                 <div className="card-header">
@@ -108,7 +111,6 @@ function TopCategories() {
                 <div className="card-body">
                   <p>{card.text}</p>
                 </div>
-                {/* Invisible overlay ensures smooth clicking on background cards */}
                 {!isTop && <div className="card-click-overlay"></div>}
               </div>
             );
@@ -120,15 +122,23 @@ function TopCategories() {
 
       <div style={{ marginTop: "6rem" }}>
         <SectionTitle className="centre__text">Operational Values</SectionTitle>
-        <ParagraphText className="centre__text" style={{ marginBottom: "2rem" }}>
+        <ParagraphText
+          className="centre__text"
+          style={{ marginBottom: "2rem" }}
+        >
           The core principles that govern our rapid-response units.
         </ParagraphText>
         <ValueGrid DiginotiveValues={DiginotiveValues} />
       </div>
 
       <div style={{ marginTop: "6rem" }}>
-        <SectionTitle className="centre__text">Strategic Objectives</SectionTitle>
-        <ParagraphText className="centre__text" style={{ marginBottom: "2rem" }}>
+        <SectionTitle className="centre__text">
+          Strategic Objectives
+        </SectionTitle>
+        <ParagraphText
+          className="centre__text"
+          style={{ marginBottom: "2rem" }}
+        >
           How we measure our dominance in the site clearing industry.
         </ParagraphText>
         <ObjectiveGrid objectives={objectives} />

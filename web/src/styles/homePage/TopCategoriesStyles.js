@@ -2,24 +2,21 @@ import styled from 'styled-components';
 
 export const TopCategoriesStyles = styled.div`
   padding: 5rem 0;
-  
-  .centre__text {
-    text-align: center;
-  }
-  
-  /* --- DYNAMIC STACKED CARDS UI --- */
+  overflow: hidden;
+
   .card-stack-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 4rem 0 8rem 0;
+    margin: 6rem 0 10rem 0;
+    padding-right: 120px; /* Space for the fan on desktop */
   }
 
   .card-stack-container {
     position: relative;
     width: 100%;
-    max-width: 800px;
-    height: 320px; /* Base height for Desktop */
+    max-width: 700px; /* Slightly narrower to show more background */
+    height: 350px;
   }
 
   .stacked-card {
@@ -28,130 +25,106 @@ export const TopCategoriesStyles = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: 24px;
+    border-radius: 28px;
     padding: 40px;
-    /* This creates the smooth shuffle animation */
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: -10px 20px 40px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    
+    /* DESKTOP FAN-OUT LOGIC */
+    /* Spreads cards to the right and adds a slight 3D perspective rotation */
+    transform: translate(calc(var(--card-offset) * 55px), calc(var(--card-offset) * 15px)) 
+               rotate(calc(var(--card-offset) * -1.5deg))
+               scale(calc(1 - var(--card-offset) * 0.04));
   }
+
+  /* Make background cards feel deeper and slightly darker */
+  .card-depth-1 { filter: brightness(0.8) blur(0.5px); }
+  .card-depth-2 { filter: brightness(0.6) blur(1px); }
 
   .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
   }
 
   .card-header h3 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 800;
     font-family: 'Poppins', sans-serif;
-    letter-spacing: -0.5px;
   }
 
-  /* Badge Icon resembling the iOS reference */
   .card-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    font-size: 2.2rem;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    font-size: 2rem;
+    flex-shrink: 0;
   }
 
   .card-body p {
-    font-size: 1.6rem;
-    line-height: 1.6;
-    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    opacity: 0.9;
   }
 
   .card-click-overlay {
     position: absolute;
     inset: 0;
     z-index: 10;
-    background: transparent;
   }
 
-  /* --- CARD THEMES (Matching Midrand Rubble) --- */
-  
+  /* --- THEMES --- */
   .theme-yellow {
-    background: linear-gradient(135deg, var(--primary) 0%, #D4A000 100%);
-    color: var(--black);
-    .card-icon {
-      background: var(--black);
-      color: var(--primary);
-    }
+    background: linear-gradient(135deg, #FFCC00 0%, #E6A800 100%);
+    color: #000;
+    .card-icon { background: #000; color: #FFCC00; }
   }
 
   .theme-dark {
-    background: rgba(20, 20, 22, 0.95);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: rgba(15, 15, 18, 0.9);
+    backdrop-filter: blur(20px);
     border: 1px solid var(--primary);
-    color: var(--white);
-    .card-icon {
-      background: var(--primary);
-      color: var(--black);
-    }
+    color: #fff;
+    .card-icon { background: var(--primary); color: #000; }
   }
 
   .theme-slate {
-    background: rgba(40, 40, 45, 0.95);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    background: rgba(45, 45, 55, 0.9);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--white-1);
-    .card-icon {
-      background: rgba(255,255,255,0.1);
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.2);
-    }
+    color: #fff;
+    .card-icon { background: rgba(255,255,255,0.1); color: #fff; }
   }
 
-  /* --- RESPONSIVE HEIGHT TRADEOFFS --- */
-  /* Because absolute positioning removes items from the flow, we must manually scale the container height on smaller screens where text wraps and takes up more vertical space. */
-
+  /* --- RESPONSIVE: VERTICAL FAN-OUT --- */
   @media only screen and (max-width: 900px) {
-    .card-stack-container {
-      height: 380px;
+    .card-stack-wrapper {
+      padding-right: 0;
+      padding-bottom: 80px; /* Space for the vertical fan */
     }
-  }
-
-  @media only screen and (max-width: 768px) {
     .card-stack-container {
-      height: 480px; 
       max-width: 90%;
+      height: 400px;
     }
     .stacked-card {
-      padding: 30px 20px;
-    }
-    .card-header h3 {
-      font-size: 2rem;
-    }
-    .card-body p {
-      font-size: 1.4rem;
-    }
-    .card-icon {
-      width: 45px;
-      height: 45px;
-      font-size: 1.8rem;
+        /* Switch to Vertical Stack */
+      transform: translate(0, calc(var(--card-offset) * 45px)) 
+                 scale(calc(1 - var(--card-offset) * 0.05));
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
   }
 
-  @media only screen and (max-width: 480px) {
+  @media only screen and (max-width: 600px) {
     .card-stack-container {
-      height: 550px; 
+      height: 500px;
     }
-  }
-  
-  @media only screen and (max-width: 380px) {
-    .card-stack-container {
-      height: 600px; 
-    }
+    .card-header h3 { font-size: 1.8rem; }
+    .card-body p { font-size: 1.3rem; }
   }
 `;

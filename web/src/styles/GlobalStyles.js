@@ -34,11 +34,13 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Inter', sans-serif;
     
     /* Deep dark base with vibrant ambient glowing orbs */
-    background-color: #080809;
-    background-image: 
-      radial-gradient(circle at 15% 30%, rgba(255, 204, 0, 0.08) 0%, transparent 40%),
-      radial-gradient(circle at 85% 70%, rgba(255, 100, 0, 0.06) 0%, transparent 40%);
+    background-color: var(--black-1);
+    /* We add a subtle dark overlay over the waves so your white text stays 100% readable */
+    background-image: linear-gradient(rgba(10, 10, 11, 0.4), rgba(10, 10, 11, 0.8)), url('/bg-waves.jpg');
+    background-size: cover;
+    background-position: top center;
     background-attachment: fixed;
+    background-repeat: no-repeat;
     
     color: var(--white);
     overflow-x: hidden;

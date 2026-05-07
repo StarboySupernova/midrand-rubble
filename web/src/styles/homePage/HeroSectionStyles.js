@@ -6,7 +6,6 @@ export const HeroSectionStyles = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: var(--black-1);
 
   .hero__wrapper {
     width: 100%;

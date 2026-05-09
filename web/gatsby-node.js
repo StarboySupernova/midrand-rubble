@@ -2,8 +2,6 @@
 exports.createPages = async ({ graphql, actions }) => {
   const postsPerPage = parseInt(process.env.GATSBY_POST_PER_PAGE) || 3;
   // resolving templates paths
-  const singlePublicationTemplate = require.resolve('./src/templates/single-publication.js');
-  const publicationListTemplate = require.resolve('./src/templates/publication-list.js');
   const singleBlogTemplate = require.resolve('./src/templates/single-blog.js');
   const singleCategoryTemplate = require.resolve(
     './src/templates/single-category.js'
@@ -59,7 +57,6 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      allSanityPublication { nodes { id, slug { current } } }
     }
   `);
 
@@ -70,7 +67,6 @@ exports.createPages = async ({ graphql, actions }) => {
   const categories = (result.data.allSanityCategory.nodes || []).filter(n => n.slug?.current);
   const authors = (result.data.allSanityAuthor.nodes || []).filter(n => n.slug?.current);
   const activities = (result.data.allSanityActivity.nodes || []).filter(n => n.slug?.current);
-  const publications = (result.data.allSanityPublication.nodes || []).filter(n => n.slug?.current);
   
   // creating single blog pages
   blogs.forEach((blog) => {
@@ -137,15 +133,6 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // Creating single publication pages
-  publications.forEach((pub) => {
-    actions.createPage({
-      path: `/publications/${pub.slug.current}`,
-      component: singlePublicationTemplate,
-      context: { id: pub.id },
-    });
-  });
-
   // blogs paginated pages
   const totalBlogListPages = Math.ceil(blogs.length / postsPerPage);
   Array.from({ length: totalBlogListPages }).forEach((_, index) => {
@@ -203,16 +190,6 @@ exports.createPages = async ({ graphql, actions }) => {
         numberOfPages: totalActivityListPages,
         currentPage: index + 1,
       },
-    });
-  });
-
-  // publication paginated pages
-  const totalPubPages = Math.ceil(publications.length / postsPerPage) || 1;
-  Array.from({ length: totalPubPages }).forEach((_, i) => {
-    actions.createPage({
-      path: i === 0 ? `/publications` : `/publications/${i + 1}`,
-      component: publicationListTemplate,
-      context: { limit: postsPerPage, offset: i * postsPerPage, numberOfPages: totalPubPages, currentPage: i + 1 },
     });
   });
 };

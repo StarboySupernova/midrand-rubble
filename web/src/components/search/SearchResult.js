@@ -5,7 +5,6 @@ import {
   BlogSearchResultItem,
   CategorySearchResultItem,
   ActivitySearchResultItem,
-  PublicationSearchResultItem,
   ObjectiveSearchResultItem,
   ValueSearchResultItem,
 } from "./SearchResultItem";
@@ -17,7 +16,6 @@ function SearchResult({
   categoriesIndexStore,
   authorsIndexStore,
   activitiesIndexStore,
-  publicationsIndexStore,
   objectivesIndexStore,
   valuesIndexStore,
 }) {
@@ -41,11 +39,6 @@ function SearchResult({
     JSON.stringify(activitiesIndexStore.index),
     activitiesIndexStore.store,
   );
-  const publicationsResult = useFlexSearch(
-    searchQuery,
-    JSON.stringify(publicationsIndexStore.index),
-    publicationsIndexStore.store,
-  );
   const objectivesResult = useFlexSearch(
     searchQuery,
     JSON.stringify(objectivesIndexStore.index),
@@ -62,7 +55,6 @@ function SearchResult({
     categoriesResult.length === 0 &&
     authorsResult.length === 0 &&
     activitiesResult.length === 0 &&
-    publicationsResult.length === 0 &&
     objectivesResult.length === 0 &&
     valuesResult.length === 0
   ) {
@@ -76,14 +68,6 @@ function SearchResult({
           <ParagraphText>Insights & News</ParagraphText>
           {blogsResult.map((result) => (
             <BlogSearchResultItem key={result.id} blog={result} />
-          ))}
-        </>
-      )}
-      {publicationsResult.length > 0 && (
-        <>
-          <ParagraphText>Corporate Credentials</ParagraphText>
-          {publicationsResult.map((result) => (
-            <PublicationSearchResultItem key={result.id} publication={result} />
           ))}
         </>
       )}

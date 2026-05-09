@@ -27,10 +27,6 @@ const query = graphql`
       publicStoreURL
       publicIndexURL
     }
-    localSearchPublications {
-      publicStoreURL
-      publicIndexURL
-    }
     localSearchObjectives {
       publicStoreURL
       publicIndexURL
@@ -51,7 +47,6 @@ function Search() {
   const [categoriesIndexStore, setCategoriesIndexStore] = useState(null);
   const [authorsIndexStore, setAuthorsIndexStore] = useState(null);
   const [activitiesIndexStore, setActivitiesIndexStore] = useState(null);
-  const [publicationsIndexStore, setPublicationsIndexStore] = useState(null);
   const [objectivesIndexStore, setObjectivesIndexStore] = useState(null);
   const [valuesIndexStore, setValuesIndexStore] = useState(null);
 
@@ -67,7 +62,7 @@ function Search() {
   }, [isSearchModalOpen]);
 
   const handleOnFocus = async () => {
-    if (blogsIndexStore && publicationsIndexStore) return;
+    if (blogsIndexStore) return;
     const [
       { data: blogsIndex },
       { data: blogsStore },
@@ -77,8 +72,6 @@ function Search() {
       { data: authorsStore },
       { data: activitiesIndex },
       { data: activitiesStore },
-      { data: publicationsIndex },
-      { data: publicationsStore },
       { data: objectivesIndex },
       { data: objectivesStore },
       { data: valuesIndex },
@@ -92,8 +85,6 @@ function Search() {
       axios.get(`${data.localSearchAuthors.publicStoreURL}`),
       axios.get(`${data.localSearchActivities.publicIndexURL}`),
       axios.get(`${data.localSearchActivities.publicStoreURL}`),
-      axios.get(`${data.localSearchPublications.publicIndexURL}`),
-      axios.get(`${data.localSearchPublications.publicStoreURL}`),
       axios.get(`${data.localSearchObjectives.publicIndexURL}`),
       axios.get(`${data.localSearchObjectives.publicStoreURL}`),
       axios.get(`${data.localSearchValues.publicIndexURL}`),
@@ -104,10 +95,6 @@ function Search() {
     setCategoriesIndexStore({ index: categoriesIndex, store: categoriesStore });
     setAuthorsIndexStore({ index: authorsIndex, store: authorsStore });
     setActivitiesIndexStore({ index: activitiesIndex, store: activitiesStore });
-    setPublicationsIndexStore({
-      index: publicationsIndex,
-      store: publicationsStore,
-    });
     setObjectivesIndexStore({ index: objectivesIndex, store: objectivesStore });
     setValuesIndexStore({ index: valuesIndex, store: valuesStore });
   };
@@ -130,7 +117,6 @@ function Search() {
           categoriesIndexStore &&
           authorsIndexStore &&
           activitiesIndexStore &&
-          publicationsIndexStore &&
           objectivesIndexStore &&
           valuesIndexStore && (    
             <div className="search__result">
@@ -140,7 +126,6 @@ function Search() {
                 categoriesIndexStore={categoriesIndexStore}
                 authorsIndexStore={authorsIndexStore}
                 activitiesIndexStore={activitiesIndexStore}
-                publicationsIndexStore={publicationsIndexStore}
                 objectivesIndexStore={objectivesIndexStore}
                 valuesIndexStore={valuesIndexStore}
               />

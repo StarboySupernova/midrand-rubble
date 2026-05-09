@@ -41,13 +41,6 @@ function FeaturedBlogs() {
   const spotlightNode = data.allSanitySpotlight.nodes[0];
   const rawBlogs = spotlightNode?.blogs || [];
 
-  // Map the items and determine the URL prefix based on the Sanity Type
-  const spotlightBlogs = rawBlogs.map((item) => ({
-    ...item,
-    categories: item.categories || [],
-    prefix: item._type === "publication" ? "publications" : "spotlight",
-  }));
-
   return (
    <FeaturedBlogsStyles>
       <SectionTitle className="centre__text">

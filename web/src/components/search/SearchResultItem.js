@@ -76,25 +76,6 @@ function ActivitySearchResultItem({ activity }) {
   );
 }
 
-function PublicationSearchResultItem({ publication }) {
-  const { closeSearchModal } = useContext(SearchModalContext);
-  return (
-    <SearchResultItemStyles
-      to={`/publications/${publication.slug?.current}`}
-      onClick={() => closeSearchModal()}
-    >
-      {publication.coverImage?.asset && (
-        <GatsbyImage
-          image={publication.coverImage.asset.gatsbyImageData}
-          alt={publication.coverImage.alt || publication.title}
-          className="img"
-        />
-      )}
-      <Title className="title">{publication.title}</Title>
-    </SearchResultItemStyles>
-  );
-}
-
 function ObjectiveSearchResultItem({ objective }) {
   const { closeSearchModal } = useContext(SearchModalContext);
   return (
@@ -118,7 +99,6 @@ export {
   BlogSearchResultItem,
   AuthorSearchResultItem,
   ActivitySearchResultItem,
-  PublicationSearchResultItem,
   ObjectiveSearchResultItem,
   ValueSearchResultItem,
 };

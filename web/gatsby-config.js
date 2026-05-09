@@ -171,36 +171,6 @@ module.exports = {
     {
       resolve: `gatsby-plugin-local-search`,
       options: {
-        name: `publications`,
-        engine: `flexsearch`,
-        engineOptions: { tokenize: "forward" },
-        query: `
-    {
-      allSanityPublication {
-        nodes {
-          id
-          title
-          slug { current }
-          coverImage { alt, asset { gatsbyImageData } }
-        }
-      }
-    } 
-    `,
-        ref: "id",
-        index: ["title"],
-        store: ["id", "title", "slug", "coverImage"],
-        normalizer: ({ data }) =>
-          data.allSanityPublication.nodes.map((node) => ({
-            id: node.id,
-            title: node.title,
-            slug: node.slug,
-            coverImage: node.coverImage,
-          })),
-      },
-    },
-    {
-      resolve: `gatsby-plugin-local-search`,
-      options: {
         name: `objectives`,
         engine: `flexsearch`,
         engineOptions: { tokenize: "forward" },

@@ -1,11 +1,11 @@
 # Project Overview
 
 ## Project Summary
-- Total Files (tracked): 114
+- Total Files (tracked): 111
 
 ### Language Breakdown
-- JavaScript: 100 files (87.7%)
-- JSON: 12 files (10.5%)
+- JavaScript: 97 files (87.4%)
+- JSON: 12 files (10.8%)
 - Markdown: 2 files (1.8%)
 
 ## Project Structure
@@ -30,7 +30,6 @@
 │   │   │   ├── 🟨 blog.js
 │   │   │   ├── 🟨 category.js
 │   │   │   ├── 🟨 objective.js
-│   │   │   ├── 🟨 publication.js
 │   │   │   ├── 🟨 service.js
 │   │   │   ├── 🟨 spotlight.js
 │   │   │   └── 🟨 value.js
@@ -149,12 +148,10 @@
 │   │   │   ├── 🟨 author-list.js
 │   │   │   ├── 🟨 blog-list.js
 │   │   │   ├── 🟨 category-list.js
-│   │   │   ├── 🟨 publication-list.js
 │   │   │   ├── 🟨 single-activity.js
 │   │   │   ├── 🟨 single-author.js
 │   │   │   ├── 🟨 single-blog.js
-│   │   │   ├── 🟨 single-category.js
-│   │   │   └── 🟨 single-publication.js
+│   │   │   └── 🟨 single-category.js
 │   │   └── 🛠️ utils
 │   │       └── 🟨 getSanityImageData.js
 │   ├── 📁 static
@@ -1687,60 +1684,6 @@ export default {
 };
 
 ```
-## `studio\schemas\documents\publication.js`
-```
-import { FcLibrary } from 'react-icons/fc';
-
-export default {
-  name: 'publication',
-  title: 'Corporate Credentials & Documentation', // Changed from "Publication & Books"
-  type: 'document',
-  icon: FcLibrary,
-  fields: [
-    { 
-      name: 'title', 
-      title: 'Document or Certification Name', // Changed from "Book/Series Title"
-      type: 'string' 
-    },
-    { 
-      name: 'slug', 
-      title: 'URL Identifier', // Changed from "Slug"
-      type: 'slug', 
-      options: { source: 'title' } 
-    },
-    {
-      name: 'author',
-      title: 'Issuing Department / Team', // Changed from "Author/Team"
-      type: 'reference',
-      to: [{ type: 'author' }],
-    },
-    { 
-      name: 'coverImage', 
-      title: 'Document Preview Image (or Badge)', // Changed from "Book Cover"
-      type: 'customImage' 
-    },
-    {
-      name: 'targetAudience',
-      title: 'Restricted Stakeholders / Intended For', // Changed from "Target Audience"
-      type: 'string',
-      description: 'e.g., Tendering Committees, Legal Auditors, General Partners',
-    },
-    { 
-      name: 'description', 
-      title: 'Executive Summary', // Changed from "Synopsis"
-      type: 'richText' 
-    },
-    {
-      name: 'documentUpload',
-      title: 'Certified Digital Copy (PDF/Office)', // Changed from "Document Upload"
-      type: 'file',
-      options: {
-        storeOriginalFilename: true, 
-      },
-    },
-  ],
-};
-```
 ## `studio\schemas\documents\service.js`
 ```
 import { FcServices } from 'react-icons/fc';
@@ -2230,36 +2173,6 @@ module.exports = {
     {
       resolve: `gatsby-plugin-local-search`,
       options: {
-        name: `publications`,
-        engine: `flexsearch`,
-        engineOptions: { tokenize: "forward" },
-        query: `
-    {
-      allSanityPublication {
-        nodes {
-          id
-          title
-          slug { current }
-          coverImage { alt, asset { gatsbyImageData } }
-        }
-      }
-    } 
-    `,
-        ref: "id",
-        index: ["title"],
-        store: ["id", "title", "slug", "coverImage"],
-        normalizer: ({ data }) =>
-          data.allSanityPublication.nodes.map((node) => ({
-            id: node.id,
-            title: node.title,
-            slug: node.slug,
-            coverImage: node.coverImage,
-          })),
-      },
-    },
-    {
-      resolve: `gatsby-plugin-local-search`,
-      options: {
         name: `objectives`,
         engine: `flexsearch`,
         engineOptions: { tokenize: "forward" },
@@ -2313,8 +2226,6 @@ module.exports = {
 exports.createPages = async ({ graphql, actions }) => {
   const postsPerPage = parseInt(process.env.GATSBY_POST_PER_PAGE) || 3;
   // resolving templates paths
-  const singlePublicationTemplate = require.resolve('./src/templates/single-publication.js');
-  const publicationListTemplate = require.resolve('./src/templates/publication-list.js');
   const singleBlogTemplate = require.resolve('./src/templates/single-blog.js');
   const singleCategoryTemplate = require.resolve(
     './src/templates/single-category.js'
@@ -2370,7 +2281,6 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
       }
-      allSanityPublication { nodes { id, slug { current } } }
     }
   `);
 
@@ -2381,7 +2291,6 @@ exports.createPages = async ({ graphql, actions }) => {
   const categories = (result.data.allSanityCategory.nodes || []).filter(n => n.slug?.current);
   const authors = (result.data.allSanityAuthor.nodes || []).filter(n => n.slug?.current);
   const activities = (result.data.allSanityActivity.nodes || []).filter(n => n.slug?.current);
-  const publications = (result.data.allSanityPublication.nodes || []).filter(n => n.slug?.current);
   
   // creating single blog pages
   blogs.forEach((blog) => {
@@ -2448,15 +2357,6 @@ exports.createPages = async ({ graphql, actions }) => {
     });
   });
 
-  // Creating single publication pages
-  publications.forEach((pub) => {
-    actions.createPage({
-      path: `/publications/${pub.slug.current}`,
-      component: singlePublicationTemplate,
-      context: { id: pub.id },
-    });
-  });
-
   // blogs paginated pages
   const totalBlogListPages = Math.ceil(blogs.length / postsPerPage);
   Array.from({ length: totalBlogListPages }).forEach((_, index) => {
@@ -2514,16 +2414,6 @@ exports.createPages = async ({ graphql, actions }) => {
         numberOfPages: totalActivityListPages,
         currentPage: index + 1,
       },
-    });
-  });
-
-  // publication paginated pages
-  const totalPubPages = Math.ceil(publications.length / postsPerPage) || 1;
-  Array.from({ length: totalPubPages }).forEach((_, i) => {
-    actions.createPage({
-      path: i === 0 ? `/publications` : `/publications/${i + 1}`,
-      component: publicationListTemplate,
-      context: { limit: postsPerPage, offset: i * postsPerPage, numberOfPages: totalPubPages, currentPage: i + 1 },
     });
   });
 };
@@ -3672,13 +3562,6 @@ function FeaturedBlogs() {
   const spotlightNode = data.allSanitySpotlight.nodes[0];
   const rawBlogs = spotlightNode?.blogs || [];
 
-  // Map the items and determine the URL prefix based on the Sanity Type
-  const spotlightBlogs = rawBlogs.map((item) => ({
-    ...item,
-    categories: item.categories || [],
-    prefix: item._type === "publication" ? "publications" : "spotlight",
-  }));
-
   return (
    <FeaturedBlogsStyles>
       <SectionTitle className="centre__text">
@@ -3687,7 +3570,7 @@ function FeaturedBlogs() {
       <ParagraphText className="featuredBlogs__text">
         Real-time glimpses into our recent rubble removal projects and fleet deployments across Gauteng.
       </ParagraphText>
-      <BlogGrid blogs={spotlightBlogs} />
+      <BlogGrid blogs={rawBlogs} />
     </FeaturedBlogsStyles>
   );
 }
@@ -4182,10 +4065,6 @@ const query = graphql`
       publicStoreURL
       publicIndexURL
     }
-    localSearchPublications {
-      publicStoreURL
-      publicIndexURL
-    }
     localSearchObjectives {
       publicStoreURL
       publicIndexURL
@@ -4206,7 +4085,6 @@ function Search() {
   const [categoriesIndexStore, setCategoriesIndexStore] = useState(null);
   const [authorsIndexStore, setAuthorsIndexStore] = useState(null);
   const [activitiesIndexStore, setActivitiesIndexStore] = useState(null);
-  const [publicationsIndexStore, setPublicationsIndexStore] = useState(null);
   const [objectivesIndexStore, setObjectivesIndexStore] = useState(null);
   const [valuesIndexStore, setValuesIndexStore] = useState(null);
 
@@ -4222,7 +4100,7 @@ function Search() {
   }, [isSearchModalOpen]);
 
   const handleOnFocus = async () => {
-    if (blogsIndexStore && publicationsIndexStore) return;
+    if (blogsIndexStore) return;
     const [
       { data: blogsIndex },
       { data: blogsStore },
@@ -4232,8 +4110,6 @@ function Search() {
       { data: authorsStore },
       { data: activitiesIndex },
       { data: activitiesStore },
-      { data: publicationsIndex },
-      { data: publicationsStore },
       { data: objectivesIndex },
       { data: objectivesStore },
       { data: valuesIndex },
@@ -4247,8 +4123,6 @@ function Search() {
       axios.get(`${data.localSearchAuthors.publicStoreURL}`),
       axios.get(`${data.localSearchActivities.publicIndexURL}`),
       axios.get(`${data.localSearchActivities.publicStoreURL}`),
-      axios.get(`${data.localSearchPublications.publicIndexURL}`),
-      axios.get(`${data.localSearchPublications.publicStoreURL}`),
       axios.get(`${data.localSearchObjectives.publicIndexURL}`),
       axios.get(`${data.localSearchObjectives.publicStoreURL}`),
       axios.get(`${data.localSearchValues.publicIndexURL}`),
@@ -4259,10 +4133,6 @@ function Search() {
     setCategoriesIndexStore({ index: categoriesIndex, store: categoriesStore });
     setAuthorsIndexStore({ index: authorsIndex, store: authorsStore });
     setActivitiesIndexStore({ index: activitiesIndex, store: activitiesStore });
-    setPublicationsIndexStore({
-      index: publicationsIndex,
-      store: publicationsStore,
-    });
     setObjectivesIndexStore({ index: objectivesIndex, store: objectivesStore });
     setValuesIndexStore({ index: valuesIndex, store: valuesStore });
   };
@@ -4285,7 +4155,6 @@ function Search() {
           categoriesIndexStore &&
           authorsIndexStore &&
           activitiesIndexStore &&
-          publicationsIndexStore &&
           objectivesIndexStore &&
           valuesIndexStore && (    
             <div className="search__result">
@@ -4295,7 +4164,6 @@ function Search() {
                 categoriesIndexStore={categoriesIndexStore}
                 authorsIndexStore={authorsIndexStore}
                 activitiesIndexStore={activitiesIndexStore}
-                publicationsIndexStore={publicationsIndexStore}
                 objectivesIndexStore={objectivesIndexStore}
                 valuesIndexStore={valuesIndexStore}
               />
@@ -4318,7 +4186,6 @@ import {
   BlogSearchResultItem,
   CategorySearchResultItem,
   ActivitySearchResultItem,
-  PublicationSearchResultItem,
   ObjectiveSearchResultItem,
   ValueSearchResultItem,
 } from "./SearchResultItem";
@@ -4330,7 +4197,6 @@ function SearchResult({
   categoriesIndexStore,
   authorsIndexStore,
   activitiesIndexStore,
-  publicationsIndexStore,
   objectivesIndexStore,
   valuesIndexStore,
 }) {
@@ -4354,11 +4220,6 @@ function SearchResult({
     JSON.stringify(activitiesIndexStore.index),
     activitiesIndexStore.store,
   );
-  const publicationsResult = useFlexSearch(
-    searchQuery,
-    JSON.stringify(publicationsIndexStore.index),
-    publicationsIndexStore.store,
-  );
   const objectivesResult = useFlexSearch(
     searchQuery,
     JSON.stringify(objectivesIndexStore.index),
@@ -4375,7 +4236,6 @@ function SearchResult({
     categoriesResult.length === 0 &&
     authorsResult.length === 0 &&
     activitiesResult.length === 0 &&
-    publicationsResult.length === 0 &&
     objectivesResult.length === 0 &&
     valuesResult.length === 0
   ) {
@@ -4389,14 +4249,6 @@ function SearchResult({
           <ParagraphText>Insights & News</ParagraphText>
           {blogsResult.map((result) => (
             <BlogSearchResultItem key={result.id} blog={result} />
-          ))}
-        </>
-      )}
-      {publicationsResult.length > 0 && (
-        <>
-          <ParagraphText>Corporate Credentials</ParagraphText>
-          {publicationsResult.map((result) => (
-            <PublicationSearchResultItem key={result.id} publication={result} />
           ))}
         </>
       )}
@@ -4527,25 +4379,6 @@ function ActivitySearchResultItem({ activity }) {
   );
 }
 
-function PublicationSearchResultItem({ publication }) {
-  const { closeSearchModal } = useContext(SearchModalContext);
-  return (
-    <SearchResultItemStyles
-      to={`/publications/${publication.slug?.current}`}
-      onClick={() => closeSearchModal()}
-    >
-      {publication.coverImage?.asset && (
-        <GatsbyImage
-          image={publication.coverImage.asset.gatsbyImageData}
-          alt={publication.coverImage.alt || publication.title}
-          className="img"
-        />
-      )}
-      <Title className="title">{publication.title}</Title>
-    </SearchResultItemStyles>
-  );
-}
-
 function ObjectiveSearchResultItem({ objective }) {
   const { closeSearchModal } = useContext(SearchModalContext);
   return (
@@ -4569,7 +4402,6 @@ export {
   BlogSearchResultItem,
   AuthorSearchResultItem,
   ActivitySearchResultItem,
-  PublicationSearchResultItem,
   ObjectiveSearchResultItem,
   ValueSearchResultItem,
 };
@@ -6512,53 +6344,6 @@ function Categories({ data, pageContext }) {
 export default Categories;
 
 ```
-## `web\src\templates\publication-list.js`
-```
-import { graphql } from 'gatsby';
-import React from 'react';
-import PageHeader from '../components/PageHeader';
-import SEO from '../components/seo';
-import PageSpace from '../components/PageSpace';
-import BlogGrid from '../components/blog/BlogGrid';
-import Pagination from '../components/Pagination';
-
-export const query = graphql`
-  query publicationListQuery($limit: Int!, $offset: Int!) {
-    allSanityPublication(sort: { fields: _createdAt, order: DESC }, limit: $limit, skip: $offset) {
-      nodes {
-        id
-        title
-        _createdAt
-        slug { current }
-        coverImage { alt, asset { gatsbyImageData } }
-      }
-    }
-  }
-`;
-
-function Publications({ data, pageContext }) {
-  const { currentPage, numberOfPages } = pageContext;
-  const publications = data.allSanityPublication.nodes.map(pub => ({
-    ...pub,
-    publishedAt: pub._createdAt,
-    categories: []
-  }));
-
-  return (
-    <PageSpace top={80} bottom={100}>
-      <SEO title="Publications & Books" />
-      <div className="container">
-        <PageHeader title="Company Documents & Compliance" description="Access Midrand Rubble Removal & Site Clearing' company profiles, B-BBEE certificates, CSD registration, and operational capabilities literature." />
-        <BlogGrid blogs={publications} prefix="publications" />
-        {numberOfPages > 1 && (
-          <Pagination currentPage={currentPage} numberOfPages={numberOfPages} baseURL="/publications" />
-        )}
-      </div>
-    </PageSpace>
-  );
-}
-export default Publications;
-```
 ## `web\src\templates\single-activity.js`
 ```
 import { graphql } from "gatsby";
@@ -6880,87 +6665,6 @@ function SingleCategory({ data }) {
 
 export default SingleCategory;
 
-```
-## `web\src\templates\single-publication.js`
-```
-import { graphql } from "gatsby";
-import { GatsbyImage } from "gatsby-plugin-image";
-import React from "react";
-import MyPortableText from "../components/MyPortableText";
-import PageHeader from "../components/PageHeader";
-import PageSpace from "../components/PageSpace";
-import SEO from "../components/seo";
-import { SingleCategoryStyles } from "../styles/category/SingleCategoryStyles";
-import Button from "../components/buttons/Button"; 
-
-export const query = graphql`
-  query SinglePublication($id: String!) {
-    sanityPublication(id: { eq: $id }) {
-      title
-      _rawDescription
-      targetAudience
-      coverImage {
-        asset { gatsbyImageData }
-        alt
-      }
-      documentUpload {
-        asset {
-          url
-          originalFilename
-        }
-      }
-    }
-  }
-`;
-
-function SinglePublication({ data }) {
-  const publication = data.sanityPublication;
-
-  return (
-    <PageSpace top={80} bottom={100}>
-      <SingleCategoryStyles>
-        <div className="container">
-          <SEO title={`Midrand Rubble Removal & Site Clearing - ${publication.title}`} />
-          <PageHeader title={publication.title} className="pageHeader">
-            
-            {publication.targetAudience && (
-              <p style={{ color: "var(--primary)", marginBottom: "1.5rem", fontSize: "1.6rem" }}>
-                <strong>Target Audience:</strong> {publication.targetAudience}
-              </p>
-            )}
-            
-            <MyPortableText value={publication._rawDescription} />
-            
-            {/*DOWNLOAD BUTTON */}
-            {publication.documentUpload && (
-              <div style={{ marginTop: "2rem" }}>
-                <Button 
-                  tag="a" 
-                  href={publication.documentUpload.asset.url} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  Download / View Document
-                </Button>
-              </div>
-            )}
-
-            {publication.coverImage && (
-              <GatsbyImage
-                image={publication.coverImage.asset.gatsbyImageData}
-                alt={publication.coverImage.alt || publication.title}
-                className="coverImage"
-              />
-            )}
-
-          </PageHeader>
-        </div>
-      </SingleCategoryStyles>
-    </PageSpace>
-  );
-}
-
-export default SinglePublication;
 ```
 ## `web\src\utils\getSanityImageData.js`
 ```

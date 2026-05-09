@@ -49,7 +49,7 @@ function FeaturedBlogs() {
       <ParagraphText className="featuredBlogs__text">
         Real-time glimpses into our recent rubble removal projects and fleet deployments across Gauteng.
       </ParagraphText>
-      <BlogGrid blogs={spotlightBlogs} />
+      <BlogGrid blogs={rawBlogs} />
     </FeaturedBlogsStyles>
   );
 }

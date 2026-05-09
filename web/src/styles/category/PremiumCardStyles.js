@@ -42,7 +42,8 @@ export const PremiumCardStyles = styled.div`
   }
 
   .main-card {
-    background: var(--main-gradient);
+    /* We add a 20% black tint over the theme gradient to ground the text */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), var(--main-gradient);
     border-radius: 36px;
     padding: 40px;
     height: 100%;
@@ -50,20 +51,29 @@ export const PremiumCardStyles = styled.div`
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Increased border opacity to define the card edge against the background */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    /* High-end antialiasing for text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* The "UPDATED" style Top Left Tag */
   /* The Top Left Tag */
   .card-tag {
-    font-size: 0.9rem; /* Increased size slightly */
-    font-weight: 700;
-    letter-spacing: 2.5px; /* Wider tracking for a more premium look */
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 3px; 
     text-transform: uppercase;
-    color: #ffffff; /* Full white */
-    opacity: 0.9;
+    color: #ffffff; 
+    /* A subtle background pill makes the tag look technical and official */
+    background: rgba(0, 0, 0, 0.25);
+    padding: 4px 12px;
+    border-radius: 100px;
+    width: fit-content;
     margin-bottom: 25px;
     display: block;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   /* Top Right Dark Circle Icon */
@@ -93,21 +103,20 @@ export const PremiumCardStyles = styled.div`
   }
 
   .text-wrap-container {
-    /* Use solid white or a very high-contrast slate-white */
     color: #ffffff; 
-    /* Increased from 1.1rem to 1.5rem for professional readability */
-    font-size: 1.5rem; 
-    /* Increased line-height for better eye-tracking */
-    line-height: 1.7;
-    /* Slightly heavier weight helps text pop against vibrant gradients */
-    font-weight: 450; 
+    font-size: 1.55rem; /* Slightly larger for clarity */
+    line-height: 1.65;
+    font-weight: 500; /* Increased to medium weight for "Fuller" characters */
+    letter-spacing: 0.02rem; /* Better character separation */
     
     p { 
       margin-bottom: 1.5rem; 
     }
 
-    /* Subtle text shadow to separate text from complex mesh gradients */
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    /* THE LEGIBILITY ENGINE: Sharp edge + Diffused glow */
+    text-shadow: 
+      0px 1px 2px rgba(0, 0, 0, 0.4), 
+      0px 2px 10px rgba(0, 0, 0, 0.2);
   }
 
   /* THE DYNAMIC COLOR PALETTES */

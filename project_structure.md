@@ -2974,11 +2974,15 @@ import React from 'react';
 import { BlogItemStyles } from '../../styles/blog/BlogItemStyles';
 import ParagraphText from '../typography/ParagraphText';
 import { Title } from '../typography/Title';
+import { FiCalendar } from 'react-icons/fi';
+import { BiCategory } from 'react-icons/bi';
+import { FaChevronRight } from 'react-icons/fa'; // Added icon for the pill button
 
-function BlogItem({ path, title, image, categories = [], publishedAt, prefix }) {
+function BlogItem({ path, title, image, categories =[], publishedAt, prefix }) {
   return (
     <BlogItemStyles>
-      <Link to={`/${prefix}/${path}`}>
+      {/* 1. Card Image */}
+      <Link to={`/${prefix}/${path}`} className="img-link">
         {image?.imageData && (
           <GatsbyImage
             image={image.imageData}
@@ -2987,24 +2991,44 @@ function BlogItem({ path, title, image, categories = [], publishedAt, prefix }) 
           />
         )}
       </Link>
-      <Link to={`/${prefix}/${path}`}>
+      
+      {/* 2. Card Title */}
+      <Link to={`/${prefix}/${path}`} className="title-link">
         <Title className="title">{title}</Title>
       </Link>
-      {publishedAt && (
-        <ParagraphText className="publishedAt">
-          {format(new Date(publishedAt), 'p, MMMM dd, yyyy')}
-        </ParagraphText>
-      )}
-      {categories.length > 0 && (
-        <ParagraphText className="categoriesText">
-          {categories.map((item, index) => (
-            <span key={item.slug.current}>
-              <Link to={`/categories/${item.slug.current}`}>{item.title}</Link>
-              {index < categories.length - 1 ? ', ' : ''}
+      
+      {/* 3. Metadata (Date & Category) */}
+      <div className="meta-container">
+        {publishedAt && (
+          <ParagraphText className="publishedAt">
+            <FiCalendar />
+            {format(new Date(publishedAt), 'p, MMMM dd, yyyy')}
+          </ParagraphText>
+        )}
+        {categories.length > 0 && (
+          <ParagraphText className="categoriesText">
+            <BiCategory />
+            <span>
+              {categories.map((item, index) => (
+                <span key={item.slug.current}>
+                  <Link to={`/categories/${item.slug.current}`}>{item.title}</Link>
+                  {index < categories.length - 1 ? ', ' : ''}
+                </span>
+              ))}
             </span>
-          ))}
-        </ParagraphText>
-      )}
+          </ParagraphText>
+        )}
+      </div>
+
+      {/* 4. The SVG-Inspired Pill Button */}
+      <Link to={`/${prefix}/${path}`} className="action-pill-link">
+        <div className="action-pill">
+          <div className="icon-circle">
+            <FaChevronRight />
+          </div>
+          <span>View Project</span>
+        </div>
+      </Link>
     </BlogItemStyles>
   );
 }
@@ -3086,20 +3110,25 @@ import ConstrainedPortableText from '../ConstrainedPortableText';
 
 function ActivityItem({ title, description, slug }) {
   return (
-    <CategoryItemStyles>
+    <CategoryItemStyles className="activity-card">
       <Title className="title">{title}</Title>
-      <div className="text">
+      
+      {/* Wrapped the text so it behaves consistently */}
+      <div className="text-wrap-container">
         <ConstrainedPortableText value={description} />
       </div>
-      <Button to={`/activities/${slug.current}`} variant={buttonTypes.outline}>
-        More
-      </Button>
+      
+      {/* Wrapped the button so it gets pushed to the bottom and doesn't stretch */}
+      <div className="button-container">
+        <Button to={`/activities/${slug.current}`} variant={buttonTypes.outline}>
+          View Details
+        </Button>
+      </div>
     </CategoryItemStyles>
   );
 }
 
 export default ActivityItem;
-
 ```
 ## `web\src\components\category\CategoryGrid.js`
 ```
@@ -3116,6 +3145,7 @@ function CategoryGrid({ categories }) {
           title={item.title}
           description={item._rawDescription}
           slug={item.slug}
+          coverImage={item.coverImage}
         />
       ))}
     </CategoryGridStyles>
@@ -3128,28 +3158,43 @@ export default CategoryGrid;
 ## `web\src\components\category\CategoryItem.js`
 ```
 import React from 'react';
+import { GatsbyImage } from 'gatsby-plugin-image';
 import MyPortableText from '../MyPortableText';
 import Button from '../buttons/Button';
 import { buttonTypes } from '../../constants/buttonTypes';
 import { CategoryItemStyles } from '../../styles/category/CategoryItemStyles';
 import { Title } from '../typography/Title';
 
-function CategoryItem({ title, description, slug }) {
+function CategoryItem({ title, description, slug, coverImage }) {
   return (
-    <CategoryItemStyles>
+    <CategoryItemStyles className="category-card">
       <Title className="title">{title}</Title>
-      <div className="text">
+      
+      <div className="text-wrap-container">
+        {/* GRACEFUL HANDLING: Only renders if coverImage exists */}
+        {coverImage?.asset && (
+          <div className="card-image-wrapper">
+            <GatsbyImage
+              image={coverImage.asset.gatsbyImageData}
+              alt={coverImage.alt || title}
+              className="wrapped-img"
+              imgStyle={{ objectFit: 'fill' }} /* Forces the aspect ratio distortion */
+            />
+          </div>
+        )}
         <MyPortableText value={description} />
       </div>
-      <Button to={`/categories/${slug.current}`} variant={buttonTypes.outline}>
-        Explore
-      </Button>
+
+      <div className="button-container">
+        <Button to={`/categories/${slug.current}`} variant={buttonTypes.outline}>
+          Explore Services
+        </Button>
+      </div>
     </CategoryItemStyles>
   );
 }
 
 export default CategoryItem;
-
 ```
 ## `web\src\components\category\ObjectiveGrid.js`
 ```
@@ -3587,11 +3632,12 @@ import React, { useState } from "react";
 import { HeroSectionStyles } from "../../styles/homePage/HeroSectionStyles";
 import ParagraphText from "../typography/ParagraphText";
 import Button from "../buttons/Button";
-import { FaWhatsapp, FaPhoneAlt, FaChevronDown } from "react-icons/fa";
+import { FaWhatsapp, FaPhoneAlt, FaChevronDown, FaCheckCircle } from "react-icons/fa";
 
 function HeroSection() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("Select Service...");
+  const [isSubmitted, setIsSubmitted] = useState(false); // Track success
 
   const services = [
     "Rubble Removal",
@@ -3600,6 +3646,30 @@ function HeroSection() {
     "Construction Debris",
     "Small & Medium Transport",
   ];
+
+  // Helper function to encode form data for Netlify
+  const encode = (data) => {
+    return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const form = e.target;
+    
+    // We collect the data from the form fields
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "quick-quote", ...data })
+    })
+      .then(() => setIsSubmitted(true)) // Show success UI
+      .catch(error => alert(error));
+  };
 
   return (
     <HeroSectionStyles>
@@ -3624,42 +3694,61 @@ function HeroSection() {
 
           <div className="right">
             <div className="quote-form-container">
-              <h3>Get a Quick Quote</h3>
-              <form name="quick-quote" method="POST" data-netlify="true" action="/">
-                <input type="hidden" name="form-name" value="quick-quote" />
-                <input type="text" name="name" placeholder="Your Name" required />
-                <input type="tel" name="phone" placeholder="Phone / WhatsApp" required />
-                
-                {/* THE CUSTOM DROPDOWN COMPONENT */}
-                <div className="custom-select-container">
-                  <div className={`select-trigger ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
-                    <span>{selectedService}</span>
-                    <FaChevronDown className={`arrow ${isOpen ? 'open' : ''}`} />
-                  </div>
-                  
-                  {isOpen && (
-                    <div className="dropdown-menu">
-                      {services.map((service) => (
-                        <div 
-                          key={service} 
-                          className="dropdown-item" 
-                          onClick={() => {
-                            setSelectedService(service);
-                            setIsOpen(false);
-                          }}
-                        >
-                          {service}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {/* Hidden input to pass data to Netlify Form */}
-                  <input type="hidden" name="service" value={selectedService} />
+              {/* PSYCHOLOGICAL TRIGGER: Show success message if form is sent */}
+              {isSubmitted ? (
+                <div className="success-message">
+                  <FaCheckCircle className="success-icon" />
+                  <h3>Request Sent!</h3>
+                  <p>Sibusiso or Tshiamo will contact you shortly with your quote.</p>
+                  <button onClick={() => setIsSubmitted(false)} className="reset-btn">Send another request</button>
                 </div>
+              ) : (
+                <>
+                  <h3>Get a Quick Quote</h3>
+                  <form 
+                    name="quick-quote" 
+                    method="POST" 
+                    data-netlify="true" 
+                    data-netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                  >
+                    {/* Hidden fields required by Netlify */}
+                    <input type="hidden" name="form-name" value="quick-quote" />
+                    <p hidden><label>Don’t fill this out: <input name="bot-field" /></label></p>
 
-                <textarea name="message" placeholder="Briefly describe what needs clearing..." rows="3"></textarea>
-                <button type="submit" className="submit-btn">Send Request</button>
-              </form>
+                    <input type="text" name="name" placeholder="Your Name" required />
+                    <input type="tel" name="phone" placeholder="Phone / WhatsApp" required />
+                    
+                    <div className="custom-select-container">
+                      <div className={`select-trigger ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+                        <span>{selectedService}</span>
+                        <FaChevronDown className={`arrow ${isOpen ? 'open' : ''}`} />
+                      </div>
+                      
+                      {isOpen && (
+                        <div className="dropdown-menu">
+                          {services.map((service) => (
+                            <div 
+                              key={service} 
+                              className="dropdown-item" 
+                              onClick={() => {
+                                setSelectedService(service);
+                                setIsOpen(false);
+                              }}
+                            >
+                              {service}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <input type="hidden" name="service" value={selectedService} />
+                    </div>
+
+                    <textarea name="message" placeholder="Briefly describe what needs clearing..." rows="3"></textarea>
+                    <button type="submit" className="submit-btn">Send Request</button>
+                  </form>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -3681,6 +3770,7 @@ import { SectionTitle } from "../typography/Title";
 import ValueGrid from "../category/ValueGrid";
 import ObjectiveGrid from "../category/ObjectiveGrid";
 import { FaHardHat, FaEye, FaBullseye, FaSync } from "react-icons/fa"; // Added sync icon
+import CategoryGrid from "../category/CategoryGrid";
 
 const initialCards = [
   {
@@ -3719,6 +3809,18 @@ function TopCategories() {
           }
         }
       }
+      allSanityCategory {
+        nodes {
+          id
+          title
+          slug { current }
+          coverImage {
+            alt
+            asset { gatsbyImageData }
+          }
+          _rawDescription
+        }
+      }
       allSanityObjective { nodes { id, title, _rawDescription } }
       allSanityValue { nodes { id, title, _rawDescription } }
     }
@@ -3728,6 +3830,7 @@ function TopCategories() {
   const activities = spotlightNode?.activity || [];
   const objectives = data.allSanityObjective?.nodes || [];
   const DiginotiveValues = data.allSanityValue?.nodes || [];
+  const categories = data.allSanityCategory?.nodes || [];
 
   const [stackedCards, setStackedCards] = useState(initialCards);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true); // Control auto-shuffle
@@ -3804,6 +3907,8 @@ function TopCategories() {
           })}
         </div>
       </div>
+
+      <CategoryGrid categories={categories} />
 
       <ActivityGrid activities={activities} />
 
@@ -4488,8 +4593,8 @@ export const buttonTypes = {
 ```
 export const menu = [
   { title: 'Home', path: '/' },
-  { title: 'Service Updates', path: '/spotlight' }, 
-  { title: 'Our Services', path: '/activities' }, 
+  { title: 'Spotlight', path: '/spotlight' }, 
+  { title: 'Our Services', path: '/categories' }, 
   { title: 'About Us', path: '/team' },
 ];
 ```
@@ -4719,56 +4824,179 @@ export const BlogGridStyles = styled.div`
 import styled from 'styled-components';
 
 export const BlogItemStyles = styled.div`
-  display: inline-block;
-  background: var(--black-2);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  padding: 1.5rem;
-  border-radius: 16px;
-  border: 1px solid rgba(243, 112, 33, 0.2);
-  transition: transform 0.4s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
   
-  opacity: 0;
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, borderGlow 5s infinite alternate;
+  /* PREMIUM FROSTED GLASS BASE */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  padding: 2rem;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 204, 0, 0.2); /* Soft Yellow Edge Highlight */
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  z-index: 1;
 
-  .img {
-    height: 250px;
-    margin-bottom: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid rgba(243, 112, 33, 0.4);
-    /* Dynamic Image Glow */
-    animation: glowPulse 3s infinite alternate;
-    overflow: hidden;
-    
-    [data-main-image] {
-      transition: 0.5s ease-in-out transform;
-    }
+  /* DECORATIVE AMBIENT BLOB 1 (Yellow Glow) */
+  &::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -20%;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255, 204, 0, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    transition: transform 0.6s ease;
   }
 
-  .title {
-    margin-bottom: 0.5rem;
-    color: var(--white);
+  /* DECORATIVE AMBIENT BLOB 2 (White Depth Glow) */
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    left: -10%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
   }
 
-  .publishedAt {
-    margin-bottom: 0.3rem;
-    color: var(--gray);
-  }
-
+  /* HOVER EFFECTS */
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(243, 112, 33, 0.3);
-    
+    transform: translateY(-12px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 204, 0, 0.15);
+    border-color: rgba(255, 204, 0, 0.4);
+
+    /* Move the ambient blob on hover for a dynamic 3D feel */
+    &::before {
+      transform: scale(1.5) translate(-10%, 10%);
+      background: radial-gradient(circle, rgba(255, 204, 0, 0.25) 0%, transparent 70%);
+    }
+
     .img [data-main-image] {
       transform: scale(1.08);
     }
+    
+    /* Highlight the Pill Button */
+    .action-pill {
+      background: var(--primary);
+      color: var(--black);
+      border-color: var(--primary);
+      box-shadow: 0 8px 20px rgba(255, 204, 0, 0.3);
+      
+      .icon-circle {
+        background: var(--black);
+        color: var(--primary);
+      }
+    }
   }
 
-  .categoriesText a {
-    color: var(--primary);
-    &:hover {
-      text-decoration: underline;
+  /* IMAGE CONTAINER */
+  .img {
+    height: 220px;
+    margin-bottom: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;[data-main-image] {
+      transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
+  }
+
+  /* TYPOGRAPHY */
+  .title-link {
+    text-decoration: none;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+    line-height: 1.3;
+    font-weight: 800;
+    /* Truncates long titles to keep cards uniform */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* METADATA SPACING */
+  .meta-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-bottom: 3rem;
+    flex-grow: 1; /* Pushes the button to the bottom */
+  }
+
+  .publishedAt, .categoriesText {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin: 0;
+    
+    svg {
+      color: var(--primary);
+      width: 16px;
+      height: 16px;
+    }
+    
+    a {
+      color: rgba(255, 255, 255, 0.8);
+      &:hover { color: var(--primary); }
+    }
+  }
+
+  /* SVG-INSPIRED PILL BUTTON */
+  .action-pill-link {
+    text-decoration: none;
+    margin-top: auto;
+  }
+
+  .action-pill {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 20px 6px 6px; /* Off-center padding for the icon */
+    border-radius: 50px;
+    width: fit-content;
+    transition: all 0.4s ease;
+    color: var(--white);
+    font-weight: 700;
+    font-size: 1.3rem;
+
+    .icon-circle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: rgba(255, 204, 0, 0.15);
+      color: var(--primary);
+      border-radius: 50%;
+      transition: all 0.4s ease;
+      
+      svg { width: 14px; height: 14px; }
+    }
+  }
+  
+  @media only screen and (max-width: 768px) {
+    padding: 1.5rem;
+    .title { font-size: 1.8rem; }
+    .img { height: 180px; }
   }
 `;
 ```
@@ -5019,16 +5247,16 @@ export const CategoryItemStyles = styled.div`
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-top: 1px solid rgba(255, 204, 0, 0.2); /* Edge highlight */
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
   
-  /* Entrance Animation & Continuous Subtle Glow */
-  opacity: 0;
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards, borderGlow 4s infinite alternate;
-  
+  /* Flex layout to push button to the bottom */
+  display: flex;
+  flex-direction: column;
+
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(243, 112, 33, 0.4);
-    background: rgba(30, 30, 30, 0.8);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 204, 0, 0.5); /* Glowing yellow border on hover */
   }
 
   .title {
@@ -5036,18 +5264,56 @@ export const CategoryItemStyles = styled.div`
     color: var(--white);
   }
   
-  .text {
+  .text-wrap-container {
     margin-bottom: 2.5rem;
     color: var(--white-1);
+    flex-grow: 1; /* Ensures this section takes up available space */
   }
 
-  .custom-image {
-    max-width: 100%;
-    max-height: 250px;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    border: 1px solid rgba(243, 112, 33, 0.3);
-    animation: glowPulse 3s infinite alternate;
+  /* CLEARFIX: Prevents the card from breaking if text is shorter than the image */
+  .text-wrap-container::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* TEXT WRAP & SQUARE MANDATE */
+  .card-image-wrapper {
+    width: 160px !important;    /* Mandated exact width */
+    height: 160px !important;   /* Mandated exact height */
+    float: left;                /* Pushes image left, text wraps around right */
+    margin: 0 2rem 1rem 0;      /* Space between image and text */
+    border-radius: 10px;
+    overflow: hidden;
+    shape-outside: inset(0%);   /* Tells the text to wrap tightly to the square boundary */
+    border: 1px solid rgba(255, 204, 0, 0.3);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  /* FORCE DISTORTION */
+  .wrapped-img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .wrapped-img img {
+    object-fit: fill !important; /* Stretches/squeezes to fit the 160x160 box */
+  }
+
+  .button-container {
+    margin-top: auto; 
+    clear: both; /* Forces button below the floated image */
+    align-self: flex-start; /* THIS STOPS THE GIANT STRETCHING */
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding: 2.5rem 1.5rem;
+    
+    .card-image-wrapper {
+      width: 130px !important;
+      height: 130px !important;
+      margin: 0 1.5rem 0.5rem 0;
+    }
   }
 `;
 ```
@@ -5455,7 +5721,7 @@ export const FeaturedBlogsStyles = styled.div`
 ```
 ## `web\src\styles\homePage\HeroSectionStyles.js`
 ```
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const HeroSectionStyles = styled.div`
   min-height: 90vh;
@@ -5486,7 +5752,7 @@ export const HeroSectionStyles = styled.div`
 
   .hero__heading {
     font-size: 4.5rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 20px;
@@ -5506,7 +5772,7 @@ export const HeroSectionStyles = styled.div`
   }
 
   .btn-whatsapp {
-    background: #25D366 !important; /* Official WhatsApp Green */
+    background: #25d366 !important; /* Official WhatsApp Green */
     color: white !important;
     display: flex;
     align-items: center;
@@ -5520,7 +5786,7 @@ export const HeroSectionStyles = styled.div`
   }
 
   /* QUOTE FORM STYLING */
- /* HIGH-END GLASSMORPHISM QUOTE FORM */
+  /* HIGH-END GLASSMORPHISM QUOTE FORM */
   .quote-form-container {
     background: rgba(20, 20, 22, 0.4); /* Semi-transparent dark */
     backdrop-filter: blur(24px);
@@ -5529,16 +5795,20 @@ export const HeroSectionStyles = styled.div`
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-top: 1px solid rgba(255, 204, 0, 0.3); /* Subtle top highlight */
-    box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+    box-shadow:
+      0 30px 60px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
     h3 {
       font-size: 2.2rem;
       margin-bottom: 20px;
       color: var(--white);
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     }
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       width: 100%;
       padding: 14px 15px;
       margin-bottom: 15px;
@@ -5547,7 +5817,7 @@ export const HeroSectionStyles = styled.div`
       background: rgba(0, 0, 0, 0.4) !important; /* Dark Glass */
       color: var(--white);
       font-size: 1.4rem;
-      font-family: 'Inter', sans-serif;
+      font-family: "Inter", sans-serif;
       transition: all 0.3s ease;
       appearance: none; /* Removes the default browser clunkiness */
       -webkit-appearance: none;
@@ -5559,94 +5829,97 @@ export const HeroSectionStyles = styled.div`
     }
 
     /* CUSTOM SELECT STYLING - MATCHING REFERENCE */
-  .custom-select-container {
-    position: relative;
-    margin-bottom: 15px;
-    width: 100%;
-    cursor: pointer;
-    font-size: 1.4rem;
-  }
+    .custom-select-container {
+      position: relative;
+      margin-bottom: 15px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
 
-  .select-trigger {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 15px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: var(--white);
-    transition: 0.3s;
-  }
+    .select-trigger {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 15px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--white);
+      transition: 0.3s;
+    }
 
-  .select-trigger.active, .select-trigger:hover {
-    border-color: var(--primary);
-    box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
-  }
+    .select-trigger.active,
+    .select-trigger:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+    }
 
-  .arrow {
-    /* We must use !important to kill the global 100% SVG rule */
-    width: 1.8rem !important; 
-    height: 1.8rem !important;
-    transition: transform 0.3s ease;
-    color: var(--primary);
-    flex-shrink: 0; /* Prevents the arrow from squashing if text is long */
-  }
+    .arrow {
+      /* We must use !important to kill the global 100% SVG rule */
+      width: 1.8rem !important;
+      height: 1.8rem !important;
+      transition: transform 0.3s ease;
+      color: var(--primary);
+      flex-shrink: 0; /* Prevents the arrow from squashing if text is long */
+    }
 
-  .arrow.open {
-    transform: rotate(180deg);
-  }
+    .arrow.open {
+      transform: rotate(180deg);
+    }
 
-  /* THE FLOATING MENU */
-  .dropdown-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    width: 100%;
-    background: rgba(15, 15, 18, 0.95); /* Deep dark background */
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--primary); /* That specific yellow glow border */
-    border-radius: 12px;
-    z-index: 100;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-    animation: fadeUp 0.3s ease-out forwards;
-  }
+    /* THE FLOATING MENU */
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 100%;
+      background: rgba(15, 15, 18, 0.95); /* Deep dark background */
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--primary); /* That specific yellow glow border */
+      border-radius: 12px;
+      z-index: 100;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+      animation: fadeUp 0.3s ease-out forwards;
+    }
 
-  .dropdown-item {
-    padding: 12px 20px;
-    color: var(--white-1);
-    transition: 0.2s;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
+    .dropdown-item {
+      padding: 12px 20px;
+      color: var(--white-1);
+      transition: 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
 
-  .dropdown-item:last-child {
-    border-bottom: none;
-  }
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
 
-  .dropdown-item:hover {
-    background: var(--primary);
-    color: var(--black);
-    font-weight: 600;
-  }
+    .dropdown-item:hover {
+      background: var(--primary);
+      color: var(--black);
+      font-weight: 600;
+    }
 
-  /* OTHER INPUTS */
-  input, textarea {
-    width: 100%;
-    padding: 14px 15px;
-    margin-bottom: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.4);
-    color: var(--white);
-    font-size: 1.4rem;
-    outline: none;
-  }
+    /* OTHER INPUTS */
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px 15px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      color: var(--white);
+      font-size: 1.4rem;
+      outline: none;
+    }
 
-  input:focus, textarea:focus {
-    border-color: var(--primary);
-    background: rgba(0, 0, 0, 0.6);
-  }
+    input:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      background: rgba(0, 0, 0, 0.6);
+    }
 
     .submit-btn {
       width: 100%;
@@ -5661,23 +5934,60 @@ export const HeroSectionStyles = styled.div`
       transition: 0.3s;
       text-transform: uppercase;
       letter-spacing: 1px;
-      
+
       &:hover {
         background: var(--white);
         box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
         transform: translateY(-2px);
       }
     }
+
+    /* SUCCESS STATE STYLING */
+    .success-message {
+      text-align: center;
+      padding: 20px 0;
+
+      .success-icon {
+        font-size: 5rem !important;
+        color: #25d366;
+        margin-bottom: 20px;
+        width: 50px !important;
+        height: 50px !important;
+      }
+
+      h3 {
+        color: var(--white);
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 1.4rem;
+        color: var(--white-1);
+        margin-bottom: 30px;
+      }
+
+      .reset-btn {
+        background: transparent;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.2rem;
+      }
+    }
   }
 
   @media only screen and (max-width: 768px) {
     .hero__wrapper {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr; 
       padding-top: 100px;
     }
-    .hero__heading { font-size: 3.5rem; }
+    .hero__heading {
+      font-size: 3.5rem;
+    }
   }
 `;
+
 ```
 ## `web\src\styles\homePage\TopCategoriesStyles.js`
 ```

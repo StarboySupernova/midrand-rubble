@@ -5,11 +5,15 @@ import React from 'react';
 import { BlogItemStyles } from '../../styles/blog/BlogItemStyles';
 import ParagraphText from '../typography/ParagraphText';
 import { Title } from '../typography/Title';
+import { FiCalendar } from 'react-icons/fi';
+import { BiCategory } from 'react-icons/bi';
+import { FaChevronRight } from 'react-icons/fa'; // Added icon for the pill button
 
-function BlogItem({ path, title, image, categories = [], publishedAt, prefix }) {
+function BlogItem({ path, title, image, categories =[], publishedAt, prefix }) {
   return (
     <BlogItemStyles>
-      <Link to={`/${prefix}/${path}`}>
+      {/* 1. Card Image */}
+      <Link to={`/${prefix}/${path}`} className="img-link">
         {image?.imageData && (
           <GatsbyImage
             image={image.imageData}
@@ -18,24 +22,44 @@ function BlogItem({ path, title, image, categories = [], publishedAt, prefix }) 
           />
         )}
       </Link>
-      <Link to={`/${prefix}/${path}`}>
+      
+      {/* 2. Card Title */}
+      <Link to={`/${prefix}/${path}`} className="title-link">
         <Title className="title">{title}</Title>
       </Link>
-      {publishedAt && (
-        <ParagraphText className="publishedAt">
-          {format(new Date(publishedAt), 'p, MMMM dd, yyyy')}
-        </ParagraphText>
-      )}
-      {categories.length > 0 && (
-        <ParagraphText className="categoriesText">
-          {categories.map((item, index) => (
-            <span key={item.slug.current}>
-              <Link to={`/categories/${item.slug.current}`}>{item.title}</Link>
-              {index < categories.length - 1 ? ', ' : ''}
+      
+      {/* 3. Metadata (Date & Category) */}
+      <div className="meta-container">
+        {publishedAt && (
+          <ParagraphText className="publishedAt">
+            <FiCalendar />
+            {format(new Date(publishedAt), 'p, MMMM dd, yyyy')}
+          </ParagraphText>
+        )}
+        {categories.length > 0 && (
+          <ParagraphText className="categoriesText">
+            <BiCategory />
+            <span>
+              {categories.map((item, index) => (
+                <span key={item.slug.current}>
+                  <Link to={`/categories/${item.slug.current}`}>{item.title}</Link>
+                  {index < categories.length - 1 ? ', ' : ''}
+                </span>
+              ))}
             </span>
-          ))}
-        </ParagraphText>
-      )}
+          </ParagraphText>
+        )}
+      </div>
+
+      {/* 4. The SVG-Inspired Pill Button */}
+      <Link to={`/${prefix}/${path}`} className="action-pill-link">
+        <div className="action-pill">
+          <div className="icon-circle">
+            <FaChevronRight />
+          </div>
+          <span>View Project</span>
+        </div>
+      </Link>
     </BlogItemStyles>
   );
 }

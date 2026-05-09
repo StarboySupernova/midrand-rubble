@@ -256,7 +256,7 @@ export const HeroSectionStyles = styled.div`
 
   @media only screen and (max-width: 768px) {
     .hero__wrapper {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr; 
       padding-top: 100px;
     }
     .hero__heading {

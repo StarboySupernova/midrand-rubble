@@ -7,6 +7,7 @@ import { SectionTitle } from "../typography/Title";
 import ValueGrid from "../category/ValueGrid";
 import ObjectiveGrid from "../category/ObjectiveGrid";
 import { FaHardHat, FaEye, FaBullseye, FaSync } from "react-icons/fa"; // Added sync icon
+import CategoryGrid from "../category/CategoryGrid";
 
 const initialCards = [
   {
@@ -139,7 +140,7 @@ function TopCategories() {
           })}
         </div>
       </div>
-      
+
       <CategoryGrid categories={categories} />
 
       <ActivityGrid activities={activities} />

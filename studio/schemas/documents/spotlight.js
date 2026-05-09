@@ -18,7 +18,7 @@ export default {
       of: [
         {
           type: "reference",
-          to: [{ type: "blog" }, { type: "publication" }],
+          to: [{ type: "blog" }],
         },
       ],
       validation: (Rule) => [

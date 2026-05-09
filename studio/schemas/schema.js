@@ -8,7 +8,6 @@ import blog from "./documents/blog";
 import category from "./documents/category";
 import author from "./documents/author";
 import service from "./documents/service";
-import publication from "./documents/publication";
 import spotlight from "./documents/spotlight";
 import objective from "./documents/objective";
 import value from "./documents/value";
@@ -26,7 +25,6 @@ export default createSchema({
     category,
     author,
     service,
-    publication,
     spotlight,
     objective,
     value,

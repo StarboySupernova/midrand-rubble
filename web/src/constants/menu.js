@@ -1,7 +1,6 @@
 export const menu = [
   { title: 'Home', path: '/' },
-  { title: 'Insights & News', path: '/spotlight' },
-  { title: 'Core Services', path: '/activities' },
-  { title: 'Publications', path: '/publications' },
+  { title: 'Service Updates', path: '/spotlight' }, 
+  { title: 'Our Services', path: '/activities' }, 
   { title: 'About Us', path: '/team' },
 ];

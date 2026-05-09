@@ -32,21 +32,6 @@ function FeaturedBlogs() {
                 }
               }
             }
-            ... on SanityPublication {
-              _type
-              id
-              title
-              publishedAt: _createdAt
-              slug {
-                current
-              }
-              coverImage {
-                alt
-                asset {
-                  gatsbyImageData
-                }
-              }
-            }
           }
         }
       }
@@ -64,12 +49,12 @@ function FeaturedBlogs() {
   }));
 
   return (
-    <FeaturedBlogsStyles>
+   <FeaturedBlogsStyles>
       <SectionTitle className="centre__text">
-        Latest Projects, News & Updates
+        Recent Clearings & Site Updates
       </SectionTitle>
       <ParagraphText className="featuredBlogs__text">
-        Stay informed with the latest insights into Midrand Rubble Removal & Site Clearing' fleet deployments, heavy-lift projects, promotions and corporate milestones.
+        Real-time glimpses into our recent rubble removal projects and fleet deployments across Gauteng.
       </ParagraphText>
       <BlogGrid blogs={spotlightBlogs} />
     </FeaturedBlogsStyles>

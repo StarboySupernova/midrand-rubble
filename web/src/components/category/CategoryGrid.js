@@ -11,6 +11,7 @@ function CategoryGrid({ categories }) {
           title={item.title}
           description={item._rawDescription}
           slug={item.slug}
+          coverImage={item.coverImage}
         />
       ))}
     </CategoryGridStyles>

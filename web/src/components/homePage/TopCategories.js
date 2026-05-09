@@ -51,6 +51,10 @@ function TopCategories() {
           id
           title
           slug { current }
+          coverImage {
+            alt
+            asset { gatsbyImageData }
+          }
           _rawDescription
         }
       }

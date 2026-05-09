@@ -7,14 +7,20 @@ import ConstrainedPortableText from '../ConstrainedPortableText';
 
 function ActivityItem({ title, description, slug }) {
   return (
-    <CategoryItemStyles>
+    <CategoryItemStyles className="activity-card">
       <Title className="title">{title}</Title>
-      <div className="text">
+      
+      {/* Wrapped the text so it behaves consistently */}
+      <div className="text-wrap-container">
         <ConstrainedPortableText value={description} />
       </div>
-      <Button to={`/activities/${slug.current}`} variant={buttonTypes.outline}>
-        More
-      </Button>
+      
+      {/* Wrapped the button so it gets pushed to the bottom and doesn't stretch */}
+      <div className="button-container">
+        <Button to={`/activities/${slug.current}`} variant={buttonTypes.outline}>
+          View Details
+        </Button>
+      </div>
     </CategoryItemStyles>
   );
 }

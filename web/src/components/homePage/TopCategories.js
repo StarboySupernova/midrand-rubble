@@ -45,6 +45,14 @@ function TopCategories() {
           }
         }
       }
+      allSanityCategory {
+        nodes {
+          id
+          title
+          slug { current }
+          _rawDescription
+        }
+      }
       allSanityObjective { nodes { id, title, _rawDescription } }
       allSanityValue { nodes { id, title, _rawDescription } }
     }
@@ -54,6 +62,7 @@ function TopCategories() {
   const activities = spotlightNode?.activity || [];
   const objectives = data.allSanityObjective?.nodes || [];
   const DiginotiveValues = data.allSanityValue?.nodes || [];
+  const categories = data.allSanityCategory?.nodes || [];
 
   const [stackedCards, setStackedCards] = useState(initialCards);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true); // Control auto-shuffle
@@ -130,6 +139,8 @@ function TopCategories() {
           })}
         </div>
       </div>
+      
+      <CategoryGrid categories={categories} />
 
       <ActivityGrid activities={activities} />
 

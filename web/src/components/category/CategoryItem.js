@@ -10,10 +10,11 @@ function CategoryItem({ title, description, slug }) {
     <CategoryItemStyles>
       <Title className="title">{title}</Title>
       <div className="text">
+        {/* We use MyPortableText to render the rich text from Sanity */}
         <MyPortableText value={description} />
       </div>
       <Button to={`/categories/${slug.current}`} variant={buttonTypes.outline}>
-        Explore
+        Explore Services
       </Button>
     </CategoryItemStyles>
   );

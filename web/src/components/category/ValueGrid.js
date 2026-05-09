@@ -5,11 +5,12 @@ import ValueItem from "./ValueItem";
 function ValueGrid({ DiginotiveValues }) {
   return (
     <ValueGridStyles>
-      {DiginotiveValues.map((item) => (
+      {DiginotiveValues.map((item, index) => ( // Note the 'index' added here
         <ValueItem
           key={item.id}
           title={item.title}
           description={item._rawDescription}
+          index={index} // Passing index to the child
         />
       ))}
     </ValueGridStyles>

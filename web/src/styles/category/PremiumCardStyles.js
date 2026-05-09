@@ -54,13 +54,16 @@ export const PremiumCardStyles = styled.div`
   }
 
   /* The "UPDATED" style Top Left Tag */
+  /* The Top Left Tag */
   .card-tag {
-    font-size: 0.75rem;
+    font-size: 0.9rem; /* Increased size slightly */
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 2.5px; /* Wider tracking for a more premium look */
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 20px;
+    color: #ffffff; /* Full white */
+    opacity: 0.9;
+    margin-bottom: 25px;
+    display: block;
   }
 
   /* Top Right Dark Circle Icon */
@@ -90,10 +93,21 @@ export const PremiumCardStyles = styled.div`
   }
 
   .text-wrap-container {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    p { margin-bottom: 1rem; }
+    /* Use solid white or a very high-contrast slate-white */
+    color: #ffffff; 
+    /* Increased from 1.1rem to 1.5rem for professional readability */
+    font-size: 1.5rem; 
+    /* Increased line-height for better eye-tracking */
+    line-height: 1.7;
+    /* Slightly heavier weight helps text pop against vibrant gradients */
+    font-weight: 450; 
+    
+    p { 
+      margin-bottom: 1.5rem; 
+    }
+
+    /* Subtle text shadow to separate text from complex mesh gradients */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   }
 
   /* THE DYNAMIC COLOR PALETTES */

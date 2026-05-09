@@ -66,6 +66,7 @@ export const CategoryItemStyles = styled.div`
   .button-container {
     margin-top: auto; 
     clear: both; /* Forces button below the floated image */
+    align-self: flex-start; /* THIS STOPS THE GIANT STRETCHING */
   }
 
   @media only screen and (max-width: 768px) {

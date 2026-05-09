@@ -147,6 +147,15 @@ function TopCategories() {
 
       <CategoryGrid categories={categories} />
 
+      <div style={{ marginTop: '10rem', marginBottom: '4rem' }}>
+        <SectionTitle className="centre__text">
+          Engineered Operational Pillars
+        </SectionTitle>
+        <ParagraphText className="centre__text" style={{ maxWidth: '800px', margin: '1rem auto' }}>
+          Beyond standard hauling. These specialized divisions represent the tactical core of our industrial response—where advanced logistics meets unshakeable site clearing execution.
+        </ParagraphText>
+      </div>
+
       <ActivityGrid activities={activities} />
 
       <div style={{ marginTop: "6rem" }}>

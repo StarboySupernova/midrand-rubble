@@ -1484,7 +1484,7 @@ export default {
       type: 'slug',
       options: {
         source: 'name',
-        maxLength: 96,
+        maxLength: 50,
       },
     },
     {
@@ -1537,7 +1537,7 @@ export default {
       type: 'slug',
       options: {
         source: 'title',
-        maxLength: 96,
+        maxLength: 50,
       },
     },
     {
@@ -1621,7 +1621,7 @@ export default {
       type: 'slug',
       options: {
         source: 'title',
-        maxLength: 96,
+        maxLength: 50,
       },
     },
     {
@@ -1756,7 +1756,7 @@ export default {
       name: 'slug',
       title: 'URL Slug',
       type: 'slug',
-      options: { source: 'title', maxLength: 96 },
+      options: { source: 'title', maxLength: 50 },
     },
     { name: 'coverImage', title: 'Cover Image', type: 'customImage' },
     { name: 'description', title: 'Short Description', type: 'normalText' },
@@ -1801,7 +1801,7 @@ export default {
       of: [
         {
           type: "reference",
-          to: [{ type: "blog" }, { type: "publication" }],
+          to: [{ type: "blog" }],
         },
       ],
       validation: (Rule) => [
@@ -1993,7 +1993,6 @@ import blog from "./documents/blog";
 import category from "./documents/category";
 import author from "./documents/author";
 import service from "./documents/service";
-import publication from "./documents/publication";
 import spotlight from "./documents/spotlight";
 import objective from "./documents/objective";
 import value from "./documents/value";
@@ -2011,7 +2010,6 @@ export default createSchema({
     category,
     author,
     service,
-    publication,
     spotlight,
     objective,
     value,
@@ -3665,21 +3663,6 @@ function FeaturedBlogs() {
                 }
               }
             }
-            ... on SanityPublication {
-              _type
-              id
-              title
-              publishedAt: _createdAt
-              slug {
-                current
-              }
-              coverImage {
-                alt
-                asset {
-                  gatsbyImageData
-                }
-              }
-            }
           }
         }
       }
@@ -3697,12 +3680,12 @@ function FeaturedBlogs() {
   }));
 
   return (
-    <FeaturedBlogsStyles>
+   <FeaturedBlogsStyles>
       <SectionTitle className="centre__text">
-        Latest Projects, News & Updates
+        Recent Clearings & Site Updates
       </SectionTitle>
       <ParagraphText className="featuredBlogs__text">
-        Stay informed with the latest insights into Midrand Rubble Removal & Site Clearing' fleet deployments, heavy-lift projects, promotions and corporate milestones.
+        Real-time glimpses into our recent rubble removal projects and fleet deployments across Gauteng.
       </ParagraphText>
       <BlogGrid blogs={spotlightBlogs} />
     </FeaturedBlogsStyles>
@@ -3807,14 +3790,38 @@ export default HeroSection;
 ## `web\src\components\homePage\TopCategories.js`
 ```
 import { graphql, useStaticQuery } from "gatsby";
-import React from "react";
+import React, { useState, useEffect, useRef } from "react"; // Added hooks
 import { TopCategoriesStyles } from "../../styles/homePage/TopCategoriesStyles";
-// import CategoryGrid from '../category/CategoryGrid';
 import ActivityGrid from "../category/ActivityGrid";
 import ParagraphText from "../typography/ParagraphText";
 import { SectionTitle } from "../typography/Title";
 import ValueGrid from "../category/ValueGrid";
 import ObjectiveGrid from "../category/ObjectiveGrid";
+import { FaHardHat, FaEye, FaBullseye, FaSync } from "react-icons/fa"; // Added sync icon
+
+const initialCards = [
+  {
+    id: "mission",
+    title: "The Mission of Certainty",
+    text: "Our mission is the absolute eradication of chaos from your job site. We deploy rapid-response tactical units and heavy-duty transport to instantly lift the burden of waste from our clients' shoulders. We provide a project-ready environment—same hour, same day, every day.",
+    theme: "theme-slate",
+    icon: <FaBullseye />
+  },
+  {
+    id: "vision",
+    title: "The Vision",
+    text: "To be the undisputed sovereign of site clearing and logistical waste management in South Africa. We aim to set an uncompromising benchmark where our name is synonymous with unshakeable reliability and environmental precision.",
+    theme: "theme-dark",
+    icon: <FaEye />
+  },
+  {
+    id: "capabilities",
+    title: "Strategic Industrial Capabilities",
+    text: "We provide the logistical muscle that keeps Gauteng’s development moving. From high-capacity NP300 fleet deployments to specialized heavy-duty manpower, our core services are engineered to handle the most demanding site clearing and debris challenges.",
+    theme: "theme-yellow",
+    icon: <FaHardHat />
+  }
+];
 
 function TopCategories() {
   const data = useStaticQuery(graphql`
@@ -3824,107 +3831,106 @@ function TopCategories() {
           activity {
             id
             title
-            slug {
-              current
-            }
+            slug { current }
             _rawDescription
           }
         }
       }
-      allSanityObjective {
-        nodes {
-          id
-          title
-          _rawDescription
-        }
-      }
-      allSanityValue {
-        nodes {
-          id
-          title
-          _rawDescription
-        }
-      }
+      allSanityObjective { nodes { id, title, _rawDescription } }
+      allSanityValue { nodes { id, title, _rawDescription } }
     }
   `);
+
   const spotlightNode = data.allSanitySpotlight.nodes[0];
   const activities = spotlightNode?.activity || [];
   const objectives = data.allSanityObjective?.nodes || [];
   const DiginotiveValues = data.allSanityValue?.nodes || [];
 
+  const [stackedCards, setStackedCards] = useState(initialCards);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true); // Control auto-shuffle
+  const autoPlayRef = useRef();
+
+  const shuffle = () => {
+    setStackedCards((prev) => {
+      const newCards = [...prev];
+      const firstCard = newCards.shift();
+      newCards.push(firstCard);
+      return newCards;
+    });
+  };
+
+  // Auto-switch interval
+  useEffect(() => {
+    if (isAutoPlaying) {
+      autoPlayRef.current = setInterval(shuffle, 4000);
+    }
+    return () => clearInterval(autoPlayRef.current);
+  }, [isAutoPlaying]);
+
+  const handleManualClick = (id, e) => {
+    e.stopPropagation(); // Ensures only direct clicks on cards are counted
+    setIsAutoPlaying(false); // Stop auto-play permanently after direct interaction
+    
+    setStackedCards((prev) => {
+      const index = prev.findIndex((c) => c.id === id);
+      if (index === prev.length - 1) return prev;
+      const newCards = [...prev];
+      const [clickedCard] = newCards.splice(index, 1);
+      newCards.push(clickedCard);
+      return newCards;
+    });
+  };
+
   return (
     <TopCategoriesStyles>
-      {/* SECTION 1: CAPABILITIES */}
-      <SectionTitle className="centre__text">
-        Strategic Industrial Capabilities
-      </SectionTitle>
-      <ParagraphText
-        className="centre__text"
-        style={{ maxWidth: "800px", margin: "0 auto 4rem auto" }}
-      >
-        We provide the logistical muscle that keeps Gauteng’s development
-        moving. From high-capacity NP300 fleet deployments to specialized
-        heavy-duty manpower, our core services are engineered to handle the most
-        demanding site clearing and debris challenges. We don’t just haul waste;
-        we reclaim your operational space, ensuring that your residential or
-        commercial project remains a clean, safe, and efficient environment.
-      </ParagraphText>
+      <div className="card-stack-wrapper">
+        <div className="card-stack-container">
+          {stackedCards.map((card, index) => {
+            const isTop = index === stackedCards.length - 1;
+            const offset = stackedCards.length - 1 - index;
+            
+            return (
+              <div
+                key={card.id}
+                className={`stacked-card ${card.theme} card-depth-${offset} ${isTop && isAutoPlaying ? 'pulse-hint' : ''}`}
+                onClick={(e) => handleManualClick(card.id, e)}
+                style={{
+                  zIndex: index,
+                  '--card-offset': offset,
+                  opacity: isTop ? 1 : 0.8,
+                }}
+              >
+                <div className="card-header">
+                  <h3>{card.title}</h3>
+                  <div className="card-icon">{card.icon}</div>
+                </div>
+                <div className="card-body">
+                  <p>{card.text}</p>
+                </div>
+                
+                {/* ACCESSIBILITY/UX HINT */}
+                {isTop && (
+                  <div className="interaction-hint">
+                    <FaSync /> <span>{isAutoPlaying ? "Auto-Cycling" : "Interactive Mode"}</span>
+                  </div>
+                )}
+
+                {!isTop && <div className="card-click-overlay"></div>}
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
       <ActivityGrid activities={activities} />
 
-      {/* SECTION 2: VISION */}
-      <SectionTitle className="centre__text">The Vision</SectionTitle>
-      <ParagraphText
-        className="hero__text centre__text"
-        style={{ maxWidth: "900px", margin: "0 auto 4rem auto" }}
-      >
-        To be the undisputed sovereign of site clearing and logistical waste
-        management in South Africa. We aim to set an uncompromising benchmark
-        where the name "Midrand Rubble Removal" is synonymous with unshakeable
-        reliability, environmental precision, and the total elimination of
-        project-site friction. We see a future where every construction site in
-        Gauteng starts and ends as a pristine blank slate.
-      </ParagraphText>
-
-      {/* SECTION 3: MISSION */}
-      <SectionTitle className="centre__text">
-        The Mission of Certainty
-      </SectionTitle>
-      <ParagraphText
-        className="hero__text centre__text"
-        style={{ maxWidth: "900px", margin: "0 auto 4rem auto" }}
-      >
-        Our mission is the absolute eradication of chaos from your job site. We
-        understand that rubble is more than just debris, for it is a safety hazard
-        and a bottleneck to your progress. We deploy rapid-response tactical
-        units and heavy-duty transport to instantly lift the burden of waste
-        from our clients' shoulders. We are dedicated to providing a seamless
-        transition from a cluttered environment to a project-ready
-        environment—same hour, same day, every day.
-      </ParagraphText>
-
-      {/* SECTION 4: VALUES & OBJECTIVES */}
       <div style={{ marginTop: "6rem" }}>
         <SectionTitle className="centre__text">Operational Values</SectionTitle>
-        <ParagraphText
-          className="centre__text"
-          style={{ marginBottom: "2rem" }}
-        >
-          The core principles that govern our rapid-response units.
-        </ParagraphText>
         <ValueGrid DiginotiveValues={DiginotiveValues} />
       </div>
 
       <div style={{ marginTop: "6rem" }}>
-        <SectionTitle className="centre__text">
-          Strategic Objectives
-        </SectionTitle>
-        <ParagraphText
-          className="centre__text"
-          style={{ marginBottom: "2rem" }}
-        >
-          How we measure our dominance in the site clearing industry.
-        </ParagraphText>
+        <SectionTitle className="centre__text">Strategic Objectives</SectionTitle>
         <ObjectiveGrid objectives={objectives} />
       </div>
     </TopCategoriesStyles>
@@ -3932,7 +3938,6 @@ function TopCategories() {
 }
 
 export default TopCategories;
-
 ```
 ## `web\src\components\Layout.js`
 ```
@@ -4651,9 +4656,8 @@ export const buttonTypes = {
 ```
 export const menu = [
   { title: 'Home', path: '/' },
-  { title: 'Insights & News', path: '/spotlight' },
-  { title: 'Core Services', path: '/activities' },
-  { title: 'Publications', path: '/publications' },
+  { title: 'Service Updates', path: '/spotlight' }, 
+  { title: 'Our Services', path: '/activities' }, 
   { title: 'About Us', path: '/team' },
 ];
 ```
@@ -5845,21 +5849,126 @@ export const HeroSectionStyles = styled.div`
 ```
 ## `web\src\styles\homePage\TopCategoriesStyles.js`
 ```
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const wiggle = keyframes`
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(1deg); }
+  75% { transform: rotate(-1deg); }
+  100% { transform: rotate(0deg); }
+`;
 
 export const TopCategoriesStyles = styled.div`
   padding: 5rem 0;
-  .info {
-    max-width: 400px;
+  overflow: hidden;
+
+  .card-stack-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 6rem 0 12rem 0;
+    perspective: 1000px;
   }
-  .centre__text {
-    text-align: center;
+
+  .card-stack-container {
+    position: relative;
+    width: 100%;
+    max-width: 750px;
+    height: 380px;
   }
-  .right__text {
-    text-align: right;
+
+  .stacked-card {
+    position: absolute;
+    inset: 0;
+    border-radius: 30px;
+    padding: 40px;
+    transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: -15px 20px 50px rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* Desktop Fan-Out */
+    transform: 
+        translate(calc(var(--card-offset) * 60px), calc(var(--card-offset) * 20px)) 
+        rotate(calc(var(--card-offset) * -2deg))
+        scale(calc(1 - var(--card-offset) * 0.05));
+  }
+
+  /* Interaction Pulse Hint */
+  .pulse-hint {
+    animation: ${wiggle} 4s ease-in-out infinite;
+  }
+
+  .interaction-hint {
+    position: absolute;
+    bottom: 20px;
+    right: 30px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    svg { width: 12px !important; height: 12px !important; animation: spin 4s linear infinite; }
+  }
+
+  @keyframes spin { 100% { transform: rotate(360deg); } }
+
+  /* --- SLEEK PROFESSIONAL GRADIENTS --- */
+  .theme-yellow {
+    background: linear-gradient(145deg, #FFD700 0%, #F37021 100%);
+    color: #000;
+    .card-icon { background: rgba(0,0,0,0.1); color: #000; }
+    .interaction-hint { color: #000; }
+  }
+
+  .theme-dark {
+    background: linear-gradient(145deg, #1a1a1c 0%, #050505 100%);
+    border: 1px solid rgba(243, 112, 33, 0.4);
+    color: #fff;
+    .card-icon { background: var(--primary); color: #000; }
+  }
+
+  .theme-slate {
+    background: linear-gradient(145deg, #2e2e35 0%, #1c1c1f 100%);
+    color: #fff;
+    .card-icon { background: rgba(255,255,255,0.1); color: #fff; }
+  }
+
+  .card-depth-1 { filter: brightness(0.7) blur(0.5px); }
+  .card-depth-2 { filter: brightness(0.4) blur(1.5px); }
+
+  .card-header h3 { font-size: 2.4rem; font-weight: 800; }
+  .card-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+  .card-body p { font-size: 1.6rem; line-height: 1.6; margin-top: 20px; }
+
+  /* --- MOBILE: TILTED VERTICAL STACK --- */
+  @media only screen and (max-width: 768px) {
+    .card-stack-wrapper {
+      padding: 4rem 0 15rem 0;
+    }
+    .card-stack-container {
+      height: 480px;
+      max-width: 85%;
+    }
+    .stacked-card {
+      /* Maintaining the Fan effect vertically with a stylistic tilt */
+      transform: 
+        translateY(calc(var(--card-offset) * 60px)) 
+        translateX(calc(var(--card-offset) * -10px))
+        rotate(calc(var(--card-offset) * 3deg)) 
+        scale(calc(1 - var(--card-offset) * 0.06));
+      padding: 30px;
+    }
+    .card-header h3 { font-size: 1.8rem; }
+    .card-body p { font-size: 1.4rem; }
+  }
+
+  @media only screen and (max-width: 480px) {
+    .card-stack-container { height: 550px; }
   }
 `;
-
 ```
 ## `web\src\styles\HomePageStyles.js`
 ```

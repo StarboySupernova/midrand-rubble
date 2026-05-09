@@ -11,7 +11,7 @@ export default {
       name: 'slug',
       title: 'URL Slug',
       type: 'slug',
-      options: { source: 'title', maxLength: 96 },
+      options: { source: 'title', maxLength: 50 },
     },
     { name: 'coverImage', title: 'Cover Image', type: 'customImage' },
     { name: 'description', title: 'Short Description', type: 'normalText' },

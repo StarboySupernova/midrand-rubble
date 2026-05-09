@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const HeroSectionStyles = styled.div`
   min-height: 90vh;
@@ -29,7 +29,7 @@ export const HeroSectionStyles = styled.div`
 
   .hero__heading {
     font-size: 4.5rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 20px;
@@ -49,7 +49,7 @@ export const HeroSectionStyles = styled.div`
   }
 
   .btn-whatsapp {
-    background: #25D366 !important; /* Official WhatsApp Green */
+    background: #25d366 !important; /* Official WhatsApp Green */
     color: white !important;
     display: flex;
     align-items: center;
@@ -63,7 +63,7 @@ export const HeroSectionStyles = styled.div`
   }
 
   /* QUOTE FORM STYLING */
- /* HIGH-END GLASSMORPHISM QUOTE FORM */
+  /* HIGH-END GLASSMORPHISM QUOTE FORM */
   .quote-form-container {
     background: rgba(20, 20, 22, 0.4); /* Semi-transparent dark */
     backdrop-filter: blur(24px);
@@ -72,16 +72,20 @@ export const HeroSectionStyles = styled.div`
     border-radius: 20px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-top: 1px solid rgba(255, 204, 0, 0.3); /* Subtle top highlight */
-    box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+    box-shadow:
+      0 30px 60px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
 
     h3 {
       font-size: 2.2rem;
       margin-bottom: 20px;
       color: var(--white);
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     }
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       width: 100%;
       padding: 14px 15px;
       margin-bottom: 15px;
@@ -90,7 +94,7 @@ export const HeroSectionStyles = styled.div`
       background: rgba(0, 0, 0, 0.4) !important; /* Dark Glass */
       color: var(--white);
       font-size: 1.4rem;
-      font-family: 'Inter', sans-serif;
+      font-family: "Inter", sans-serif;
       transition: all 0.3s ease;
       appearance: none; /* Removes the default browser clunkiness */
       -webkit-appearance: none;
@@ -102,94 +106,97 @@ export const HeroSectionStyles = styled.div`
     }
 
     /* CUSTOM SELECT STYLING - MATCHING REFERENCE */
-  .custom-select-container {
-    position: relative;
-    margin-bottom: 15px;
-    width: 100%;
-    cursor: pointer;
-    font-size: 1.4rem;
-  }
+    .custom-select-container {
+      position: relative;
+      margin-bottom: 15px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 1.4rem;
+    }
 
-  .select-trigger {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 15px;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: var(--white);
-    transition: 0.3s;
-  }
+    .select-trigger {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 15px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: var(--white);
+      transition: 0.3s;
+    }
 
-  .select-trigger.active, .select-trigger:hover {
-    border-color: var(--primary);
-    box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
-  }
+    .select-trigger.active,
+    .select-trigger:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.2);
+    }
 
-  .arrow {
-    /* We must use !important to kill the global 100% SVG rule */
-    width: 1.8rem !important; 
-    height: 1.8rem !important;
-    transition: transform 0.3s ease;
-    color: var(--primary);
-    flex-shrink: 0; /* Prevents the arrow from squashing if text is long */
-  }
+    .arrow {
+      /* We must use !important to kill the global 100% SVG rule */
+      width: 1.8rem !important;
+      height: 1.8rem !important;
+      transition: transform 0.3s ease;
+      color: var(--primary);
+      flex-shrink: 0; /* Prevents the arrow from squashing if text is long */
+    }
 
-  .arrow.open {
-    transform: rotate(180deg);
-  }
+    .arrow.open {
+      transform: rotate(180deg);
+    }
 
-  /* THE FLOATING MENU */
-  .dropdown-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    width: 100%;
-    background: rgba(15, 15, 18, 0.95); /* Deep dark background */
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--primary); /* That specific yellow glow border */
-    border-radius: 12px;
-    z-index: 100;
-    overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-    animation: fadeUp 0.3s ease-out forwards;
-  }
+    /* THE FLOATING MENU */
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      width: 100%;
+      background: rgba(15, 15, 18, 0.95); /* Deep dark background */
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--primary); /* That specific yellow glow border */
+      border-radius: 12px;
+      z-index: 100;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+      animation: fadeUp 0.3s ease-out forwards;
+    }
 
-  .dropdown-item {
-    padding: 12px 20px;
-    color: var(--white-1);
-    transition: 0.2s;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
+    .dropdown-item {
+      padding: 12px 20px;
+      color: var(--white-1);
+      transition: 0.2s;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
 
-  .dropdown-item:last-child {
-    border-bottom: none;
-  }
+    .dropdown-item:last-child {
+      border-bottom: none;
+    }
 
-  .dropdown-item:hover {
-    background: var(--primary);
-    color: var(--black);
-    font-weight: 600;
-  }
+    .dropdown-item:hover {
+      background: var(--primary);
+      color: var(--black);
+      font-weight: 600;
+    }
 
-  /* OTHER INPUTS */
-  input, textarea {
-    width: 100%;
-    padding: 14px 15px;
-    margin-bottom: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    background: rgba(0, 0, 0, 0.4);
-    color: var(--white);
-    font-size: 1.4rem;
-    outline: none;
-  }
+    /* OTHER INPUTS */
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px 15px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      color: var(--white);
+      font-size: 1.4rem;
+      outline: none;
+    }
 
-  input:focus, textarea:focus {
-    border-color: var(--primary);
-    background: rgba(0, 0, 0, 0.6);
-  }
+    input:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      background: rgba(0, 0, 0, 0.6);
+    }
 
     .submit-btn {
       width: 100%;
@@ -204,11 +211,45 @@ export const HeroSectionStyles = styled.div`
       transition: 0.3s;
       text-transform: uppercase;
       letter-spacing: 1px;
-      
+
       &:hover {
         background: var(--white);
         box-shadow: 0 10px 20px rgba(255, 204, 0, 0.3);
         transform: translateY(-2px);
+      }
+    }
+
+    /* SUCCESS STATE STYLING */
+    .success-message {
+      text-align: center;
+      padding: 20px 0;
+
+      .success-icon {
+        font-size: 5rem !important;
+        color: #25d366;
+        margin-bottom: 20px;
+        width: 50px !important;
+        height: 50px !important;
+      }
+
+      h3 {
+        color: var(--white);
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 1.4rem;
+        color: var(--white-1);
+        margin-bottom: 30px;
+      }
+
+      .reset-btn {
+        background: transparent;
+        color: var(--primary);
+        border: 1px solid var(--primary);
+        padding: 8px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.2rem;
       }
     }
   }
@@ -218,6 +259,8 @@ export const HeroSectionStyles = styled.div`
       grid-template-columns: 1fr;
       padding-top: 100px;
     }
-    .hero__heading { font-size: 3.5rem; }
+    .hero__heading {
+      font-size: 3.5rem;
+    }
   }
 `;

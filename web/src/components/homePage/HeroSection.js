@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { HeroSectionStyles } from "../../styles/homePage/HeroSectionStyles";
 import ParagraphText from "../typography/ParagraphText";
 import Button from "../buttons/Button";
-import { FaWhatsapp, FaPhoneAlt, FaChevronDown } from "react-icons/fa";
+import { FaWhatsapp, FaPhoneAlt, FaChevronDown, FaCheckCircle } from "react-icons/fa";
 
 function HeroSection() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("Select Service...");
+  const [isSubmitted, setIsSubmitted] = useState(false); // Track success
 
   const services = [
     "Rubble Removal",
@@ -15,6 +16,30 @@ function HeroSection() {
     "Construction Debris",
     "Small & Medium Transport",
   ];
+
+  // Helper function to encode form data for Netlify
+  const encode = (data) => {
+    return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    const form = e.target;
+    
+    // We collect the data from the form fields
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData);
+
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: encode({ "form-name": "quick-quote", ...data })
+    })
+      .then(() => setIsSubmitted(true)) // Show success UI
+      .catch(error => alert(error));
+  };
 
   return (
     <HeroSectionStyles>
@@ -39,42 +64,61 @@ function HeroSection() {
 
           <div className="right">
             <div className="quote-form-container">
-              <h3>Get a Quick Quote</h3>
-              <form name="quick-quote" method="POST" data-netlify="true" action="/">
-                <input type="hidden" name="form-name" value="quick-quote" />
-                <input type="text" name="name" placeholder="Your Name" required />
-                <input type="tel" name="phone" placeholder="Phone / WhatsApp" required />
-                
-                {/* THE CUSTOM DROPDOWN COMPONENT */}
-                <div className="custom-select-container">
-                  <div className={`select-trigger ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
-                    <span>{selectedService}</span>
-                    <FaChevronDown className={`arrow ${isOpen ? 'open' : ''}`} />
-                  </div>
-                  
-                  {isOpen && (
-                    <div className="dropdown-menu">
-                      {services.map((service) => (
-                        <div 
-                          key={service} 
-                          className="dropdown-item" 
-                          onClick={() => {
-                            setSelectedService(service);
-                            setIsOpen(false);
-                          }}
-                        >
-                          {service}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {/* Hidden input to pass data to Netlify Form */}
-                  <input type="hidden" name="service" value={selectedService} />
+              {/* PSYCHOLOGICAL TRIGGER: Show success message if form is sent */}
+              {isSubmitted ? (
+                <div className="success-message">
+                  <FaCheckCircle className="success-icon" />
+                  <h3>Request Sent!</h3>
+                  <p>Sibusiso or Tshiamo will contact you shortly with your quote.</p>
+                  <button onClick={() => setIsSubmitted(false)} className="reset-btn">Send another request</button>
                 </div>
+              ) : (
+                <>
+                  <h3>Get a Quick Quote</h3>
+                  <form 
+                    name="quick-quote" 
+                    method="POST" 
+                    data-netlify="true" 
+                    data-netlify-honeypot="bot-field"
+                    onSubmit={handleSubmit}
+                  >
+                    {/* Hidden fields required by Netlify */}
+                    <input type="hidden" name="form-name" value="quick-quote" />
+                    <p hidden><label>Don’t fill this out: <input name="bot-field" /></label></p>
 
-                <textarea name="message" placeholder="Briefly describe what needs clearing..." rows="3"></textarea>
-                <button type="submit" className="submit-btn">Send Request</button>
-              </form>
+                    <input type="text" name="name" placeholder="Your Name" required />
+                    <input type="tel" name="phone" placeholder="Phone / WhatsApp" required />
+                    
+                    <div className="custom-select-container">
+                      <div className={`select-trigger ${isOpen ? 'active' : ''}`} onClick={() => setIsOpen(!isOpen)}>
+                        <span>{selectedService}</span>
+                        <FaChevronDown className={`arrow ${isOpen ? 'open' : ''}`} />
+                      </div>
+                      
+                      {isOpen && (
+                        <div className="dropdown-menu">
+                          {services.map((service) => (
+                            <div 
+                              key={service} 
+                              className="dropdown-item" 
+                              onClick={() => {
+                                setSelectedService(service);
+                                setIsOpen(false);
+                              }}
+                            >
+                              {service}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      <input type="hidden" name="service" value={selectedService} />
+                    </div>
+
+                    <textarea name="message" placeholder="Briefly describe what needs clearing..." rows="3"></textarea>
+                    <button type="submit" className="submit-btn">Send Request</button>
+                  </form>
+                </>
+              )}
             </div>
           </div>
         </div>

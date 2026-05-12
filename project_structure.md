@@ -99,6 +99,10 @@
 │   │   │   └── 🟨 searchModalContext.js
 │   │   ├── 🖼️ images
 │   │   │   ├── 📄 demtMalnutrition.jpg
+│   │   │   ├── 📄 hero1.jpg
+│   │   │   ├── 📄 hero2.jpg
+│   │   │   ├── 📄 hero3.jpg
+│   │   │   ├── 📄 hero4.jpg
 │   │   │   ├── 📄 midrandrubble - Copy.jpeg
 │   │   │   ├── 📄 midrandrubble.ico.jpeg
 │   │   │   ├── 📄 midrandrubble.jpeg
@@ -3655,7 +3659,8 @@ export default FeaturedBlogs;
 ```
 ## `web\src\components\homePage\HeroSection.js`
 ```
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { StaticImage } from "gatsby-plugin-image";
 import { HeroSectionStyles } from "../../styles/homePage/HeroSectionStyles";
 import ParagraphText from "../typography/ParagraphText";
 import Button from "../buttons/Button";
@@ -3664,7 +3669,10 @@ import { FaWhatsapp, FaPhoneAlt, FaChevronDown, FaCheckCircle } from "react-icon
 function HeroSection() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedService, setSelectedService] = useState("Select Service...");
-  const [isSubmitted, setIsSubmitted] = useState(false); // Track success
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  
+  // Carousel State
+  const [currentImage, setCurrentImage] = useState(0);
 
   const services = [
     "Rubble Removal",
@@ -3674,7 +3682,14 @@ function HeroSection() {
     "Small & Medium Transport",
   ];
 
-  // Helper function to encode form data for Netlify
+  // Auto-rotate the images inside the SVG every 3.5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % 4);
+    }, 3500);
+    return () => clearInterval(timer);
+  },[]);
+
   const encode = (data) => {
     return Object.keys(data)
         .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
@@ -3684,8 +3699,6 @@ function HeroSection() {
   const handleSubmit = e => {
     e.preventDefault();
     const form = e.target;
-    
-    // We collect the data from the form fields
     const formData = new FormData(form);
     const data = Object.fromEntries(formData);
 
@@ -3694,7 +3707,7 @@ function HeroSection() {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: encode({ "form-name": "quick-quote", ...data })
     })
-      .then(() => setIsSubmitted(true)) // Show success UI
+      .then(() => setIsSubmitted(true))
       .catch(error => alert(error));
   };
 
@@ -3702,9 +3715,53 @@ function HeroSection() {
     <HeroSectionStyles>
       <div className="container">
         <div className="hero__wrapper">
+          
+          {/* LEFT SIDE: Text + SVG Carousel */}
           <div className="left">
             <div className="badge">✅ SAME-DAY SERVICE AVAILABLE</div>
             <h1 className="hero__heading">Fast & Affordable Rubble Removal in Midrand</h1>
+            
+            {/* THE 3D GLASSMORPHIC SVG CAROUSEL */}
+            <div className="svg-carousel-container">
+              <svg width="100%" viewBox="0 0 310 432" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Back Drop Shadow */}
+                <path d="M9.29688 0.958984L241.912 60.0358C274.03 68.1926 300.066 101.668 300.066 134.805V371.805C300.066 404.942 274.03 425.193 241.912 417.036L67.4507 372.728C35.3332 364.571 9.29688 331.096 9.29688 297.959V0.958984Z" fill="black" fillOpacity="0.6"/>
+                
+                {/* The Tilted Yellow/Orange Gradient Card */}
+                <path d="M9.29688 0.958984L247.633 29.168C280.541 33.0628 307.217 63.0831 307.217 96.2202V333.22C307.217 366.357 280.541 390.063 247.633 386.168L68.881 365.011C35.9736 361.116 9.29688 331.096 9.29688 297.959V0.958984Z" fill="url(#paint0_linear_midrand)"/>
+                
+                {/* Re-Mapped Glass Panel (Masking the Images) */}
+                <foreignObject x="11" y="8" width="288" height="364">
+                  <div className="carousel-mask">
+                    
+                    {/* The 4 Uploaded Flyers - FORCED DISTORTION (fill) */}
+                    <div className={`carousel-image ${currentImage === 0 ? 'active' : ''}`}>
+                      <StaticImage src="../../images/hero1.jpg" alt="Rubble Removal" objectFit="fill" imgStyle={{ objectFit: 'fill' }} style={{ width: '100%', height: '100%' }} />
+                    </div>
+                    <div className={`carousel-image ${currentImage === 1 ? 'active' : ''}`}>
+                      <StaticImage src="../../images/hero2.jpg" alt="Site Clearing" objectFit="fill" imgStyle={{ objectFit: 'fill' }} style={{ width: '100%', height: '100%' }} />
+                    </div>
+                    <div className={`carousel-image ${currentImage === 2 ? 'active' : ''}`}>
+                      <StaticImage src="../../images/hero3.jpg" alt="Garden Waste" objectFit="fill" imgStyle={{ objectFit: 'fill' }} style={{ width: '100%', height: '100%' }} />
+                    </div>
+                    <div className={`carousel-image ${currentImage === 3 ? 'active' : ''}`}>
+                      <StaticImage src="../../images/hero4.jpg" alt="Construction Debris" objectFit="fill" imgStyle={{ objectFit: 'fill' }} style={{ width: '100%', height: '100%' }} />
+                    </div>
+
+                    {/* The Glossy Reflection Overlay */}
+                    <div className="glass-reflection-overlay"></div>
+                  </div>
+                </foreignObject>
+
+                <defs>
+                  <linearGradient id="paint0_linear_midrand" x1="9.29688" y1="0.958984" x2="-32.3731" y2="353.027" gradientUnits="userSpaceOnUse">
+                    <stop stopColor="#FFCC00"/>
+                    <stop offset="1" stopColor="#D4A000"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+
             <ParagraphText className="hero__text">
               We Load. We Clear. You Relax. Serving Midrand, Centurion, Sandton, and Fourways with reliable site clearing and construction debris transport.
             </ParagraphText>
@@ -3719,9 +3776,9 @@ function HeroSection() {
             </div>
           </div>
 
+          {/* RIGHT SIDE: Quote Form */}
           <div className="right">
             <div className="quote-form-container">
-              {/* PSYCHOLOGICAL TRIGGER: Show success message if form is sent */}
               {isSubmitted ? (
                 <div className="success-message">
                   <FaCheckCircle className="success-icon" />
@@ -3739,7 +3796,6 @@ function HeroSection() {
                     data-netlify-honeypot="bot-field"
                     onSubmit={handleSubmit}
                   >
-                    {/* Hidden fields required by Netlify */}
                     <input type="hidden" name="form-name" value="quick-quote" />
                     <p hidden><label>Don’t fill this out: <input name="bot-field" /></label></p>
 
@@ -3778,6 +3834,7 @@ function HeroSection() {
               )}
             </div>
           </div>
+
         </div>
       </div>
     </HeroSectionStyles>
@@ -5951,6 +6008,69 @@ export const HeroSectionStyles = styled.div`
     font-size: 1.6rem;
     color: var(--white-1);
     margin-bottom: 30px;
+  }
+
+/* 3D SVG CAROUSEL STYLES */
+  .svg-carousel-container {
+    width: 100%;
+    max-width: 355px; /* INCREASED BY ~10% */
+    margin: 35px 0 40px 0; /* Slightly increased margin to accommodate larger scale */
+    position: relative;
+    animation: floatCard 6s ease-in-out infinite;
+  }
+
+  @keyframes floatCard {
+    0% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-12px) rotate(1deg); }
+    100% { transform: translateY(0px) rotate(0deg); }
+  }
+
+  .carousel-mask {
+    width: 100%;
+    height: 100%;
+    border-radius: 26px; /* Matched perfectly to SVG curve */
+    overflow: hidden;
+    position: relative;
+    background: var(--black-1);
+  }
+
+  /* THE SHUFFLE ANIMATION ENGINE */
+  .carousel-image {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    /* Card slides out to the right, scales down, and rotates slightly when inactive */
+    transform: translateX(60px) scale(0.8) rotate(-4deg);
+    transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1); /* A dynamic, bouncy curve */
+    z-index: 1;
+  }
+
+  .carousel-image.active {
+    opacity: 1;
+    /* Card snaps perfectly into place when active */
+    transform: translateX(0px) scale(1) rotate(0deg);
+    z-index: 2;
+  }
+
+  /* Ensures the distorted images don't overflow */
+  .carousel-image .gatsby-image-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .carousel-image img {
+    object-fit: fill !important; /* Forces aspect ratio distortion */
+  }
+
+  .glass-reflection-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 50%);
+    border: 1.5px solid rgba(255, 204, 0, 0.5); /* Stronger yellow border for contrast */
+    border-radius: 26px;
+    pointer-events: none;
+    z-index: 3;
+    box-shadow: inset 0 0 25px rgba(0,0,0,0.6);
   }
 
   .hero__action-buttons {

@@ -42,13 +42,12 @@ export const HeroSectionStyles = styled.div`
     margin-bottom: 30px;
   }
 
-  /* 3D SVG CAROUSEL STYLES */
+/* 3D SVG CAROUSEL STYLES */
   .svg-carousel-container {
     width: 100%;
-    max-width: 320px; /* Controls the size of the 3D card */
-    margin: 30px 0;
+    max-width: 355px; /* INCREASED BY ~10% */
+    margin: 35px 0 40px 0; /* Slightly increased margin to accommodate larger scale */
     position: relative;
-    /* Holographic Floating Animation */
     animation: floatCard 6s ease-in-out infinite;
   }
 
@@ -61,35 +60,49 @@ export const HeroSectionStyles = styled.div`
   .carousel-mask {
     width: 100%;
     height: 100%;
-    border-radius: 28px; /* Matches the SVG's curved corners */
+    border-radius: 26px; /* Matched perfectly to SVG curve */
     overflow: hidden;
     position: relative;
-    background: #000;
+    background: var(--black-1);
   }
 
+  /* THE SHUFFLE ANIMATION ENGINE */
   .carousel-image {
     position: absolute;
     inset: 0;
     opacity: 0;
-    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Card slides out to the right, scales down, and rotates slightly when inactive */
+    transform: translateX(60px) scale(0.8) rotate(-4deg);
+    transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1); /* A dynamic, bouncy curve */
     z-index: 1;
   }
 
   .carousel-image.active {
     opacity: 1;
+    /* Card snaps perfectly into place when active */
+    transform: translateX(0px) scale(1) rotate(0deg);
     z-index: 2;
   }
 
-  /* This glossy overlay recreates the original SVG glass panel reflection */
+  /* Ensures the distorted images don't overflow */
+  .carousel-image .gatsby-image-wrapper {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .carousel-image img {
+    object-fit: fill !important; /* Forces aspect ratio distortion */
+  }
+
   .glass-reflection-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%);
-    border: 1.5px solid rgba(255, 204, 0, 0.4);
-    border-radius: 28px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 50%);
+    border: 1.5px solid rgba(255, 204, 0, 0.5); /* Stronger yellow border for contrast */
+    border-radius: 26px;
     pointer-events: none;
     z-index: 3;
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+    box-shadow: inset 0 0 25px rgba(0,0,0,0.6);
   }
 
   .hero__action-buttons {

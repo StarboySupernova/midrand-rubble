@@ -69,31 +69,30 @@ function HeroSection() {
                 {/* The Tilted Yellow/Orange Gradient Card */}
                 <path d="M9.29688 0.958984L247.633 29.168C280.541 33.0628 307.217 63.0831 307.217 96.2202V333.22C307.217 366.357 280.541 390.063 247.633 386.168L68.881 365.011C35.9736 361.116 9.29688 331.096 9.29688 297.959V0.958984Z" fill="url(#paint0_linear_midrand)"/>
                 
-                {/* The Upright Glass Panel (Masking the Images) */}
-                <foreignObject x="9" y="0" width="300" height="357">
+                {/* Re-Mapped Glass Panel (Masking the Images) */}
+                <foreignObject x="11" y="8" width="288" height="364">
                   <div className="carousel-mask">
                     
-                    {/* The 4 Uploaded Flyers Cross-Fading */}
+                    {/* The 4 Uploaded Flyers - FORCED DISTORTION (fill) */}
                     <div className={`carousel-image ${currentImage === 0 ? 'active' : ''}`}>
-                      <StaticImage src="../../images/hero1.jpg" alt="Rubble Removal" imgStyle={{ objectFit: 'cover' }} style={{ width: '100%', height: '100%' }} />
+                      <StaticImage src="../../images/hero1.jpg" alt="Rubble Removal" objectFit="fill" imgStyle={{ objectFit: 'fill' }} style={{ width: '100%', height: '100%' }} />
                     </div>
                     <div className={`carousel-image ${currentImage === 1 ? 'active' : ''}`}>
-                      <StaticImage src="../../images/hero2.jpg" alt="Site Clearing" imgStyle={{ objectFit: 'cover' }} style={{ width: '100%', height: '100%' }} />
+                      <StaticImage src="../../images/hero2.jpg" alt="Site Clearing" objectFit="fill" imgStyle={{ objectFit: 'fill' }} style={{ width: '100%', height: '100%' }} />
                     </div>
                     <div className={`carousel-image ${currentImage === 2 ? 'active' : ''}`}>
-                      <StaticImage src="../../images/hero3.jpg" alt="Garden Waste" imgStyle={{ objectFit: 'cover' }} style={{ width: '100%', height: '100%' }} />
+                      <StaticImage src="../../images/hero3.jpg" alt="Garden Waste" objectFit="fill" imgStyle={{ objectFit: 'fill' }} style={{ width: '100%', height: '100%' }} />
                     </div>
                     <div className={`carousel-image ${currentImage === 3 ? 'active' : ''}`}>
-                      <StaticImage src="../../images/hero4.jpg" alt="Construction Debris" imgStyle={{ objectFit: 'cover' }} style={{ width: '100%', height: '100%' }} />
+                      <StaticImage src="../../images/hero4.jpg" alt="Construction Debris" objectFit="fill" imgStyle={{ objectFit: 'fill' }} style={{ width: '100%', height: '100%' }} />
                     </div>
 
-                    {/* The Glossy Reflection Overlay to keep the glass effect over the images */}
+                    {/* The Glossy Reflection Overlay */}
                     <div className="glass-reflection-overlay"></div>
                   </div>
                 </foreignObject>
 
                 <defs>
-                  {/* Converted the original pink SVG gradient to Midrand Rubble Yellow/Orange */}
                   <linearGradient id="paint0_linear_midrand" x1="9.29688" y1="0.958984" x2="-32.3731" y2="353.027" gradientUnits="userSpaceOnUse">
                     <stop stopColor="#FFCC00"/>
                     <stop offset="1" stopColor="#D4A000"/>

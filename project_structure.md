@@ -1,11 +1,11 @@
 # Project Overview
 
 ## Project Summary
-- Total Files (tracked): 111
+- Total Files (tracked): 112
 
 ### Language Breakdown
-- JavaScript: 97 files (87.4%)
-- JSON: 12 files (10.8%)
+- JavaScript: 98 files (87.5%)
+- JSON: 12 files (10.7%)
 - Markdown: 2 files (1.8%)
 
 ## Project Structure
@@ -121,6 +121,7 @@
 │   │   │   ├── 📁 category
 │   │   │   │   ├── 🟨 CategoryGridStyles.js
 │   │   │   │   ├── 🟨 CategoryItemStyles.js
+│   │   │   │   ├── 🟨 PremiumCardStyles.js
 │   │   │   │   └── 🟨 SingleCategoryStyles.js
 │   │   │   ├── 📁 homePage
 │   │   │   │   ├── 🟨 FeaturedBlogsStyles.js
@@ -3205,11 +3206,12 @@ import ObjectiveItem from './ObjectiveItem';
 function ObjectiveGrid({ objectives }) {
   return (
     <CategoryGridStyles>
-      {objectives.map((item) => (
+      {objectives.map((item, index) => ( // Note the 'index' added here
         <ObjectiveItem
           key={item.id}
           title={item.title}
           description={item._rawDescription}
+          index={index} // Passing index to the child
         />
       ))}
     </CategoryGridStyles>
@@ -3217,23 +3219,35 @@ function ObjectiveGrid({ objectives }) {
 }
 
 export default ObjectiveGrid;
-
 ```
 ## `web\src\components\category\ObjectiveItem.js`
 ```
 import React from 'react';
 import MyPortableText from '../MyPortableText';
-import { CategoryItemStyles } from '../../styles/category/CategoryItemStyles';
+import { PremiumCardStyles } from '../../styles/category/PremiumCardStyles'; // NEW IMPORT
 import { Title } from '../typography/Title'; 
+import { FaRocket } from 'react-icons/fa'; // Icon for objectives
 
-function ObjectiveItem({ title, description }) { 
+function ObjectiveItem({ title, description, index }) { 
+  // We reverse the themes array so Objectives get different colors than Values
+  const themes =['theme-amethyst', 'theme-emerald', 'theme-amber', 'theme-ocean', 'theme-ruby'];
+  const currentTheme = themes[index % themes.length];
+
   return (
-    <CategoryItemStyles className="objective-card"> 
-      <Title className="title">{title}</Title> 
-      <div className="text-wrap-container">
-        <MyPortableText value={description} />
+    <PremiumCardStyles className={currentTheme}> 
+      <div className="main-card">
+        <span className="card-tag">Strategic Objective</span>
+        
+        <div className="icon-badge">
+          <FaRocket />
+        </div>
+
+        <Title className="title">{title}</Title> 
+        <div className="text-wrap-container">
+          <MyPortableText value={description} />
+        </div>
       </div>
-    </CategoryItemStyles>
+    </PremiumCardStyles>
   );
 }
 
@@ -3248,11 +3262,12 @@ import ValueItem from "./ValueItem";
 function ValueGrid({ DiginotiveValues }) {
   return (
     <ValueGridStyles>
-      {DiginotiveValues.map((item) => (
+      {DiginotiveValues.map((item, index) => ( // Note the 'index' added here
         <ValueItem
           key={item.id}
           title={item.title}
           description={item._rawDescription}
+          index={index} // Passing index to the child
         />
       ))}
     </ValueGridStyles>
@@ -3260,23 +3275,35 @@ function ValueGrid({ DiginotiveValues }) {
 }
 
 export default ValueGrid;
-
 ```
 ## `web\src\components\category\ValueItem.js`
 ```
 import React from 'react';
 import MyPortableText from '../MyPortableText';
-import { CategoryItemStyles } from '../../styles/category/CategoryItemStyles';
+import { PremiumCardStyles } from '../../styles/category/PremiumCardStyles'; // NEW IMPORT
 import { Title } from '../typography/Title';
+import { FaGem } from 'react-icons/fa'; // Icon for values
 
-function ValueItem({ title, description }) {
+function ValueItem({ title, description, index }) {
+  // Rotate through 5 color themes based on the index
+  const themes =['theme-ruby', 'theme-ocean', 'theme-amber', 'theme-emerald', 'theme-amethyst'];
+  const currentTheme = themes[index % themes.length];
+
   return (
-    <CategoryItemStyles className="value-card"> 
-      <Title className="title">{title}</Title>
-      <div className="text-wrap-container">
-        <MyPortableText value={description} />
+    <PremiumCardStyles className={currentTheme}> 
+      <div className="main-card">
+        <span className="card-tag">Core Value</span>
+        
+        <div className="icon-badge">
+          <FaGem />
+        </div>
+
+        <Title className="title">{title}</Title>
+        <div className="text-wrap-container">
+          <MyPortableText value={description} />
+        </div>
       </div>
-    </CategoryItemStyles>
+    </PremiumCardStyles>
   );
 }
 
@@ -3909,6 +3936,15 @@ function TopCategories() {
       </div>
 
       <CategoryGrid categories={categories} />
+
+      <div style={{ marginTop: '10rem', marginBottom: '4rem' }}>
+        <SectionTitle className="centre__text">
+          Engineered Operational Pillars
+        </SectionTitle>
+        <ParagraphText className="centre__text" style={{ maxWidth: '800px', margin: '1rem auto' }}>
+          Beyond standard hauling. These specialized divisions represent the tactical core of our industrial response—where advanced logistics meets unshakeable site clearing execution.
+        </ParagraphText>
+      </div>
 
       <ActivityGrid activities={activities} />
 
@@ -5314,6 +5350,158 @@ export const CategoryItemStyles = styled.div`
       height: 130px !important;
       margin: 0 1.5rem 0.5rem 0;
     }
+  }
+`;
+```
+## `web\src\styles\category\PremiumCardStyles.js`
+```
+import styled from 'styled-components';
+
+export const PremiumCardStyles = styled.div`
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  /* Provide space for the offset shadow layers to peek out */
+  margin-bottom: 30px; 
+  margin-right: 15px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+
+  &:hover {
+    transform: translateY(-8px);
+    
+    /* Expand the layers slightly on hover for a 3D reveal effect */
+    &::before { transform: translate(18px, 18px); }
+    &::after { transform: translate(8px, 32px); }
+  }
+
+  /* LAYER 1: The Bright Colored Drop Layer */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translate(12px, 12px);
+    background: var(--layer-color);
+    border-radius: 36px;
+    z-index: -1;
+    transition: transform 0.4s ease;
+  }
+
+  /* LAYER 2: The Dark Gray Drop Layer (from the SVG) */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translate(5px, 25px);
+    background: #595959; /* Slate Gray */
+    border-radius: 36px;
+    z-index: -2;
+    transition: transform 0.4s ease;
+  }
+
+  .main-card {
+    /* We add a 20% black tint over the theme gradient to ground the text */
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), var(--main-gradient);
+    border-radius: 36px;
+    padding: 40px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    /* Increased border opacity to define the card edge against the background */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    /* High-end antialiasing for text rendering */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* The "UPDATED" style Top Left Tag */
+  /* The Top Left Tag */
+  .card-tag {
+    font-size: 0.85rem;
+    font-weight: 800;
+    letter-spacing: 3px; 
+    text-transform: uppercase;
+    color: #ffffff; 
+    /* A subtle background pill makes the tag look technical and official */
+    background: rgba(0, 0, 0, 0.25);
+    padding: 4px 12px;
+    border-radius: 100px;
+    width: fit-content;
+    margin-bottom: 25px;
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Top Right Dark Circle Icon */
+  .icon-badge {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 45px;
+    height: 45px;
+    background: #000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--layer-color); /* Icon matches the layer color */
+    font-size: 1.5rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  .title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+    max-width: 85%; /* Keeps title away from the icon badge */
+  }
+
+  .text-wrap-container {
+    color: #ffffff; 
+    font-size: 1.55rem; /* Slightly larger for clarity */
+    line-height: 1.65;
+    font-weight: 500; /* Increased to medium weight for "Fuller" characters */
+    letter-spacing: 0.02rem; /* Better character separation */
+    
+    p { 
+      margin-bottom: 1.5rem; 
+    }
+
+    /* THE LEGIBILITY ENGINE: Sharp edge + Diffused glow */
+    text-shadow: 
+      0px 1px 2px rgba(0, 0, 0, 0.4), 
+      0px 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  /* THE DYNAMIC COLOR PALETTES */
+  &.theme-ruby {
+    --main-gradient: linear-gradient(145deg, #9b2843 0%, #d95a70 100%);
+    --layer-color: #ff6b8e;
+  }
+  &.theme-ocean {
+    --main-gradient: linear-gradient(145deg, #1A3A73 0%, #3873C4 100%);
+    --layer-color: #4C9AFF;
+  }
+  &.theme-amber {
+    --main-gradient: linear-gradient(145deg, #994D1C 0%, #E68A2E 100%);
+    --layer-color: #FFB84D;
+  }
+  &.theme-emerald {
+    --main-gradient: linear-gradient(145deg, #1C664A 0%, #35A87A 100%);
+    --layer-color: #4CFAAD;
+  }
+  &.theme-amethyst {
+    --main-gradient: linear-gradient(145deg, #4A2B7A 0%, #8253C4 100%);
+    --layer-color: #B588FF;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .main-card { padding: 30px; }
+    .title { font-size: 1.8rem; }
+    .icon-badge { top: 20px; right: 20px; width: 35px; height: 35px; font-size: 1.2rem; }
   }
 `;
 ```
